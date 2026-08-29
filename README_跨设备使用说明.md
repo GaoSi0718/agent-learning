@@ -1,5 +1,8 @@
 # DeepSeek V4 Flash Vision 多模态调用包 · 跨设备使用说明
 
+> 📌 **状态说明（2026-08-29 更新）**：`shy` 旧机已于 2026-08 退役，**当前仅 MAX 一台设备在用**。
+> 本文记录的「换设备零配置」策略**依然有效**（未来换机时照做即可），但文中涉及"两台设备"的描述已按单机现状更新。
+
 > 加载策略：**方式二 —— `.env` 跟随项目目录，换设备零配置、不改任何代码。**
 
 ---
@@ -33,7 +36,7 @@ D:\WorkBuddyData\projects\agent-learning
 ### 第 2 步：装依赖
 
 ```bash
-cd /d 目标路径\deepseek-vision-multimodal
+cd /d D:\WorkBuddyData\projects\agent-learning
 python -m venv venv
 venv\Scripts\pip install openai python-dotenv
 ```
@@ -66,7 +69,7 @@ else:
 ```
 
 - 用的是 **脚本所在目录**，不是当前工作目录，所以从任何盘符/目录运行都能找到 `.env`；
-- 不含任何 Windows 用户名（不再写死 `C:\Users\shy`），换用户名照样能跑；
+- 不含任何 Windows 用户名（不写死 `C:\Users\<用户名>`），换用户名照样能跑；
 - 如果 `.env` 意外丢失，程序会直接抛出明确报错并提示应放置的路径，而不是报一个看不懂的 `KeyError`。
 
 ---

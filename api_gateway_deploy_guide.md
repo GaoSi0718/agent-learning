@@ -24,15 +24,15 @@
 ## 1. 架构
 
 ```
-shy 本机  ─┐
-           ├─(HTTPS/隧道, 强令牌, 仅白名单IP)─►  境外 VPS: New API(3000)
-MAX 设备  ─┘                                      │ 主用渠道
+MAX 设备（当前唯一在用；shy 旧机已于 2026-08 退役）
+   │
+   └─(HTTPS/隧道, 强令牌, 仅白名单IP)─►  境外 VPS: New API(3000)  │ 主用渠道
                                                   └─► 硅基流动(兜底)
 业务脚本 w4.base_url = http://<VPS_IP>:3000/v1
 ```
 
 - 无公网域名 → 用 **VPS 公网 IP 直连** 或 **Cloudflare Tunnel（免域名、不暴露端口）**
-- 仅自己两台设备用 → 防火墙**白名单** shy/MAX 出口 IP，或全程走 Tunnel
+- 仅自己一台设备用 → 防火墙**白名单**只放行 MAX 的出口 IP，或全程走 Tunnel（更省事）
 
 ---
 
@@ -84,8 +84,8 @@ cloudflared tunnel --url http://localhost:3000
 
 **方案 B（白名单防火墙）**
 ```bash
-# 仅放行 shy/MAX 的出口 IP（查你两台的出口IP后填）
-sudo ufw allow from <SHY_IP> to any port 3000
+# 仅放行 MAX 的出口 IP（shy 旧机已退役，无需再放行）
+# 查当前出口 IP：curl ifconfig.me
 sudo ufw allow from <MAX_IP> to any port 3000
 sudo ufw enable
 ```
@@ -94,7 +94,7 @@ sudo ufw enable
 
 ---
 
-## 5. 业务侧接入（shy / MAX 两机相同）
+## 5. 业务侧接入（仅 MAX 一台）
 
 改 `w4_chat_module.py` 顶部配置（或直接设环境变量）：
 ```python
@@ -132,4 +132,14 @@ API_KEY = os.getenv("DEEPSEEK_API_KEY")   # 改为网关令牌（仍在 .env，�
 3. 安全加固二选一（第 4 节）
 4. 业务侧改 `base_url`+`.env`（第 5 节）
 
-完成后把 `<VPS_IP>`/`<GATEWAY_TOKEN>` 填进两机的 `.env` 即可。任何一步报错，把报错发我，我帮你看。
+完成后把 `<VPS_IP>`/`<GATEWAY_TOKEN>` 填进 MAX 的 `.env` 即可。任何一步报错，把报错发我，我帮你看。
+
+---
+
+## 7. 部署状态
+
+| 项 | 状态 |
+|---|---|
+| 本网关**是否已部署** | ❌ **尚未部署**（截至 2026-08-29） |
+| 部署前需完成 | 先看 `api_gateway_deploy_template.md` 的「待拍板确认项」（服务器地区/主体/暴露方式/域名），拍板后再按本文档执行 |
+| 执行顺序 | `template`（确认）→ 本文档（执行）→ 第 6 节验证清单（验收） |
