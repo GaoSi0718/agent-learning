@@ -1,0 +1,30 @@
+# Agent 学习路线 · 依赖清单
+# 主线安装：pip install -r requirements.txt
+
+# ═══════════════════════════════════════════════
+# 【必装】主线依赖 —— W2-W6 根目录全部脚本
+# ═══════════════════════════════════════════════
+streamlit>=1.30.0        # W5 app.py / W6 w6_hr_qa_app.py 网页界面
+openai>=1.0.0            # DeepSeek / 硅基流动均走 OpenAI 兼容接口
+python-docx>=1.1.0       # 简历与政策文档 .docx 解析（import 名：docx）
+pypdf>=4.2.0             # .pdf 解析（注意：不是 PyPDF2，后者 2023 年起已停止维护）
+python-dotenv>=1.0.0     # 读取脚本同级 .env（import 名：dotenv）
+
+# 说明：
+#   · W6 主线检索器 w6_rag_retriever.py 是 BM25 纯标准库实现，零第三方依赖
+#   · 装完以上 5 个包，W2-W6 所有根目录脚本即可直接运行，无其他待办
+
+# ═══════════════════════════════════════════════
+# 【可选】语义检索方案 —— 仅 w6_hr_qa/ 子目录需要
+# ═══════════════════════════════════════════════
+# 何时需要：BM25 关键词召回不佳（用户问法与文档用词差异大）时，
+#           才切换到 w6_hr_qa/ 的 bge-m3 语义向量方案。详见 w6_hr_qa/README.md。
+# 前置条件：还需注册硅基流动（https://cloud.siliconflow.cn）拿免费 embedding Key
+#           —— DeepSeek 官方不提供 embedding 接口。
+
+# chromadb>=0.5.0                  # 本地向量库
+# sentence-transformers>=3.0.0     # 离线兜底 embedding（约 470MB，不想注册硅基流动时用）
+# torch>=2.0.0                     # sentence-transformers 依赖（CPU 版即可）
+
+# 注意：chromadb 在 Windows 可能要求 C++ 编译环境，装不上可尝试降级
+#       pip install chromadb==0.4.24

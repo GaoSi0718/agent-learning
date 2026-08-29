@@ -1,0 +1,25 @@
+# W6 HR 问答助手 依赖
+# 安装：pip install -r requirements.txt
+
+# ── 核心（必需）──
+openai>=1.40.0              # DeepSeek / 硅基流动 都用 OpenAI 兼容接口
+chromadb>=0.5.0             # 本地向量库，无需额外服务
+python-dotenv>=1.0.0        # 读 .env
+python-docx>=1.1.0          # 读 .docx 制度文档
+pypdf>=4.2.0                # 读 .pdf 制度文档
+
+# ── 界面（必需）──
+streamlit>=1.35.0
+
+# ── 评测（可选）──
+# scikit-learn>=1.5.0       # evaluate.py 算指标用，可选
+
+# ── 离线 Embedding 兜底（可选，不想注册硅基流动时装）──
+# sentence-transformers>=3.0.0   # 首次运行会下载 ~470MB 模型
+# torch>=2.0.0                   # sentence-transformers 依赖
+
+# ── 注意 ──
+# 1. DeepSeek 官方不提供 embedding 接口，向量化用硅基流动 BAAI/bge-m3（免费）
+# 2. chromadb 在 Windows 可能需 C++ 编译环境，装不上就降级：
+#    pip install chromadb==0.4.24
+# 3. 若已装 PyTorch（W9-W11），建议给本项目单独建 venv 避免依赖冲突

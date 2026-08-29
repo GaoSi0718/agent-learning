@@ -1,0 +1,21 @@
+# ── 密钥（绝不入库）──
+.env
+
+# ── 虚拟环境 ──
+venv/
+.venv/
+
+# ── Python 缓存 ──
+__pycache__/
+*.pyc
+*.pyo
+
+# ── W6 语义检索方案（w6_hr_qa/）运行时产物 ──
+w6_hr_qa/chroma_db/
+w6_hr_qa/eval/result_*.json
+
+# ── 编辑器与系统文件 ──
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

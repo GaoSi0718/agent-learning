@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent 学习路线 · 资源消耗评估与提效方案</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#ffffff; --ink:#1f2329; --sub:#5b6472;
+    --line:#e6e8eb; --red:#d83931; --amber:#e08a00; --green:#1a8f4c;
+    --blue:#2b6fd6; --purple:#7a4fd6; --chip:#eef1f5;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.6;font-size:14px;}
+  .wrap{max-width:1080px;margin:0 auto;padding:28px 20px 60px;}
+  h1{font-size:24px;margin:0 0 4px;}
+  h2{font-size:18px;margin:34px 0 12px;padding-left:10px;
+    border-left:4px solid var(--blue);}
+  h3{font-size:15px;margin:18px 0 8px;color:var(--sub);}
+  .meta{color:var(--sub);font-size:13px;margin-bottom:20px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;margin:14px 0;box-shadow:0 1px 3px rgba(0,0,0,.03);}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:16px;text-align:center;}
+  .kpi .n{font-size:26px;font-weight:700;}
+  .kpi .l{color:var(--sub);font-size:12px;margin-top:4px;}
+  table{width:100%;border-collapse:collapse;margin:8px 0;font-size:13px;}
+  th,td{border:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top;}
+  th{background:#f0f3f7;font-weight:600;}
+  tr:nth-child(even) td{background:#fafbfc;}
+  .tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;
+    font-weight:600;white-space:nowrap;}
+  .t-high{background:#fdecea;color:var(--red);}
+  .t-mid{background:#fef3e0;color:var(--amber);}
+  .t-low{background:#e8f6ee;color:var(--green);}
+  .t-now{background:#e7f0fd;color:var(--blue);}
+  .t-auto{background:#f0e9fc;color:var(--purple);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:6px;font-weight:700;font-size:12px;margin-right:6px;}
+  .b-pre{background:#e7f0fd;color:var(--blue);}
+  .b-auto{background:#f0e9fc;color:var(--purple);}
+  .b-trap{background:#fdecea;color:var(--red);}
+  ul{margin:6px 0;padding-left:20px;}
+  li{margin:4px 0;}
+  .note{background:#fff8e6;border:1px solid #f3e0a8;border-radius:8px;
+    padding:10px 14px;color:#7a5a00;font-size:13px;margin:10px 0;}
+  .save{color:var(--green);font-weight:600;}
+  a{color:var(--blue);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .foot{color:var(--sub);font-size:12px;margin-top:30px;border-top:1px solid var(--line);padding-top:14px;}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0;}
+  .pill{background:var(--chip);border-radius:8px;padding:8px 12px;font-size:13px;flex:1;min-width:200px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Agent 学习路线 · 资源消耗评估与提效方案</h1>
+<div class="meta">评估对象：阶段一剩余（W6）+ 阶段二（ML/DL 补课）+ 长期运维 ｜ 生成日期：2026-08-28 ｜ 基线：W1–W5 已完成（W5 多模态 8/26 收尾）</div>
+
+<div class="grid">
+  <div class="kpi"><div class="n" style="color:var(--red)">W6</div><div class="l">最大 Token 消耗点（开发期反复调用）</div></div>
+  <div class="kpi"><div class="n" style="color:var(--amber)">阶段二</div><div class="l">最大时间消耗点（40–60h 理论）</div></div>
+  <div class="kpi"><div class="n" style="color:var(--blue)">6 项</div><div class="l">可由我前置 / 自动化，省下你 50%+ 精力</div></div>
+</div>
+
+<div class="card">
+<b>结论先行：</b>未来路线里真正"烧钱烧 Token"的只有 <b>W6 Agent 项目开发期</b>（反复端到端测试 + 多模态图片）+ <b>API 网关部署</b>（服务器成本）；<b>阶段二 ML/DL 是时间密集型而非 Token 密集型</b>。
+大量"找资料、搭胶水代码、写测试集、维护文档"属于<b>非学习性事务</b>，可由我<b>前置生成</b>或<b>自动化</b>，让你把每周 20h 集中在"理解 + 手写核心逻辑"上。
+</div>
+
+<h2>一、资源消耗全景（按任务标注）</h2>
+<table>
+<tr><th>未来任务</th><th>时间</th><th>Token</th><th>金钱/算力</th><th>主要瓶颈</th></tr>
+<tr>
+  <td><b>W6 · HR 政策问答助手（端到端）</b></td>
+  <td><span class="tag t-high">高 15–25h</span></td>
+  <td><span class="tag t-high">高</span></td>
+  <td><span class="tag t-low">低（走 API）</span></td>
+  <td>胶水代码、prompt 迭代、反复测试</td>
+</tr>
+<tr>
+  <td>W6 · RAG 检索模块（政策向量化）</td>
+  <td><span class="tag t-mid">中 4–6h</span></td>
+  <td><span class="tag t-mid">中（embedding）</span></td>
+  <td><span class="tag t-low">低（本地向量库）</span></td>
+  <td>切块策略、embedding 选型、召回调优</td>
+</tr>
+<tr>
+  <td>LLM API 网关部署（New API + 硅基流动）</td>
+  <td><span class="tag t-mid">中 3–5h</span></td>
+  <td><span class="tag t-low">低</span></td>
+  <td><span class="tag t-mid">中（服务器）</span></td>
+  <td>部署踩坑 + 境内合规</td>
+</tr>
+<tr>
+  <td><b>阶段二 · ML/DL 补课</b></td>
+  <td><span class="tag t-high">极高 40–60h</span></td>
+  <td><span class="tag t-low">低</span></td>
+  <td><span class="tag t-low">低</span></td>
+  <td>理论时间，几乎不耗 Token</td>
+</tr>
+<tr>
+  <td>多模态集成（vision 接入 Agent）</td>
+  <td><span class="tag t-low">低–中</span></td>
+  <td><span class="tag t-mid">低–中</span></td>
+  <td><span class="tag t-low">低</span></td>
+  <td>基本可复用 W5 模块</td>
+</tr>
+<tr>
+  <td>动态学习计划 / 周报维护</td>
+  <td><span class="tag t-low">低</span></td>
+  <td><span class="tag t-low">低（我生成）</span></td>
+  <td><span class="tag t-low">无</span></td>
+  <td>需持续，可自动化</td>
+</tr>
+</table>
+
+<h2>二、🔴 三大高消耗陷阱（务必先规避）</h2>
+
+<div class="card">
+<span class="badge b-trap">TOKEN 陷阱 1</span><b>W6 开发期把整份 HR 政策当 system prompt 反复端到端测试</b>
+<div class="note">每次请求几千 token，手工试 30–50 次就烧掉一大笔。你 W4 已写好 <code>BudgetExceeded</code> 预算封装，务必在 W6 直接复用＋改用 RAG 只检索相关段落，配合固定 eval 集批量跑，而非手工对话测试。</div>
+</div>
+
+<div class="card">
+<span class="badge b-trap">TOKEN 陷阱 2</span><b>多模态图片用 high/original 反复传大图验证</b>
+<div class="note">单图最高 384 token，base64 反复内联浪费明显。先用 <code>detail="low"</code> 验证链路，图片缓存复用；真实评测再按需 high。</div>
+</div>
+
+<div class="card">
+<span class="badge b-trap">时间陷阱</span><b>阶段二 ML/DL 理论无边界地"学到底"</b>
+<div class="note">这是最大时间黑洞（40–60h）。必须配"停止条件"：只学到能支撑 Agent/RAG/微调理解的程度，跳过与你的作品无关的深水区（如从头推导反向传播）。我会先给你排好优先级与截止点。</div>
+</div>
+
+<h2>三、✅ 可前置完成的事项（我现在就能做，你上线/开学前备好）</h2>
+<table>
+<tr><th>事项</th><th>我现在能交付</th><th>省下你的</th><th>优先级</th></tr>
+<tr>
+  <td><b>A. W6 Agent 脚手架 + RAG 模板</b></td>
+  <td>基于 w4/w5 封装，预写 Streamlit 多模态问答骨架 + 本地向量检索模块（Chroma/FAISS，免服务器）+ vision 接入；开箱即跑</td>
+  <td class="save">8–12h 查文档/写胶水/debug</td>
+  <td><span class="tag t-now">最高</span></td>
+</tr>
+<tr>
+  <td><b>B. W6 评估集（HR 问答测试用例）</b></td>
+  <td>基于 <code>policy_context.txt</code> 预生成 30–50 条典型问答 + 标准答案（对标 w3 groundtruth），配 w4 预算护栏</td>
+  <td class="save">每次手搓测试问题 + 反复试错</td>
+  <td><span class="tag t-now">最高</span></td>
+</tr>
+<tr>
+  <td><b>C. 阶段二 ML/DL 资源包</b></td>
+  <td>课程清单（吴恩达/李宏毅等）+ 数学先修顺序 + 与 Agent 相关重点章节（Transformer/注意力/RAG 底层）+ 带停止条件的周计划</td>
+  <td class="save">大量选课/找资料/排顺序时间</td>
+  <td><span class="tag t-now">高</span></td>
+</tr>
+<tr>
+  <td><b>D. Agent 框架 / 模型选型对比</b></td>
+  <td>预研 LangChain vs LlamaIndex vs 原生 OpenAI SDK（你已有 w4 封装，可能无需重框架）+ 多模态模型对比（DeepSeek-vision / Qwen-VL / GLM-4V）</td>
+  <td class="save">选型调研时间 + 试错 Token</td>
+  <td><span class="tag t-now">高</span></td>
+</tr>
+<tr>
+  <td><b>E. API 网关部署模板</b></td>
+  <td>预写 docker-compose.yml + 配置说明 + 境内合规风险提示（New API 自建 + 硅基流动兜底）</td>
+  <td class="save">查部署文档、踩坑</td>
+  <td><span class="tag t-mid">中</span><br><span style="color:var(--red);font-size:12px">实际部署需服务器，涉合规，需你确认后再动</span></td>
+</tr>
+<tr>
+  <td><b>F. 阶段一复盘 / 作品集说明</b></td>
+  <td>把 W1–W5 成果归档成可展示说明，为 9 月作品上线 + 内部自荐铺垫</td>
+  <td class="save">整理时间</td>
+  <td><span class="tag t-mid">中</span></td>
+</tr>
+</table>
+
+<h2>四、🤖 可由我自动化完成的事项（设好后持续省心）</h2>
+<table>
+<tr><th>自动化</th><th>触发 / 周期</th><th>省下</th><th>状态</th></tr>
+<tr>
+  <td><b>1. AI 资讯 → 周学习重点</b></td>
+  <td>已有每日 09:40 推送；扩展为"每周五自动生成下周学习重点"</td>
+  <td>手动筛资讯时间</td>
+  <td><span class="tag t-auto">可加</span></td>
+</tr>
+<tr>
+  <td><b>2. 生成文档自动上传 ima</b></td>
+  <td>每次生成路线文档后自动上传「Agent学习路线」知识库（符合你的上传约定）</td>
+  <td>手动上传</td>
+  <td><span class="tag t-auto">可加</span></td>
+</tr>
+<tr>
+  <td><b>3. 进度笔记自动追加</b></td>
+  <td>每周 / 每完成一周自动 append_doc 到「AI 学习进度记录」</td>
+  <td>手动写复盘</td>
+  <td><span class="tag t-auto">可加</span></td>
+</tr>
+<tr>
+  <td><b>4. 周计划自动刷新</b></td>
+  <td>recurring，整合近一周 AI 动态（含具身/AI coding 方向）</td>
+  <td>手动追趋势</td>
+  <td><span class="tag t-auto">可加</span></td>
+</tr>
+<tr>
+  <td><b>5. Token 预算守护</b></td>
+  <td>跑 W6 时自动限额 + 告警（复用 w4 预算逻辑）</td>
+  <td>超支风险</td>
+  <td><span class="tag t-auto">可加</span></td>
+</tr>
+</table>
+
+<h2>五、推荐执行顺序</h2>
+<div class="row">
+  <div class="pill"><b>第 1 步（我立即做）</b>：A 脚手架 + B 评估集 → 你拿到就能跑通 W6 最小可用版</div>
+  <div class="pill"><b>第 2 步（我立即做）</b>：D 选型对比 + C 阶段二资源包 → 你开学前定好方向</div>
+  <div class="pill"><b>第 3 步（你确认后）</b>：E 网关部署 + 设 1–5 自动化</div>
+</div>
+<div class="note">⚠️ 原则：我帮你做"研究 / 脚手架 / 测试集 / 文档维护"等非学习性事务；<b>理解概念、手写核心逻辑、跑通调试</b>仍由你完成，这才是路线价值所在。所有"部署/写入"类动作我会先与你确认路径。</div>
+
+<div class="foot">
+数据基线：W1–W5 脚本（w2_chat_cli / w3_* / w4_* / w5_vision_*）、app.py（Streamlit 简历工具）、policy_context.txt、requirements.txt。
+相关约定：ima「Agent学习路线」知识库 folder_id=7491061882583856；每日 09:40 AI 资讯自动化（automation-1785980124737）。
+本评估为一次性分析文档；如需我直接落地 A/B/C/D 或设置自动化，回复"执行"即可。
+</div>
+
+</div>
+</body>
+</html>

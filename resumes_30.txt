@@ -1,0 +1,183 @@
+===== 1 =====
+张伟 资深Python工程师
+邮箱：zhangwei@example.com
+电话：138-0000-1234
+技能：Python, FastAPI, PostgreSQL, Docker, Redis
+5年工作经验，本科 计算机科学与技术 安徽大学
+
+===== 2 =====
+李娜 数据分析师
+手机：13912345678
+邮箱：lina_analyst@163.com
+技能：SQL, Python, Tableau, 统计学, Excel
+3年，硕士 应用统计 上海财经大学
+
+===== 3 =====
+王强 前端开发工程师
+Tel: 137-8888-6666
+Email: wangqiang@qq.com
+技能: JavaScript, React, Vue, Webpack, TypeScript
+本科 软件工程 合肥工业大学，4年经验
+
+===== 4 =====
+刘洋 算法工程师
+电话 13600001111
+邮箱 liuyang.ml@gmail.com
+技能：机器学习，深度学习，PyTorch，NLP，TensorFlow
+博士 人工智能 中国科学技术大学，6年
+
+===== 5 =====
+陈静 UI设计师
+13855557777 chenjing.design@foxmail.com
+技能：Figma, Sketch, Photoshop, 用户体验设计
+本科 视觉传达设计 江南大学 5年
+
+===== 6 =====
+杨光 后端开发工程师
+电话：135-2222-3333 邮箱：yangguang@outlook.com
+技能：Java, Spring Boot, MySQL, Kafka, Redis
+7年，本科 计算机科学 武汉大学
+
+===== 7 =====
+赵敏 产品经理
+手机 13400008888 邮箱 zhaomin.pm@163.com
+技能：需求分析，原型设计，Axure，数据分析，用户研究
+硕士 信息管理 南京大学 4年
+
+===== 8 =====
+孙磊 运维工程师
+电话137-9999-0000 邮箱 sunlei.ops@gmail.com
+技能：Linux, Docker, Kubernetes, CI/CD, Shell
+本科 网络工程 南京邮电大学 6年
+
+===== 9 =====
+周婷 人力资源专员
+138-1111-2222 zhouting.hr@qq.com
+技能：招聘，员工关系，薪酬核算，培训组织
+本科 人力资源管理 安徽财经大学 3年
+
+===== 10 =====
+吴昊 测试工程师
+手机：136-3333-4444 邮箱 wuhao.qa@163.com
+技能：自动化测试，Selenium, pytest, 性能测试, Jmeter
+4年，本科 软件工程 合肥工业大学
+
+===== 11 =====
+郑爽 数据工程师
+电话 13566667777 邮箱 zhengshuang.de@foxmail.com
+技能：Hadoop, Spark, ETL, Hive, Python
+硕士 大数据 电子科技大学 5年
+
+===== 12 =====
+黄磊 销售经理
+13844445555 huanglei.sales@qq.com
+技能：大客户销售，渠道拓展，商务谈判，CRM
+本科 市场营销 安徽大学 8年
+
+===== 13 =====
+徐丽 财务分析师
+手机137-5555-6666 邮箱 xuli.finance@163.com
+技能：财务报表，预算管理，Excel, PowerBI, 成本分析
+硕士 会计学 上海财经大学 6年
+
+===== 14 =====
+马涛 嵌入式开发工程师
+电话 13988889999 邮箱 matao.embed@gmail.com
+技能：C, C++, RTOS, STM32, 驱动开发
+本科 电子信息工程 合肥工业大学 7年
+
+===== 15 =====
+胡敏 内容运营
+138-7777-8888 humin.op@qq.com
+技能：文案写作，新媒体运营，活动策划，数据分析
+本科 汉语言文学 安徽师范大学 4年
+
+===== 16 =====
+林峰 架构师
+手机136-1212-3434 邮箱 linfeng.arch@outlook.com
+技能：微服务，分布式系统，Go, 云原生, Kafka
+硕士 软件工程 浙江大学 12年
+
+===== 17 =====
+高雪 机器学习工程师
+电话13500001111 邮箱 gaoxue.ml@gmail.com
+技能：XGBoost, 特征工程, Python, scikit-learn, 推荐系统
+博士 计算机科学 清华大学 5年
+
+===== 18 =====
+罗刚 DevOps工程师
+138-3333-2222 luogang.dev@163.com
+技能：AWS, Terraform, Docker, Kubernetes, Prometheus
+本科 计算机科学 武汉理工大学 6年
+
+===== 19 =====
+梁静 视觉算法工程师
+手机137-4444-5555 邮箱 liangjing.cv@foxmail.com
+技能：计算机视觉，OpenCV, PyTorch, 目标检测, 图像分割
+硕士 模式识别 中科院 4年
+
+===== 20 =====
+宋阳 商务拓展
+139-6666-7777 songyang.bd@qq.com
+技能：合作伙伴拓展，商务谈判，市场分析，方案撰写
+本科 国际经济与贸易 安徽大学 5年
+
+===== 21 =====
+韩梅 客服主管
+电话138-0000-9999 邮箱 hanmei.cs@qq.com
+技能：客户关系管理，团队管理，投诉处理，话术设计
+本科 工商管理 安徽财经大学 7年
+
+===== 22 =====
+冯磊 游戏开发工程师
+手机136-5555-6666 邮箱 fenglei.game@gmail.com
+技能：Unity, C#, 游戏逻辑，Shader, 性能优化
+本科 数字媒体技术 中国传媒大学 5年
+
+===== 23 =====
+董洁 数据分析实习生
+13811112222 dongjie.intern@163.com
+技能：Python, Pandas, 数据可视化, SQL
+本科在读 统计学 安徽大学 0年（实习）
+
+===== 24 =====
+曹颖 市场专员
+手机137-8888-9999 邮箱 caoying.mkt@qq.com
+技能：市场调研，活动执行，内容策划，社媒运营
+本科 市场营销 合肥工业大学 3年
+
+===== 25 =====
+邓超 网络安全工程师
+电话139-2222-3333 邮箱 dengchao.sec@foxmail.com
+技能：渗透测试，防火墙配置，漏洞扫描，SIEM, 等保
+本科 信息安全 西安电子科技大学 6年
+
+===== 26 =====
+薛宁 后端开发工程师
+138-6666-7777 xuening.be@qq.com
+技能：Node.js, Express, MongoDB, Redis, GraphQL
+硕士 软件工程 华中科技大学 4年
+
+===== 27 =====
+雷明 硬件工程师
+手机136-9999-8888 邮箱 leiming.hw@gmail.com
+技能：PCB设计，Altium, 电路仿真，FPGA, 信号完整性
+本科 电子科学与技术 电子科技大学 9年
+
+===== 28 =====
+白莉 项目经理
+电话135-3333-4444 邮箱 baili.pm@163.com
+技能：PMP, 敏捷开发，进度管理，风险管理，Jira
+硕士 项目管理 同济大学 10年
+
+===== 29 =====
+卢伟 数据科学家
+138-5555-6666 luwei.ds@foxmail.com
+技能：统计分析，机器学习，因果推断，Python, R
+博士 统计学 北京大学 7年
+
+===== 30 =====
+夏雨 前端开发工程师
+手机137-1212-3434 邮箱 xiayu.fe@qq.com
+技能：HTML, CSS, JavaScript, React, 响应式设计
+本科 软件工程 合肥工业大学 3年
