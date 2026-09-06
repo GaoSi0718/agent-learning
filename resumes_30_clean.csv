@@ -1,0 +1,31 @@
+﻿name,title,email,phone,skills,years_of_experience,degree,major,school,phone_clean,education,is_outlier
+张伟,资深Python工程师,zhangwei@example.com,138-0000-1234,Python，FastAPI，PostgreSQL，Docker，Redis,5,本科,计算机科学与技术,安徽大学,13800001234,本科 计算机科学与技术 安徽大学,False
+李娜,数据分析师,lina_analyst@163.com,13912345678,SQL，Python，Tableau，统计学，Excel,3,硕士,应用统计,上海财经大学,13912345678,硕士 应用统计 上海财经大学,False
+王强,前端开发工程师,wangqiang@qq.com,137-8888-6666,JavaScript，React，Vue，Webpack，TypeScript,4,本科,软件工程,合肥工业大学,13788886666,本科 软件工程 合肥工业大学,False
+刘洋,算法工程师,liuyang.ml@gmail.com,13600001111,机器学习，深度学习，PyTorch，NLP，TensorFlow,6,博士,人工智能,中国科学技术大学,13600001111,博士 人工智能 中国科学技术大学,False
+陈静,UI设计师,chenjing.design@foxmail.com,13855557777,Figma，Sketch，Photoshop，用户体验设计,5,本科,视觉传达设计,江南大学,13855557777,本科 视觉传达设计 江南大学,False
+杨光,后端开发工程师,yangguang@outlook.com,135-2222-3333,Java，Spring Boot，MySQL，Kafka，Redis,7,本科,计算机科学,武汉大学,13522223333,本科 计算机科学 武汉大学,False
+赵敏,产品经理,zhaomin.pm@163.com,13400008888,需求分析，原型设计，Axure，数据分析，用户研究,4,硕士,信息管理,南京大学,13400008888,硕士 信息管理 南京大学,False
+孙磊,运维工程师,sunlei.ops@gmail.com,137-9999-0000,Linux，Docker，Kubernetes，CI/CD，Shell,6,本科,网络工程,南京邮电大学,13799990000,本科 网络工程 南京邮电大学,False
+周婷,人力资源专员,zhouting.hr@qq.com,138-1111-2222,招聘，员工关系，薪酬核算，培训组织,3,本科,人力资源管理,安徽财经大学,13811112222,本科 人力资源管理 安徽财经大学,False
+吴昊,测试工程师,wuhao.qa@163.com,136-3333-4444,自动化测试，Selenium，pytest，性能测试，Jmeter,4,本科,软件工程,合肥工业大学,13633334444,本科 软件工程 合肥工业大学,False
+郑爽,数据工程师,zhengshuang.de@foxmail.com,13566667777,Hadoop，Spark，ETL，Hive，Python,5,硕士,大数据,电子科技大学,13566667777,硕士 大数据 电子科技大学,False
+黄磊,销售经理,huanglei.sales@qq.com,13844445555,大客户销售，渠道拓展，商务谈判，CRM,8,本科,市场营销,安徽大学,13844445555,本科 市场营销 安徽大学,False
+徐丽,财务分析师,xuli.finance@163.com,137-5555-6666,财务报表，预算管理，Excel，PowerBI，成本分析,6,硕士,会计学,上海财经大学,13755556666,硕士 会计学 上海财经大学,False
+马涛,嵌入式开发工程师,matao.embed@gmail.com,13988889999,C，C++，RTOS，STM32，驱动开发,7,本科,电子信息工程,合肥工业大学,13988889999,本科 电子信息工程 合肥工业大学,False
+胡敏,内容运营,humin.op@qq.com,138-7777-8888,文案写作，新媒体运营，活动策划，数据分析,4,本科,汉语言文学,安徽师范大学,13877778888,本科 汉语言文学 安徽师范大学,False
+林峰,架构师,linfeng.arch@outlook.com,136-1212-3434,微服务，分布式系统，Go，云原生，Kafka,12,硕士,软件工程,浙江大学,13612123434,硕士 软件工程 浙江大学,True
+高雪,机器学习工程师,gaoxue.ml@gmail.com,13500001111,XGBoost，特征工程，Python，scikit-learn，推荐系统,5,博士,计算机科学,清华大学,13500001111,博士 计算机科学 清华大学,False
+罗刚,DevOps工程师,luogang.dev@163.com,138-3333-2222,AWS，Terraform，Docker，Kubernetes，Prometheus,6,本科,计算机科学,武汉理工大学,13833332222,本科 计算机科学 武汉理工大学,False
+梁静,视觉算法工程师,liangjing.cv@foxmail.com,137-4444-5555,计算机视觉，OpenCV，PyTorch，目标检测，图像分割,4,硕士,模式识别,中科院,13744445555,硕士 模式识别 中科院,False
+宋阳,商务拓展,songyang.bd@qq.com,139-6666-7777,合作伙伴拓展，商务谈判，市场分析，方案撰写,5,本科,国际经济与贸易,安徽大学,13966667777,本科 国际经济与贸易 安徽大学,False
+韩梅,客服主管,hanmei.cs@qq.com,138-0000-9999,客户关系管理，团队管理，投诉处理，话术设计,7,本科,工商管理,安徽财经大学,13800009999,本科 工商管理 安徽财经大学,False
+冯磊,游戏开发工程师,fenglei.game@gmail.com,136-5555-6666,Unity，C#，游戏逻辑，Shader，性能优化,5,本科,数字媒体技术,中国传媒大学,13655556666,本科 数字媒体技术 中国传媒大学,False
+董洁,数据分析实习生,dongjie.intern@163.com,13811112222,Python，Pandas，数据可视化，SQL,0,本科在读,统计学,安徽大学,13811112222,本科在读 统计学 安徽大学,False
+曹颖,市场专员,caoying.mkt@qq.com,137-8888-9999,市场调研，活动执行，内容策划，社媒运营,3,本科,市场营销,合肥工业大学,13788889999,本科 市场营销 合肥工业大学,False
+邓超,网络安全工程师,dengchao.sec@foxmail.com,139-2222-3333,渗透测试，防火墙配置，漏洞扫描，SIEM，等保,6,本科,信息安全,西安电子科技大学,13922223333,本科 信息安全 西安电子科技大学,False
+薛宁,后端开发工程师,xuening.be@qq.com,138-6666-7777,Node.js，Express，MongoDB，Redis，GraphQL,4,硕士,软件工程,华中科技大学,13866667777,硕士 软件工程 华中科技大学,False
+雷明,硬件工程师,leiming.hw@gmail.com,136-9999-8888,PCB设计，Altium，电路仿真，FPGA，信号完整性,9,本科,电子科学与技术,电子科技大学,13699998888,本科 电子科学与技术 电子科技大学,False
+白莉,项目经理,baili.pm@163.com,135-3333-4444,PMP，敏捷开发，进度管理，风险管理，Jira,10,硕士,项目管理,同济大学,13533334444,硕士 项目管理 同济大学,False
+卢伟,数据科学家,luwei.ds@foxmail.com,138-5555-6666,统计分析，机器学习，因果推断，Python，R,7,博士,统计学,北京大学,13855556666,博士 统计学 北京大学,False
+夏雨,前端开发工程师,xiayu.fe@qq.com,137-1212-3434,HTML，CSS，JavaScript，React，响应式设计,3,本科,软件工程,合肥工业大学,13712123434,本科 软件工程 合肥工业大学,False
