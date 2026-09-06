@@ -7,11 +7,12 @@ P0 教学规模下 chat 内同步调用可接受；全链路 async 化属 P2 范
 import json, os
 from openai import OpenAI
 from .config import API_TIMEOUT
+from .resilience import call_with_retry
 
 def make_llm():
-    client = OpenAI(api_key=os.getenv("DEEPSEEK_API_KEY"),
-                    base_url=os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com"),
-                    timeout=API_TIMEOUT)
+    _client = OpenAI(api_key=os.getenv("DEEPSEEK_API_KEY"),
+                     base_url=os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com"),
+                     timeout=API_TIMEOUT)
 
     class _Resp:
         def __init__(self, content, tool_calls, raw=None):
@@ -21,6 +22,12 @@ def make_llm():
                              # 回传 tool 结果前必须先把它入栈，否则协议 400
 
     class _LLM:
+        def __init__(self):
+            # B3 接线（Z3）：client 挂到实例上，便于离线测试注入 FakeClient；
+            # 每次调用 chat 时用 call_with_retry 包住底层请求——超时/连接错误/5xx/429
+            # 指数退避重试，4xx 协议错误直接抛。_Resp 返回结构不变，agent_loop 零改动。
+            self._client = _client
+
         def chat(self, messages, tools=None, timeout=None):
             # 兼容两种传入：可执行工具映射（{name: fn}，schema 取 tools.py 的 TOOLS）
             # 或 OpenAI schema 列表（直接使用）
@@ -29,14 +36,18 @@ def make_llm():
                 schemas = TOOLS
             else:
                 schemas = tools or None
-            r = client.chat.completions.create(
+            trace = []
+            r = call_with_retry(
+                self._client.chat.completions.create,
                 model=os.getenv("DEEPSEEK_MODEL", "deepseek-chat"),
-                messages=messages, tools=schemas)
+                messages=messages, tools=schemas, trace=trace)
             m = r.choices[0].message
             tcs = [type("TC", (), {"id": t.id,
                                    "name": t.function.name,
                                    "args": json.loads(t.function.arguments or "{}")})()
                    for t in (m.tool_calls or [])]
-            return _Resp(m.content, tcs, raw=m)
+            resp = _Resp(m.content, tcs, raw=m)
+            resp.resilience_trace = trace   # 每轮尝试记录（P2 归因接线点）
+            return resp
 
     return _LLM()
