@@ -14,9 +14,11 @@ def make_llm():
                     timeout=API_TIMEOUT)
 
     class _Resp:
-        def __init__(self, content, tool_calls):
+        def __init__(self, content, tool_calls, raw=None):
             self.content = content
             self.tool_calls = tool_calls
+            self.raw = raw   # OpenAI 原始 assistant 消息（含 tool_calls）：
+                             # 回传 tool 结果前必须先把它入栈，否则协议 400
 
     class _LLM:
         def chat(self, messages, tools=None, timeout=None):
@@ -31,9 +33,10 @@ def make_llm():
                 model=os.getenv("DEEPSEEK_MODEL", "deepseek-chat"),
                 messages=messages, tools=schemas)
             m = r.choices[0].message
-            tcs = [type("TC", (), {"name": t.function.name,
+            tcs = [type("TC", (), {"id": t.id,
+                                   "name": t.function.name,
                                    "args": json.loads(t.function.arguments or "{}")})()
                    for t in (m.tool_calls or [])]
-            return _Resp(m.content, tcs)
+            return _Resp(m.content, tcs, raw=m)
 
     return _LLM()

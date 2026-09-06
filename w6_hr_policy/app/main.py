@@ -33,7 +33,10 @@ def save(session_id, role, content):
                 (session_id, time.time(), role, content))
     con.commit(); con.close()
 
-def load(session_id, limit=20):
+def load(session_id, limit=40):
+    """v1.5 修订：默认 20→40 行。原 limit=20（10 轮）会让 12 轮跨距测试的第 1 轮
+    在第 12 轮前必然滑出窗口（每轮 user+assistant 共 2 行），跨距记忆无从谈起；
+    长会话的体量控制仍由 build_context 的 70% token 预算闸门 + compact 负责。"""
     con = sqlite3.connect(DB)
     rows = con.execute(
         "SELECT role, content FROM memory WHERE session_id=? ORDER BY ts DESC LIMIT ?",
