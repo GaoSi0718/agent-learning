@@ -8,6 +8,7 @@ from .context import compact, summarize_tool_result, build_context
 from .llm import make_llm
 from .auth import require_api_key
 from .rate_limit import rate_limit
+from .resilience import fallback_answer
 
 app = FastAPI(title="W6 HR 政策问答")
 
@@ -64,7 +65,13 @@ async def chat_stream(q: str, session_id: str = "default"):
     async def gen():
         llm = make_llm()
         history = build_context(load(session_id), llm)   # 记忆压缩接线（W1 D3 context.py）：超窗口预算 70% 才 compact
-        ans, trace = await run_agent(q, llm, make_tools(), history=history)
+        try:
+            ans, trace = await run_agent(q, llm, make_tools(), history=history)
+        except Exception as e:
+            # B3 降级（R6 接线）：LLM 链路全灭（重试耗尽/网络不可达）→ 检索直答，
+            # 绝不静默失败或断流；降级答复同样入记忆，会话上下文不丢
+            print(f"[W6][降级] run_agent 失败，转检索直答：{type(e).__name__}: {e}")
+            ans = await fallback_answer(q)
         for i in range(0, len(ans), 8):            # 每 8 字符一片，模拟逐段输出
             yield {"event": "message", "data": json.dumps(
                 {"delta": ans[i:i+8]}, ensure_ascii=False)}
