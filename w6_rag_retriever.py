@@ -47,6 +47,19 @@ _SAMPLE_POLICY = "w6_sample_policy.txt"
 
 _CJK = re.compile(r"[\u4e00-\u9fff]+|[a-z0-9]+")
 
+# 查询同义词扩展表（2026-09-06 评估发现：用户问法与语料用词不一致时 BM25 会失效，
+# 如"标准工时"vs 语料的"工时时间"，且"规定"等高频词会把无关片段顶到 top-1）。
+# 只在查询侧追加扩展词，不改动索引与打分算法；映射保守，仅覆盖实测失效的问法。
+_SYNONYMS: dict[str, str] = {
+    "标准工时": "工时 作息",
+    "上班时间": "工时",
+    "下班时间": "工时",
+    "工作时间": "工时 作息",
+    "病假条": "诊断书 病休",
+    "病假证明": "诊断书 病休",
+    "辞退": "解除劳动合同",
+}
+
 
 class PolicyRetriever:
     def __init__(self, policy_path: str | Path | None = None,
@@ -80,8 +93,22 @@ class PolicyRetriever:
         return tokens
 
     def _split(self, text: str) -> list[str]:
-        """按段落切分；超长段落用滑动窗口切块（带重叠）。"""
+        """按段落切分；短标题行并入下一段（标题挂载）；超长段落用滑动窗口切块（带重叠）。"""
         paras = [p.strip() for p in re.split(r"\n+", text) if p.strip()]
+        # 标题挂载（2026-09-06）：形如"### 6.3.1 工时时间"的短标题行单独成块会变成
+        # "标题空壳块"——占掉一个召回名次却无内容，且正文块失去章节语义。
+        # 将连续短行（标题/小节号）并入其后第一个正文段。
+        merged: list[str] = []
+        buf = ""
+        for p in paras:
+            if len(p) <= 40:
+                buf = (buf + "\n" + p) if buf else p
+                continue
+            merged.append((buf + "\n" + p) if buf else p)
+            buf = ""
+        if buf:
+            merged.append(buf)
+        paras = merged
         out: list[str] = []
         for p in paras:
             if len(p) <= self.chunk_size:
@@ -121,12 +148,18 @@ class PolicyRetriever:
         self.avgdl = sum(len(c) for c in self.chunks) / max(n, 1)
         self._idf = {t: log((n - f + 0.5) / (f + 0.5) + 1.0) for t, f in df.items()}
 
+    @staticmethod
+    def _expand_query(query: str) -> str:
+        """查询侧同义词扩展：命中映射键则追加扩展词（只加 token，不改打分）。"""
+        extra = [dst for src, dst in _SYNONYMS.items() if src in query]
+        return query + (" " + " ".join(extra) if extra else "")
+
     # ---- 检索 ----
     def retrieve(self, query: str, k: int = 4) -> list[tuple[str, float]]:
         """返回 [(片段文本, 得分), ...] 按得分降序，最多 k 条。"""
         if not self.chunks:
             return []
-        q = self._tokenize(query)
+        q = self._tokenize(self._expand_query(query))
         if not q:
             return []
         k1, b = 1.5, 0.75
