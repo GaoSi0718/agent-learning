@@ -1,11 +1,13 @@
 # w6_hr_policy/app/main.py
-import json, sqlite3, time
-from fastapi import FastAPI
+import json, os, sqlite3, time
+from fastapi import Depends, FastAPI
 from fastapi.responses import HTMLResponse
 from sse_starlette.sse import EventSourceResponse
 from .agent_loop import run_agent
 from .context import compact, summarize_tool_result, build_context
 from .llm import make_llm
+from .auth import require_api_key
+from .rate_limit import rate_limit
 
 app = FastAPI(title="W6 HR 政策问答")
 
@@ -25,7 +27,11 @@ def init_db():
     con.commit(); con.close()
 
 @app.on_event("startup")
-def _(): init_db()
+def _():
+    init_db()
+    if not (os.getenv("W6_API_KEY") or "").strip():
+        print("[W6][启动检查] W6_API_KEY 未配置：业务路由将按 fail-closed 全部拒绝(401)。"
+              "公网部署前请在 .env 配置 W6_API_KEY（.env 不入库）。")
 
 def save(session_id, role, content):
     con = sqlite3.connect(DB)
@@ -49,10 +55,12 @@ async def health():
     """健康检查（W5 部署验收与 W11 p0_gate.sh 都会打这个接口）"""
     return {"status": "ok"}
 
-@app.get("/chat/stream")
+@app.get("/chat/stream", dependencies=[Depends(rate_limit), Depends(require_api_key)])
 async def chat_stream(q: str, session_id: str = "default"):
     """SSE 流式。P0 口径：Agent 跑完后把最终答复分片吐出（先把流式管道打通）；
-    真·逐 token 增量（LLM stream=True）属 P1 优化项，不影响本阶段验收。"""
+    真·逐 token 增量（LLM stream=True）属 P1 优化项，不影响本阶段验收。
+    v1.7 前置：限流+鉴权作为路由级依赖，在 EventSourceResponse 产生之前完成——
+    即鉴权失败/超限时流根本不会开始，不会先烧一次 LLM 调用再拒绝。"""
     async def gen():
         llm = make_llm()
         history = build_context(load(session_id), llm)   # 记忆压缩接线（W1 D3 context.py）：超窗口预算 70% 才 compact
@@ -64,8 +72,9 @@ async def chat_stream(q: str, session_id: str = "default"):
         save(session_id, "assistant", ans)         # 问答双方都存，否则记忆只有一半
     return EventSourceResponse(gen())
 
-@app.get("/", response_class=HTMLResponse)
+@app.get("/", response_class=HTMLResponse, dependencies=[Depends(require_api_key)])
 async def index():
+    """演示页：不直接烧 LLM，但会暴露服务用法，故挂鉴权不挂限流（真正的成本在 /chat/stream）。"""
     return """
 <div id="out" style="white-space:pre-wrap;font-family:system-ui"></div>
 <script>

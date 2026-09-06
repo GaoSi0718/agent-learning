@@ -7,16 +7,19 @@
 第 12 轮回答必须 (a) 体现第 1 轮声明的工龄 12 年（跨距记忆成立），(b) 给出具体天数，
 (c) 未自陈「找不到/无法确定」。全文打印供人工复核。
 """
-import sys, pathlib, json, sqlite3, urllib.request, urllib.parse
+import os, sys, pathlib, json, sqlite3, urllib.request, urllib.parse
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
 
-BASE = "http://127.0.0.1:8000"
+# v1.7 鉴权适配（Z2）：服务按 fail-closed 校验 X-API-Key，联调请求必须带同一把 Key
+BASE = os.getenv("W6_TEST_BASE", "http://127.0.0.1:8000")
+API_KEY = os.getenv("W6_API_KEY", "")
 SID = "b1test12"
 DB = pathlib.Path(__file__).resolve().parents[1] / "data" / "memory.db"
 
 def ask(q):
     url = BASE + "/chat/stream?" + urllib.parse.urlencode({"q": q, "session_id": SID})
-    with urllib.request.urlopen(url, timeout=180) as resp:
+    req = urllib.request.Request(url, headers={"X-API-Key": API_KEY})
+    with urllib.request.urlopen(req, timeout=180) as resp:
         raw = resp.read().decode("utf-8")
     deltas = []
     for line in raw.splitlines():
