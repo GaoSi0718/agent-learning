@@ -1,0 +1,75 @@
+# w6_hr_policy/app/main.py
+import json, sqlite3, time
+from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
+from sse_starlette.sse import EventSourceResponse
+from .agent_loop import run_agent
+from .context import compact, summarize_tool_result, build_context
+from .llm import make_llm
+
+app = FastAPI(title="W6 HR 政策问答")
+
+def make_tools():
+    """W1 v1.5 阶段暂无注册工具（纯检索问答）；W2 v1.6 起返回 tools.IMPL"""
+    try:
+        from .tools import IMPL
+        return dict(IMPL)
+    except ImportError:
+        return {}
+DB = "w6_hr_policy/data/memory.db"
+
+def init_db():
+    con = sqlite3.connect(DB)
+    con.execute("""CREATE TABLE IF NOT EXISTS memory (
+        session_id TEXT, ts REAL, role TEXT, content TEXT)""")
+    con.commit(); con.close()
+
+@app.on_event("startup")
+def _(): init_db()
+
+def save(session_id, role, content):
+    con = sqlite3.connect(DB)
+    con.execute("INSERT INTO memory VALUES (?,?,?,?)",
+                (session_id, time.time(), role, content))
+    con.commit(); con.close()
+
+def load(session_id, limit=20):
+    con = sqlite3.connect(DB)
+    rows = con.execute(
+        "SELECT role, content FROM memory WHERE session_id=? ORDER BY ts DESC LIMIT ?",
+        (session_id, limit)).fetchall()
+    con.close()
+    return [{"role": r, "content": c} for r, c in reversed(rows)]
+
+@app.get("/health")
+async def health():
+    """健康检查（W5 部署验收与 W11 p0_gate.sh 都会打这个接口）"""
+    return {"status": "ok"}
+
+@app.get("/chat/stream")
+async def chat_stream(q: str, session_id: str = "default"):
+    """SSE 流式。P0 口径：Agent 跑完后把最终答复分片吐出（先把流式管道打通）；
+    真·逐 token 增量（LLM stream=True）属 P1 优化项，不影响本阶段验收。"""
+    async def gen():
+        llm = make_llm()
+        history = build_context(load(session_id), llm)   # 记忆压缩接线（W1 D3 context.py）：超窗口预算 70% 才 compact
+        ans, trace = await run_agent(q, llm, make_tools(), history=history)
+        for i in range(0, len(ans), 8):            # 每 8 字符一片，模拟逐段输出
+            yield {"event": "message", "data": json.dumps(
+                {"delta": ans[i:i+8]}, ensure_ascii=False)}
+        save(session_id, "user", q)
+        save(session_id, "assistant", ans)         # 问答双方都存，否则记忆只有一半
+    return EventSourceResponse(gen())
+
+@app.get("/", response_class=HTMLResponse)
+async def index():
+    return """
+<div id="out" style="white-space:pre-wrap;font-family:system-ui"></div>
+<script>
+const es = new EventSource('/chat/stream?q=' + encodeURIComponent('年假怎么算'));
+es.addEventListener('message', e => {
+  document.getElementById('out').textContent += JSON.parse(e.data).delta;
+});
+es.onerror = () => es.close();
+</script>
+"""
