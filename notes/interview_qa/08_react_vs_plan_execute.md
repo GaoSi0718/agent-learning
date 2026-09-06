@@ -2,6 +2,9 @@
 
 > 来源：冲刺版 §5.1 第二梯队-8｜ 配套：C4_working_modes.md 模式 2/3
 
+## 题面
+ReAct vs Plan-and-Execute（边想边干 vs 先想好再干；Token 消耗与适用场景）。
+
 ## 30 秒答
 ReAct「边想边干」：每步基于最新观察决策，灵活但 token 消耗大；Plan-and-Execute「先想好再干」：一次性产出完整计划再逐步执行，省 token 但计划错了系统性返工，需要 re-plan 兜底。**任务不确定性越高越偏 ReAct，确定性越高越能 Plan-and-Execute**。
 

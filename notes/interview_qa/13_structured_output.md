@@ -2,6 +2,9 @@
 
 > 来源：冲刺版 §5.1 第三梯队-13
 
+## 题面
+Structured Output 如何控制模型输出。
+
 ## 30 秒答
 四层控制，逐层收紧：①Prompt 约束（格式指令+few-shot）——最弱；②Schema 声明（OpenAI function calling 的 parameters / JSON Schema，枚举+required）——约束输出分布；③解析校验——jsonschema 程序化验证，失败回传让模型自改；④约束解码——服务端按 grammar 生成（部分 API 支持），最强但依赖平台。W6 用②+③组合。
 
