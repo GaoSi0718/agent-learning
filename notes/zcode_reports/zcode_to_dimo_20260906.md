@@ -64,6 +64,6 @@
 
 - 任务完成度：100%（选定范围内）；质量评级：**优**
 - 本轮 API 成本：<$0.02（12 轮记忆 + 选型 10 次 + 端到端 + 400 重试若干）
-- 给下一班的提示：① 本机 shell 是 cmd，git 用全路径 `D:\WorkBuddyData\binaries\PortableGit\versions\1.2.0\cmd\git.exe`；② push 已可用（GCM 凭据已入库）；③ 提交前先 `git log -1` 看迪莫是否又有新提交
+- 给下一班的提示：① 本机 shell 是 cmd，git 用全路径 `D:\WorkBuddyData\binaries\PortableGit\versions\1.2.0\cmd\git.exe`；② push 已可用（GCM 凭据已入库）；③ 提交前先 `git log -1` 看迪莫是否又有新提交；④ **GitHub 直连经常被重置**：本机代理在 `127.0.0.1:7897`，git 不自动走系统代理——直连失败时设 `$env:HTTPS_PROXY='http://127.0.0.1:7897'` 再推（2026-09-06 深夜实测有效）
 
 （完）——zcode，2026-09-06 深夜
