@@ -1,0 +1,2797 @@
+# 阶段一（P0）秋招并行期 · 周次执行清单（详细版 · 带命令行 · 合并终版）
+
+> **适用**：孟轩（安徽理工大学计算机科学与技术 2027 届本科，CAAI 学生会员；居家学习，每周 20–25h）
+> **周期**：2026-09-01（周二）→ 2026-11-16（周一），共 **11 周**
+> **双轨**：AI 应用 / Agent 开发岗为主 + 后端 / 数据岗保底
+> **理论依据**：《长期成长版：AI 应用 / Agent 开发系统成长路径（主路线）》第五章 P0 ＋《秋招冲刺版方案（仅供参考，非主路线）》第三、四、五章
+> **生成**：2026-09-05 · 迪莫（合并终版：以本清单为基底，融入《全路径框架版》的全路径定位、交付物清单、资源链接索引与 P1–P4 概览——合并口径见文末「合并说明」）
+> **资料追溯**：全部学习资源的可点击链接与获取难度（A 直取 / B 免费注册 / C 注册+实名 / D 付费 / E 本人申请）集中于**附录 C**；需本人注册/付费项另见桌面合集 `学习清单任务资料合集\02_需自行获取清单.md`。
+> **配图例**：🔴 已知会踩的坑 ｜ ✅ 验证成功的判据 ｜ ⚠️ 风险提示 ｜ 🎯 面试可直接讲的点
+
+---
+
+## 📋 总览：11 周一句话
+
+| 周 | 日期 | 学习主线 | 求职主线 | 关键交付 |
+|---|---|---|---|---|
+| **W1** | 09.01–09.07 | Agent Loop 终止三件套；W6 v1.5 SSE | 内推启动 + 两版简历 + 台账 + **第一批投递** | 简历 A/B 版、投递台账、W6 SSE |
+| **W2** | 09.08–09.14 | Function Calling 深挖 + 记忆系统；W6 v1.6 | 每日投递 3–5 家；AI Coding 题型开练 | W6 多工具 Agent、面试复盘机制 |
+| **W3** | 09.15–09.21 | L0 计网 + OS | 投递高峰继续；题库每日 1h | 八股笔记（网络/OS） |
+| **W4** | 09.22–09.28 | L0 数据库 + 缓存 + Python 特性 | 同上；开始模拟面试 | 八股笔记（DB/缓存/Py） |
+| **W5** | 09.29–10.05 | **W6 v1.7 公网部署 + 最小评测页** | 同上 | **L1 可用级达成（硬deadline）** |
+| **W6** | 10.06–10.12 | Agent Loop 白板演练 + 补缺 | 笔面试主战场开启 | 白板手写 Loop、补缺清单 |
+| **W7** | 10.13–10.19 | 面试驱动补缺（八股二轮） | 笔面试高峰 | 补缺清单收敛 |
+| **W8** | 10.20–10.26 | 项目深挖防线 + bug 故事 | 笔面试高峰 | 5 个作品深挖稿、3 个 bug 故事 |
+| **W9** | 10.27–11.02 | **期末考周（≤5h/周）** | 只保留不可改期面试 | 考试通过 |
+| **W10** | 11.03–11.09 | 补缺收口 + W6 稳定性验证 | 投递收尾 | W6 连续 20 轮无崩溃 |
+| **W11** | 11.10–11.16 | **P0 出口自检** | 补录窗口启动 | P0 出口 6 项全绿 |
+
+**工时口径（必读）**：
+- P0 学习预算 **197h**，触发求职仲裁后实收 **137h**——**按 137h 做计划**。
+- 求职占用**独立计量**：9 月 15–25h/月；**10 月 60–105h/月**（日均 1–2 场 × 每场含准备复盘约 3h）。
+- **学习工时在求职月自动降至预算 50%**（后 6 周按 10h/周）。
+- P0 必做项经收缩后为 **109h**：①W6 主线 44h ②L0 笔试高频四块 40h ③Agent Loop 深化 + FC 深挖 25h ④面试补缺复盘（按场次计）。留 28h 缓冲。
+- 📎 **各周表头工时与预算的对账见附录 B**：周计划满打合计 147h = 必做 109h + 弹性 38h；预算 137h 之外的 10h 是计划内弹性，求职挤压时按附录 B 的收缩顺序砍。
+- **默认顺延至 P1**（有余力再做）：L0 算法 Hot100 ≥30 道、W7 数据清洗报告、4 个工作模式最小示例。
+
+---
+
+## 🧭 卷首增补：全路径定位与全局纪律
+
+> 本节来自《全路径框架版》卷首，回答两个问题："这份清单在整个成长路径里处于什么位置""执行时要守哪些纪律"。
+
+### A. 全路径框架速览（六能力阶段 × P0–P4）
+
+| 能力阶段 | 对应能力层 | 覆盖 P 阶段 | 核心命题 | 优先级 |
+|---|---|---|---|---|
+| **基础入门** | L0 + L1 | P0（W1/W3/W4） | 解除阻塞 + 笔试地基 + 裸写循环 | ★★★★★ |
+| **核心技术** | L1–L3 | P0（W1/W2/W5–W10） | 把"能跑"变成"敢跑" | ★★★★★ |
+| **项目实战** | W6 主线 | P0（W1/W5）→P1–P3 | 版本号即简历叙事 | ★★★★★ |
+| **产出与复盘** | 元能力 | 全程 + P4 | 复盘机制 · 作品四件套 | ★★★★ |
+| **求职主线** | 投递/面试 | P0 → P4 | 投递优先，面试驱动 | ★★★★★ |
+| **全路径概览** | P1–P4 | P1–P4 | 概要占位，随进展展开 | ★★ |
+
+> 本清单详细承载 **P0（9/1–11/16）**；P1–P4 只看方向与门槛，见文末「🗺 全路径概览」，届时结合前沿信息展开为详细清单。
+
+### B. 三条全局纪律
+
+1. **每天产出 > 0 行代码或 1 段可演示物**（9/1–9/4 只产文档不产码的教训）。
+2. **改动后必扫受影响锚点**（出口标准/汇总表/预算/跨引用）。
+3. **方案冻结**：P0 期间不再生成新版本方案文档；调整只改本清单对应周。
+
+### C. P0 完成后交付物总清单（预期输出——做完 11/16 你手上应有）
+
+| 类别 | 交付物 | 形态 | 产出位置 |
+|---|---|---|---|
+| 代码 | `agent_loop.py`（终止三件套）/ `context.py`（压缩）/ `llm.py`（LLM 适配）/ `main.py`（SSE+评测页）/ `tools.py` + `dispatch.py`（多工具+双校验） | Python | W1 / W2 |
+| 代码（余力） | `reliability.py`（限流退避）/ `failover.py`（60s 容灾）/ `telemetry.py`（OTel）/ `safety.py`（注入拦截） | Python | W6–W10 余力 |
+| 文档 | `docs/l0_notes.md`（四块追问链笔记）/ `W6_评测报告.md`（含 Wilson CI）/ `docs/cache_report.md`（余力） | Markdown | W3–W5 |
+| 文档 | `docs/deploy.md`（部署笔记）/ `docs/metrics_log.md`（数字台账）/ `docs/daily_log.md` `docs/weekly_review.md`（模板→桌面合集 03） | Markdown | 全程 |
+| 数据 | `policy_context.txt`（1,920B 真实语料）/ `job_hunt/log/applications.csv`（含分母） | 数据 | 第零步 |
+| 求职 | 简历 A 版（AI 岗）+ B 版（后端/数据岗） | 文档 | W1 |
+| 演示 | **公网 URL**（问答 + SSE 流式 + 评测页，<90s 可展示） | 在线 | W5 |
+| 在线 | ima 笔记「交付框架」（每日/每周/台账，本人填充） | ima 笔记 | 桌面合集 03 |
+
+### D. 资料追溯说明
+
+- 全部资源的**来源链接**分散在各周末尾的「📚 资源清单」（可点击），**总表**见**附录 C**（含 A–E 获取难度分级）。
+- 需本人注册 / 实名 / 付费 / 申请的项（云服务器、ima 凭证、书等）单独列在桌面合集 `学习清单任务资料合集\02_需自行获取清单.md`，逐条注明代取不了的原因。
+- **产出小节口径（v1.2）**：W1–W5 每周单列「📦 产出」；**W6–W11 的产出集中在「P0 总验收表」与「P0 出口自检表」**，不再每周单列——避免同一交付物两处台账打架。
+
+---
+
+### E. 关键依赖链 · 优先级 · 责任分工（先做什么，由这张表决定）
+
+> **优先级标记**：★ 必做（P0 出口项，不达不计出口）｜☆ 余力（选做，未做顺延 P1）。
+> **责任分工**：全部执行动作与求职动作 = **孟轩**；**迪莫** = 资料检索与来源核验、代码审查、每日 AI 日报、周复盘陪跑与本文档维护（AI 不代替：投递操作、面试、付费采购、账号注册等本人动作）。
+
+| # | 依赖链（上游 → 下游） | 优先级 | 时间节点 |
+|---|---|---|---|
+| 1 | 0.5a 灌语料（9/1）→ 0.5b 评测基线（9/2）→ W5 评测页（10/2）→ W10 评测复核 | ★ | 9/1–9/2；9/29–10/2 |
+| 2 | 0.2 requirements.txt → 0.7 git 远端备份 → W5 D2 `git clone` 部署 | ★ | 9/1；9/1；9/30 |
+| 3 | 0.3 目录+数字台账 → 0.4 投递台账 → W1 第一批投递 → W3 首次诊断 → W8 终诊断 | ★ | 9/1；9/1；9/5 前；9/20；10/25 |
+| 4 | W1 agent_loop（终止三件套）→ W2 IMPL async 工具 → W10 stability_test | ★ | 9/2–3；9/9–10；11/3–5 |
+| 5 | W1 两版简历 → W2 起每日投递 → W5 简历挂公网链接 → 面试演示 | ★ | 9/3–4；9/8 起；10/3；随时 |
+| 6 | W3/W4 八股追问链 → W7 二轮补缺 → W8 项目深挖防线 | ★ | 9/15–28；10/13–19；10/20–26 |
+| 7 | W5 公网部署 → W6/W10 公网稳定性 → W11 出口自检 | ★ | 9/29–10/5；10 月；11/10–16 |
+| 8 | W5 D4 评测集补 source（约 1.5h）→ 评测页可信度 → 面试报数底气 | ★ | 10/2 |
+| 9 | W2 白名单校验（雏形）→ W8 余力确定性门 → P2 正式门 | ☆ | 9/9；10/20–26 |
+
+**进度滞后追赶规则（v1.3 新增）**：日历落后于清单时，**按上表依赖链顺序补，不并行补全部**——优先保两条硬链（链 1 语料/评测、链 2 环境/git→部署），再补台账与投递节奏；W3/W4 八股可压缩不可跳过（出口项 5）。**滞后 ≤3 天**：周末用计划内弹性 10h 追平（附录 B）；**滞后 >3 天**：按附录 B 收缩顺序砍弹性保必做 109h，并在当周周复盘书面写明追赶计划与预计追平日。
+
+---
+
+## 🛠 第零步：环境 / 台账 / 基线检查（W1 D1–D2：基线 3h + 评测 0.5b 约 1–2h）
+
+> ⚠️ 先做完这一步，后面 11 周都在这个基线上跑。**跳过它 = 后面每周都会花时间返工。**
+
+### 0.1 确认 Python 环境与项目骨架
+
+```bash
+# 进入项目目录
+cd /d/WorkBuddyData/projects/agent-learning
+
+# 激活虚拟环境（Git Bash）
+source venv/Scripts/activate
+# PowerShell 用这条：
+# venv\Scripts\Activate.ps1
+
+# 基线验证（三条都必须通过）
+python --version                      # 期望 Python 3.13.12
+python -c "import openai, fastapi, uvicorn; print('ok')"
+pip list | grep -iE "openai|fastapi|uvicorn|pydantic|streamlit"
+```
+
+**预期输出**：`Python 3.13.12` 与 `ok`；pip list 中能看到 openai / fastapi / uvicorn / pydantic。
+
+**核心知识点（依赖盘点口径）**：
+- 本项目 venv 在 `venv/`（**磁盘实测确认，无点前缀**）。
+- W6 **BM25 主线零外部依赖**：`chromadb` / `sentence_transformers` 缺失**不影响 P0**；`matplotlib` 仅后续可视化（P1 数据分析）才需要。**缺包才装，别提前装全家桶。**
+
+**踩坑笔记**：
+- 🔴 **PowerShell 拦截激活脚本**：报"无法加载文件 Activate.ps1，因为在此系统上禁止运行脚本"。改用 Git Bash 的 `source venv/Scripts/activate`，或在当前会话执行 `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass`（**只影响当前会话，不改系统策略**）。
+- 🔴 **路径含中文用户名**：`C:\Users\高斯\` 下某些旧版 pip 会报编码错。已验证 3.13.12 managed Python 可正常创建 venv；如仍报错，把 venv 建到 `D:\WorkBuddyData\projects\agent-learning\venv`（纯 ASCII 路径）。
+- ✅ 验证标准：`which python` 指向 `venv` 内部，而非系统 Python。
+
+### 0.2 补齐 P0 依赖（按需，增量装）
+
+```bash
+# ── W6 主线：FastAPI + SSE + 配置管理 ──
+pip install -U pip
+pip install fastapi uvicorn sse-starlette python-dotenv
+
+# ── W5 部署：轻量依赖 ──
+pip install gunicorn  # Linux 部署用；Windows 本地不用装
+
+# ── 评测与数据处理（W5 最小评测页会用到）──
+pip install pandas numpy
+
+# ── W2 结构化输出校验用（dispatch.py 依赖 jsonschema）──
+pip install jsonschema
+
+# 验证
+python -c "import fastapi, sse_starlette, dotenv, pandas, jsonschema; print('P0 deps ok')"
+```
+
+**预期输出**：`P0 deps ok`。
+
+**踩坑笔记**：
+- 🔴 **不要用 pip install torch 全家桶**：P0 完全用不到深度学习栈，装了占 2.5GB 且拖慢环境。**P0 只装上面这些。**
+- 🔴 **依赖不锁版本 = 换机器就跑不起来**：装完后立刻 `pip freeze > requirements.txt`，并在每次新增依赖后重跑。这是后面 W5 部署能一次成功的唯一保障。
+- 🔴 **网络慢/超时就换镜像**：`pip install <包> -i https://pypi.tuna.tsinghua.edu.cn/simple`。
+- ✅ 验证标准：`requirements.txt` 已生成并提交 git。
+
+### 0.3 建立 P0 目录骨架与模型名配置化
+
+```bash
+mkdir -p w6_hr_policy/{app,data,eval,scripts} job_hunt/{resumes,log} notes/{network,os,db,cache,python} docs
+
+# 建 P0 台账（后面每天都用）
+mkdir -p job_hunt/log
+
+# 数字台账首表（0.5b 评测基线写入第一行；此后每次改检索方案追加一行）
+cat > docs/metrics_log.md << 'EOF'
+# 数字台账（每次改检索方案必须追加一行，没有台账的指标等于没测）
+| 日期 | 方案/版本 | Recall@5 | MRR | 环境与模型 | 备注 |
+|---|---|---|---|---|---|
+EOF
+```
+
+**模型名配置化（硬性纪律，防厂商改名/下线导致全线崩溃）**：
+
+```bash
+# 在项目根目录建 .env（加入 .gitignore，禁止入库）
+# 注：磁盘实测 .env 已存在且含 DEEPSEEK_API_KEY——补齐其余键即可，不要覆盖已有 Key
+cat > .env << 'EOF'
+# 模型名一律走配置，代码中禁止硬编码
+LLM_PROVIDER=deepseek
+GLM_MODEL=glm-4-flash
+DEEPSEEK_MODEL=deepseek-chat
+FALLBACK_PROVIDER=glm
+API_TIMEOUT=30
+MAX_STEPS=8
+EOF
+# ↑ 磁盘实测当前只有 DEEPSEEK_API_KEY，因此主 provider 直接用 deepseek；
+#   拿到 GLM key 后再补 GLM_API_KEY 一行，切换只需改 LLM_PROVIDER。
+
+# 确认 .gitignore 已排除
+grep -n "^\.env$" .gitignore || echo ".env" >> .gitignore
+```
+
+```python
+# w6_hr_policy/app/config.py
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+PROVIDERS = {
+    "glm":      {"model": os.getenv("GLM_MODEL", "glm-4-flash"),      "key": os.getenv("GLM_API_KEY")},
+    "deepseek": {"model": os.getenv("DEEPSEEK_MODEL", "deepseek-chat"), "key": os.getenv("DEEPSEEK_API_KEY")},
+}
+MAX_STEPS = int(os.getenv("MAX_STEPS", "8"))
+API_TIMEOUT = int(os.getenv("API_TIMEOUT", "30"))
+```
+
+**预期输出**：`.env` 与 `config.py` 建好；`.gitignore` 含 `.env`。
+
+**踩坑笔记**：
+- 🔴 **把 API Key 提交到 GitHub = 密钥泄露**：`.env` 必须在 `.gitignore` 里；提交前用 `git status` 确认 `.env` 未被跟踪。**一旦 push 上去，Key 立刻作废重申请。**
+- 🔴 **模型名硬编码的代价**：GLM-4.5-Flash 官方已标注"即将下线"。若代码里写死模型名，厂商下线当天系统直接 500。**配置化后只需改 `.env` 一行。**
+- ✅ 验证标准：`python -c "from w6_hr_policy.app.config import PROVIDERS; print(PROVIDERS)"` 能打印出两个 provider。
+
+### 0.4 建投递台账（求职主线的核心工具）
+
+```bash
+# 用 CSV 即可，别用复杂的——能坚持填的才是最好的
+cat > job_hunt/log/applications.csv << 'EOF'
+date,company,city,position,track,resume_ver,channel,referral,status,next_action,deadline,notes
+2026-09-05,字节跳动,北京,AI应用开发,冲刺,A,官网,否,已投,等待笔试,,JD要求Agent工程
+EOF
+
+# 快速统计（每周日复盘用）
+python - << 'PY'
+import pandas as pd
+df = pd.read_csv("job_hunt/log/applications.csv")
+print("累计投递:", len(df))
+print("按渠道:\n", df["channel"].value_counts())
+print("按状态:\n", df["status"].value_counts())
+print("内推占比: %.0f%%" % (100 * (df["referral"] == "是").mean()))
+PY
+```
+
+**预期输出**：台账建好，统计能跑通，显示"累计投递: 1"。
+
+**踩坑笔记**：
+- 🔴 **只记"面了几场"看不出问题**：必须记**分母**（投递数）。**转化率 = 面试数 ÷ 投递数**，只记分子会让你在简历有问题时误以为"只是运气差"。
+- 🔴 **台账断更 = 失效**：每天投递后**立刻**补一行，别攒到周末——周末回忆补录必有遗漏。
+- ✅ 验证标准：每周日能一键跑出投递数 / 笔试数 / 面试数 / 转化率。
+
+### 0.5 灌入政策语料 + 评测基线（解除头号阻塞：0.5a 五分钟 + 0.5b 约 1–2h）
+
+> ⚠️ **这是 P0 第一优先动作**：磁盘实测 `w6_sample_policy.txt`（1,920B）已含**考勤 / 年休假 / 加班 / 试用期 / 薪酬社保 5 类真实条款**（迟到 15 分钟报备、年假 5/10/15 天、离职未休 300% 折算）——**阻塞不是"没数据"，是"没把已有数据灌进去"**，一条 `cp` 即解。方针里的"降级方案"**不需要启用**。
+>
+> **拆分执行（v1.3 修订）**：**0.5a 灌语料**（W1 D1，5 分钟——只做下方 ① 与 ①b，随 0.1–0.4 的 3h 基线一起完成）；**0.5b 评测基线**（W1 D2，约 1–2h——② 3 问召回验证（**检索级**：直接调检索函数，不需要服务在线）+ ③ 跑评测 + 写入 metrics_log 首行）。⚠️ **顺序说明（v1.3）**：FastAPI 主入口 `main.py` 到 W1 D5 才创建，D2 **不做服务级验证**；②的服务级端到端复验（3 问经 HTTP 打通、答复带出处）并入 D5–D6 SSE 联调（W1 验收项 3/4 已覆盖）。
+
+```bash
+# ① 灌语料（解除阻塞）
+cp w6_sample_policy.txt policy_context.txt
+wc -c policy_context.txt    # 预期 1920
+
+# ①b 确认检索器读取路径与本文件位置一致（在项目根执行，读到相对路径即无误）
+grep -rn "policy_context" w6_*.py w6_hr_policy/ 2>/dev/null | head -5
+```
+
+**简历口径**：如实写"内置 5 类 HR 政策语料"，**禁止**写"千条级语料库"。
+
+```bash
+# ② 3 问召回验证（检索级：D2 直接调检索函数逐问打印 top1 片段，确认含标准答案；
+#    服务级端到端复验放 D5–D6 SSE 联调时做——main.py 那时才存在，D2 不启动服务）
+# 问 1（数值类）：年假怎么算          → 应回含"5/10/15 天"的条款
+# 问 2（流程类）：试用期多久          → 应回试用期条款
+# 问 3（跨类）：离职时年假怎么折算    → 应回 300% 折算条款
+# 启动入口备查（D5–D6 服务级复验用，同一套 BM25 检索后端）：
+#   FastAPI 服务（W1 起主入口，含 SSE 与评测页）：uvicorn w6_hr_policy.app.main:app --port 8000
+#   Streamlit 界面（W6 早期原型，图形化入口）：streamlit run w6_hr_qa_app.py
+
+# ③ 跑评测拿基线
+python w6_eval_runner.py
+```
+
+**预期输出**：3/3 召回正确；评测脚本输出 Recall@5 与 MRR 两个数。
+
+**自测**：拿到两个数后**立刻**写进 `docs/metrics_log.md`（格式：日期 | 方案/版本 | Recall@5 | MRR | 环境与模型 | 备注）。此后**每次改检索方案追加一行**——**没有台账的指标等于没测**。
+
+**踩坑笔记**：
+- 🔴 **评测脚本报 embedding/API 错**：说明它被改成语义版了。主线 **BM25 不联网**，可用 `w6_rag_retriever.py` 自写 20 行评测循环（逐条 query → top5 → 判断标准答案是否在片段中）。
+- 🔴 **召回为空**：先 `wc -c policy_context.txt` 确认非空 → 再查检索器里语料路径常量是否相对路径（换目录启动会读不到）→ 仍不行 `grep -n "policy_context" w6_*.py` 定位。
+- ✅ 验证标准：`policy_context.txt` ≥1,920B；3 问全召回；metrics_log 首行已记录。
+
+**评测集现状（W5 直接用）**：磁盘实测 `w6_eval_set.json` 已有 **40 条现成评测集（5 分类 × 8 条，含 reference_answer）**——W5 评测页直接采用，**无需自建 20 条**；唯一要求：**逐条补 `source` 字段标注真实来源**（真实 HR 咨询记录 / 公开政策文本，注明出处），否则面试官一句"这些问题哪来的"就穿帮。
+
+**引用文件现状核验（动手前先 `ls` 对一遍，避免照着清单敲却找不到文件）**：
+
+| 文件 | 现状 | 说明 |
+|---|---|---|
+| `w6_sample_policy.txt` | ✅ 已存在（1,920B） | 0.5 直接 `cp` |
+| `w6_eval_set.json` | ✅ 已存在（40 条） | W5 评测页直接用，逐条补 source |
+| `policy_context.txt` | ⬜ 0 字节 | 0.5 一条 `cp` 解除阻塞 |
+| `w6_hr_policy/app/`（config / agent_loop / llm / context / main / tools / dispatch） | ⬜ 待创建 | 本清单第零步–W2 的命令即创建步骤 |
+| `w6_hr_policy/app/rag.py`（BM25 检索） | ⚠️ 假定 W6 既有代码已含 | 若缺失：把 `w6_rag_retriever.py` 的检索函数包成 `async retrieve()` 补上 |
+| `w6_eval_runner.py` / `w6_rag_retriever.py` / `w6_hr_qa_app.py` | ⚠️ W6 既有文件，以磁盘为准 | 使用前先 `ls` 核验；评测脚本缺失时按 0.5 踩坑笔记自写 20 行评测循环兜底 |
+
+### 0.6 基线自检（0.5b 完成后逐条打勾，即 W1 D2 末）
+
+| # | 检查项 | 命令 / 判据 | ☐ |
+|---|---|---|---|
+| 1 | venv 激活且版本正确 | `python --version` → 3.13.12 | ☐ |
+| 2 | P0 依赖齐备 | `python -c "import fastapi, sse_starlette, dotenv, pandas, jsonschema"` | ☐ |
+| 3 | 依赖已锁版本 | `requirements.txt` 存在且已 git 提交 | ☐ |
+| 4 | 模型名配置化 | `.env` + `config.py`；代码无硬编码模型名 | ☐ |
+| 5 | 密钥未入库 | `.gitignore` 含 `.env`；`git status` 无 `.env` | ☐ |
+| 6 | 目录骨架完整 | `w6_hr_policy/` `job_hunt/` `notes/` `docs/` 子目录齐全 | ☐ |
+| 7 | 台账可统计 | 能跑出投递数 / 转化率 | ☐ |
+| 8 | **语料已灌入** | `wc -c policy_context.txt` ≥ 1920；3 问全召回 | ☐ |
+| 9 | **评测基线已记录** | `docs/metrics_log.md` 首行含 Recall@5 / MRR | ☐ |
+| 10 | **git 远端已备份** | `git remote -v` 有 origin；`git push` 成功（见 0.7） | ☐ |
+
+### 0.7 Git 仓库与远端备份（20 分钟，W1 D2 末做——W5 部署的前置依赖）
+
+```bash
+# 本地确认（磁盘实测：git 已启用，.env/venv/__pycache__ 均已 ignore）
+git status && cat .gitignore
+
+# 首次提交
+git add -A && git commit -m "P0 baseline: skeleton + eval assets"
+
+# GitHub 建私有仓库（B 级：免费注册 github.com → New repository → Private）后：
+# ⚠️ 首选 HTTPS（最省事，push 时输一次凭证即可）；SSH 方式需先 ssh-keygen 并把公钥加到 GitHub → Settings → SSH keys
+git remote add origin https://github.com/<你的用户名>/agent-learning.git   # 或 git@github.com:<你的用户名>/agent-learning.git（需先配 SSH key）
+git push -u origin main    # 本地分支是 master 就写 master
+```
+
+**踩坑笔记**：
+- 🔴 **仓库必须 Private**：项目里含简历素材与求职台账，公开仓 = 信息泄露。
+- 🔴 **push 前再查一次**：`git status` 确认 `.env` 不在暂存区；万一误提交，**立刻作废 Key 重新申请**。
+- ✅ 验证标准：`git push` 成功；换设备 `git clone` 后（单独重建 `.env`）服务能起——这就是 W5 服务器部署的预演。
+
+### 📚 基础资源清单（第零步–W2 通用，全部可点击）
+
+| 资源 | 类型 | 优先级 | 时长 | 推荐理由 |
+|---|---|---|---|---|
+| [项目内 w6_hr_qa/README.md](file:///D:/WorkBuddyData/projects/agent-learning/w6_hr_qa/README.md) | 文档 | **必学** | 0.5h | BM25 主线 vs 语义向量升级版的边界——P0 只碰主线 |
+| [Datawhale hello-agents](https://github.com/datawhalechina/hello-agents) | 开源课 | **必学** | 8h（W1–W2 晚间分摊） | 中文社区 Agent 标杆课，与裸写路线最契合 |
+| [kamacoder Agent 面试题](https://notes.kamacoder.com/) | 题库 | **必学** | 每周 1h | 面试题即练习题 |
+| [Streamlit 官方文档 Get started](https://docs.streamlit.io/get-started) | 官方文档 | **必学** | 2h | `w6_hr_qa_app.py` 是 Streamlit 应用 |
+| [Datawhale llm-universe](https://github.com/datawhalechina/llm-universe) | 开源课 | 选学 | 6h | 基础概念（Function Call 四步等）讲不清时定向查 |
+
+---
+# 📗 W1（09.01–09.07）· 内推启动 + 简历定稿 + 第一批投递 + W6 SSE
+
+## 📍 目标
+
+- **求职**：内推名单联络；A/B 两版简历定稿；建立台账；**完成第一批投递（冲刺档优先）**
+- **学习**：Agent Loop **终止条件三件套**落地；W6 **v1.5 加 SSE 流式输出 + 记忆系统**
+- **关键判据**：本周末台账内 ≥5 家投递记录，且简历能通过"30 秒扫读"测试
+
+## ⏱ 时长分配（20h 学习 + 约 5h 求职）
+
+| Day | 学习（h） | 求职（h） | 内容 |
+|---|---|---|---|
+| D1(二) | 3 | — | 第零步 0.1–0.4 + **0.5a 灌语料**（cp 即解阻塞） |
+| D2(三) | 4 | 1 | 终止三件套（3h）＋ **0.5b 评测基线**（1h；若 eval_runner 缺失需自写循环则占 2h，从 D5 匀 1h）＋ 内推名单 |
+| D3(四) | 4 | 1 | 上下文管理与压缩 ＋ A 版简历 |
+| D4(五) | 4 | 1 | 错误处理与回传 ＋ B 版简历 |
+| D5(六) | 3 | 1 | SSE 流式实现 ＋ 台账 + 投递规则核实 |
+| D6(日) | 2 | 1 | W6 v1.5 联调 ＋ **第一批投递 + 周复盘** |
+
+---
+
+## D2：Agent Loop 终止条件三件套（4h）
+
+### 核心知识点
+
+Agent Loop = **Think → Act → Observe** 循环。它最大的工程风险不是"跑不通"，而是**跑不停**——LLM 在工具失败时会反复重试，直到烧光 token。
+
+**终止三件套（面试必考，要脱口而出）**：
+
+| 机制 | 作用 | 典型阈值 |
+|---|---|---|
+| **最大步数** | 硬上限，防无限循环 | `MAX_STEPS = 8`（本项目定 8，来自"单次任务步数 ≤8"的出口标准） |
+| **重复动作检测** | 同一 (工具名, 参数) 连续出现 N 次即中断 | 连续 3 次相同 → 判定死循环 |
+| **超时控制** | 单步与整体双超时 | 单步 `API_TIMEOUT=30s`；整体 120s |
+
+**为什么是"加固高危步骤"而不是"多重试"（概率账，面试加分点）**：
+- 单步成功率 95% → 10 步链路只剩 0.95¹⁰ ≈ **59.9%**；10 步要达到 90%，单步需 ≈98.95%。
+- **结论不是"多重试"，是"加固高危步骤"**：把 3 个高危步从 90% 提到 99%（+16.9pp），远比 10 步各提 1pp（仅 +6.6pp，0.95¹⁰≈59.9% → 0.96¹⁰≈66.5%）划算。
+- 🎯 **面试话术**："我会先算步数×单步成功率的账，再决定把工程精力花在哪几步上——这是可靠性预算的思路。"
+
+> 🎯 **面试话术**："我给 Agent 上了三道闸：最大 8 步、重复动作连出 3 次就断、单步 30 秒超时。因为真实事故里 Agent 不是'答错'，而是'停不下来'——烧掉的钱比答错更贵。"
+
+### 可复制命令行
+
+```bash
+source venv/Scripts/activate
+mkdir -p w6_hr_policy/app
+```
+
+```python
+# w6_hr_policy/app/agent_loop.py
+import inspect, json, time, hashlib
+from collections import deque
+from .config import MAX_STEPS, API_TIMEOUT
+
+class LoopBreaker:
+    """终止条件三件套"""
+    def __init__(self, max_steps=MAX_STEPS, repeat_limit=3,
+                 step_timeout=API_TIMEOUT, total_timeout=120):
+        self.max_steps = max_steps
+        self.repeat_limit = repeat_limit
+        self.step_timeout = step_timeout
+        self.total_timeout = total_timeout
+        self.history = deque(maxlen=repeat_limit)
+        self.start = time.time()
+
+    def _sig(self, tool_name, args):
+        """动作指纹：工具名 + 规范化后的参数"""
+        return hashlib.md5(
+            f"{tool_name}:{json.dumps(args, sort_keys=True, ensure_ascii=False)}".encode()
+        ).hexdigest()
+
+    def check(self, step, tool_name=None, args=None):
+        """返回 (should_break, reason)。reason 会被写进日志——这是可复盘的关键。"""
+        if step >= self.max_steps:
+            return True, f"max_steps({self.max_steps}) reached"
+        if time.time() - self.start > self.total_timeout:
+            return True, f"total_timeout({self.total_timeout}s) exceeded"
+        if tool_name is not None:
+            sig = self._sig(tool_name, args or {})
+            self.history.append(sig)
+            if len(self.history) == self.repeat_limit and len(set(self.history)) == 1:
+                return True, f"repeated_action({tool_name}) x{self.repeat_limit}"
+        return False, ""
+
+async def run_agent(user_query, llm, tools, breaker=None, history=None):
+    """history：调用方从记忆库 load 出的消息列表（W1 main.py 接入）；
+    多轮上下文由调用方传入，Agent 内部不直接碰 DB。"""
+    breaker = breaker or LoopBreaker()
+    messages = [{"role": "system", "content": "你是 HR 政策问答助手：依据检索到的政策条款回答，结论需带出处；检索不到就如实说，不要编造。"},
+                *(history or []),
+                {"role": "user", "content": user_query}]
+    trace = []                       # ← 完整轨迹，P1 评测与 P2 归因都靠它
+    for step in range(1, breaker.max_steps + 1):
+        resp = llm.chat(messages, tools=tools, timeout=breaker.step_timeout)
+        if not resp.tool_calls:
+            trace.append({"step": step, "type": "final", "content": resp.content})
+            return resp.content, trace
+
+        for call in resp.tool_calls:
+            brk, reason = breaker.check(step, call.name, call.args)
+            if brk:
+                trace.append({"step": step, "type": "break", "reason": reason})
+                # ⚠️ 中断也要给用户一个交代，不能静默失败
+                return f"（已中断：{reason}）根据已有信息：{resp.content or '暂无结论'}", trace
+
+            t0 = time.time()
+            try:
+                result = tools[call.name](**call.args)
+                if inspect.iscoroutine(result):   # 兼容 W2 起的 async 工具（tools.py IMPL）
+                    result = await result
+                status = "ok"
+            except Exception as e:
+                # 关键：把错误回传给 LLM，让它自己决定换工具还是改参数
+                result = f"工具执行失败：{type(e).__name__}: {e}"
+                status = "error"
+            trace.append({"step": step, "tool": call.name,
+                          "args": call.args, "status": status,
+                          "latency_ms": int((time.time() - t0) * 1000)})
+            messages.append({"role": "tool", "name": call.name, "content": str(result)})
+    return "（达到最大步数，未得出最终结论）", trace
+```
+
+**预期输出**：正常查询在 1–4 步内返回；构造一个"工具必然失败"的用例，`trace` 中能看到 `type: break` 或连续 `status: error` 后 LLM 自主换策略。
+
+### 自测（写完立刻验）
+
+```bash
+# 造一个死循环用例：让工具永远返回同一个错误
+python - << 'PY'
+import asyncio
+from w6_hr_policy.app.agent_loop import run_agent
+
+class FakeLLM:
+    """永远要求调用同一个必然失败的工具，用于验证终止三件套"""
+    def chat(self, messages, tools=None, timeout=None):
+        call = type("T", (), {"name": "search_policy", "args": {"q": "年假"}})
+        return type("R", (), {"tool_calls": [call()], "content": None})()
+
+def boom(**kw): raise RuntimeError("上游 500")
+
+ans, trace = asyncio.run(run_agent("年假怎么算", FakeLLM(), {"search_policy": boom}))
+print("答复:", ans)
+print("轨迹步数:", len(trace))
+print("最后一步:", trace[-1])
+PY
+```
+
+**预期输出**：出现"（已中断：repeated_action(search_policy) x3）"或"max_steps(8) reached"，**且轨迹步数 ≤ 8**。
+
+**踩坑笔记**：
+- 🔴 **只设 max_steps 不够**：LLM 可能在 8 步内反复调用同一个失败工具，钱照烧。必须叠加**重复动作检测**——这是三件套里最容易被漏掉的一个。
+- 🔴 **中断后静默返回 = 最差体验**：一定要把 `reason` 拼进答复（如"（已中断：达到最大步数）根据已有信息：…"），用户至少知道发生了什么。
+- 🔴 **工具异常被 try/except 吞掉后不回传 LLM**：Agent 会以为工具成功了。正确做法是**把错误信息作为 tool 结果回传**，让 LLM 自己决定重试 / 换工具 / 改参数——这正是 Agent 与普通脚本的区别。
+- ✅ 验证标准：死循环用例**必然**在 ≤8 步内停止，且 `trace` 记录了中断原因。
+
+---
+
+## D3–D4：上下文管理与压缩 + 错误处理（8h）
+
+### 核心知识点
+
+- **上下文为什么会腐化**：每轮都把完整历史塞给 LLM，token 滚雪球；且早期噪声会干扰后续判断。
+- **三种压缩手段**：①工具返回**摘要**（只留关键字段）②定期 **compact**（把前 N 轮压成一段摘要）③**窗口预算**（按 token 上限截断，保留最近 + 系统提示）。
+- ⚠️ **反例必须记住**（arXiv 2603.29231，10 模型 × 23,392 episodes）：**memory scaffolds 在所有 10 个模型上都损害了长程任务性能**。
+  → **这不意味着不学记忆系统**（它是 JD 高频考点），而是：**记忆是"该用时才用"的能力，不是默认增益项**。要能讲清"什么信号触发压缩/写入""超过多少轮该 compact""记忆条目如何淘汰"。
+  → 🎯 **面试话术**："我给记忆设了启用判据而不是默认开启——因为 2026 年那篇长程可靠性研究里，memory scaffold 在 10 个模型上全部是负收益。讲得出什么时候不开，比讲得出怎么实现更能拿分。"
+
+**记忆边界三判据（写进 README，面试分水岭）**：
+1. **触发信号**：tokens 超过窗口预算的 **70%** 才触发 compact（不是每轮都压）；
+2. **频率上限**：每个会话 compact **≤2 次**（摘要本身耗 token，压得越频越贵）；
+3. **淘汰策略**：LRU 淘汰 + **显式要点保留**（用户目标、已试工具、未决问题永不淘汰）。
+
+### 可复制命令行
+
+```python
+# w6_hr_policy/app/context.py
+import json
+
+MAX_HISTORY_TURNS = 10      # 超过这个轮数触发 compact
+SUMMARY_KEEP_LAST = 4       # compact 后保留最近几轮原文
+
+def summarize_tool_result(result: str, max_chars: int = 500) -> str:
+    """工具返回摘要：长结果截断 + 标记，避免整篇塞回上下文"""
+    if len(result) <= max_chars:
+        return result
+    return result[:max_chars] + f"\n…（已截断，原文 {len(result)} 字）"
+
+def compact(messages, llm):
+    """把早期对话压成一段摘要，保留最近若干轮原文"""
+    if sum(1 for m in messages if m["role"] in ("user", "assistant")) <= MAX_HISTORY_TURNS:
+        return messages
+    head = messages[:-SUMMARY_KEEP_LAST]
+    tail = messages[-SUMMARY_KEEP_LAST:]
+    digest = llm.chat(head + [{
+        "role": "user",
+        "content": "把以上对话压缩成 150 字以内的要点摘要，保留：用户目标、已尝试的工具、已得出的结论、未解决的问题。"
+    }]).content
+    return [{"role": "system", "content": f"【历史摘要】{digest}"}] + tail
+
+def token_estimate(messages):
+    """中文粗估：约 2 字符 ≈ 1 token（精确计数用 tiktoken，P0 不引入）"""
+    return sum(len(m.get("content", "")) for m in messages) // 2
+
+def build_context(messages, llm, budget_tokens=6000):
+    """组装上下文：超预算 70% 触发 compact，并打 token 日志（12 轮跨距测试用）"""
+    n = token_estimate(messages)
+    print(f"[context] tokens≈{n} / budget={budget_tokens}")
+    if n > budget_tokens * 0.7:
+        messages = compact(messages, llm)
+    return messages
+```
+
+**预期输出**：长会话下 `compact` 后消息条数显著下降，且摘要保留了"用户目标 + 已试工具 + 结论 + 未决问题"四要素。
+
+### 自测（12 轮跨距记忆测试）
+
+12 轮对话：第 1 轮说"我工龄 12 年"，中间闲聊 10 轮，第 12 轮问"那我年假能休几天"——**必须答对 10 天**（触发 compact 后信息不丢）。同时 `build_context` 的 token 数有日志，验证不随轮数线性增长。
+
+### 踩坑笔记
+
+- 🔴 **compact 时把系统提示也压掉了**：务必保留 `role: system` 的原始指令，只压缩 user/assistant 轮次。
+- 🔴 **摘要丢失"未解决的问题"**：LLM 会以为已经完成，导致后续不重试。提示词里**必须显式要求保留未决问题**。
+- 🔴 **工具返回原文全量入库**：一次检索回来 5000 字，三轮就爆窗。用 `summarize_tool_result` 截断并标注原文长度。
+- 🔴 **compact 过频反而更贵**：摘要本身是一次 LLM 调用。记录触发次数（三判据之二），W10 成本分析时用。
+- ✅ 验证标准：12 轮跨距测试通过；连跑 20 轮后，上下文 token 数不随轮数线性增长（W10 的"连续 20 轮无崩溃"就靠这个）。
+
+---
+
+## D5–D6：W6 v1.5 加 SSE 流式输出 + 记忆系统（5h）
+
+### 核心知识点
+
+- SSE（Server-Sent Events）比 WebSocket 更适合"单向流式文本"场景：实现简单、自动重连（断线重连自带 `Last-Event-ID`）、走普通 HTTP。**LLM 逐字输出只需单向 → SSE 是更简的解**（面试选型题）。
+- 报文三要素：`Content-Type: text/event-stream`；每条消息 `data: ...\n\n`（**双换行才是边界**）；可选 `event:` / `id:` 字段。
+- **SSE 是 JD 硬关键词**：FastAPI + SSE 几乎出现在每一份 AI 应用岗 JD 里。
+- 记忆分两层：**短期**（会话内压缩，见 D3）＋**长期**（跨会话，SQLite 存摘要）。
+
+### 可选热身：30 行最小 SSE demo（15 分钟，先验证管道再接业务）
+
+```bash
+cat > _sse_demo.py <<'EOF'
+from fastapi import FastAPI
+from fastapi.responses import StreamingResponse
+import time
+app = FastAPI()
+
+def gen():
+    for ch in "年假按累计工龄：满1年5天，满10年10天，满20年15天。":
+        yield f"data: {ch}\n\n"
+        time.sleep(0.03)
+
+@app.get("/stream")
+def stream():
+    return StreamingResponse(gen(), media_type="text/event-stream")
+EOF
+uvicorn _sse_demo:app --port 8010 &        # 用 8010，避免与主服务 8000 冲突
+sleep 2 && curl -N http://127.0.0.1:8010/stream   # 预期：字符逐个吐出
+```
+
+### 可复制命令行（正式接入 W6）
+
+```python
+# w6_hr_policy/app/main.py
+import json, sqlite3, time
+from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
+from sse_starlette.sse import EventSourceResponse
+from .agent_loop import run_agent
+from .context import compact, summarize_tool_result
+from .llm import make_llm
+
+app = FastAPI(title="W6 HR 政策问答")
+
+def make_tools():
+    """W1 v1.5 阶段暂无注册工具（纯检索问答）；W2 v1.6 起返回 tools.IMPL"""
+    try:
+        from .tools import IMPL
+        return dict(IMPL)
+    except ImportError:
+        return {}
+DB = "w6_hr_policy/data/memory.db"
+
+def init_db():
+    con = sqlite3.connect(DB)
+    con.execute("""CREATE TABLE IF NOT EXISTS memory (
+        session_id TEXT, ts REAL, role TEXT, content TEXT)""")
+    con.commit(); con.close()
+
+@app.on_event("startup")
+def _(): init_db()
+
+def save(session_id, role, content):
+    con = sqlite3.connect(DB)
+    con.execute("INSERT INTO memory VALUES (?,?,?,?)",
+                (session_id, time.time(), role, content))
+    con.commit(); con.close()
+
+def load(session_id, limit=20):
+    con = sqlite3.connect(DB)
+    rows = con.execute(
+        "SELECT role, content FROM memory WHERE session_id=? ORDER BY ts DESC LIMIT ?",
+        (session_id, limit)).fetchall()
+    con.close()
+    return [{"role": r, "content": c} for r, c in reversed(rows)]
+
+@app.get("/health")
+async def health():
+    """健康检查（W5 部署验收与 W11 p0_gate.sh 都会打这个接口）"""
+    return {"status": "ok"}
+
+@app.get("/chat/stream")
+async def chat_stream(q: str, session_id: str = "default"):
+    """SSE 流式。P0 口径：Agent 跑完后把最终答复分片吐出（先把流式管道打通）；
+    真·逐 token 增量（LLM stream=True）属 P1 优化项，不影响本阶段验收。"""
+    async def gen():
+        history = load(session_id)
+        ans, trace = await run_agent(q, make_llm(), make_tools(), history=history)
+        for i in range(0, len(ans), 8):            # 每 8 字符一片，模拟逐段输出
+            yield {"event": "message", "data": json.dumps(
+                {"delta": ans[i:i+8]}, ensure_ascii=False)}
+        save(session_id, "user", q)
+        save(session_id, "assistant", ans)         # 问答双方都存，否则记忆只有一半
+    return EventSourceResponse(gen())
+
+@app.get("/", response_class=HTMLResponse)
+async def index():
+    return """
+<div id="out" style="white-space:pre-wrap;font-family:system-ui"></div>
+<script>
+const es = new EventSource('/chat/stream?q=' + encodeURIComponent('年假怎么算'));
+es.addEventListener('message', e => {
+  document.getElementById('out').textContent += JSON.parse(e.data).delta;
+});
+es.onerror = () => es.close();
+</script>
+"""
+```
+
+```python
+# w6_hr_policy/app/llm.py
+"""LLM 适配层：统一返回属性风格响应对象（.content + .tool_calls，元素含 .name/.args）。
+DeepSeek 兼容 OpenAI 协议；模型名/超时全部走 .env（第零步 0.3），代码不硬编码。
+P0 教学规模下 chat 内同步调用可接受；全链路 async 化属 P2 范畴。"""
+import json, os
+from openai import OpenAI
+from .config import API_TIMEOUT
+
+def make_llm():
+    client = OpenAI(api_key=os.getenv("DEEPSEEK_API_KEY"),
+                    base_url="https://api.deepseek.com", timeout=API_TIMEOUT)
+
+    class _Resp:
+        def __init__(self, content, tool_calls):
+            self.content = content
+            self.tool_calls = tool_calls
+
+    class _LLM:
+        def chat(self, messages, tools=None, timeout=None):
+            # 兼容两种传入：可执行工具映射（{name: fn}，schema 取 tools.py 的 TOOLS）
+            # 或 OpenAI schema 列表（直接使用）
+            if tools and isinstance(tools, dict):
+                from .tools import TOOLS
+                schemas = TOOLS
+            else:
+                schemas = tools or None
+            r = client.chat.completions.create(
+                model=os.getenv("DEEPSEEK_MODEL", "deepseek-chat"),
+                messages=messages, tools=schemas)
+            m = r.choices[0].message
+            tcs = [type("TC", (), {"name": t.function.name,
+                                   "args": json.loads(t.function.arguments or "{}")})()
+                   for t in (m.tool_calls or [])]
+            return _Resp(m.content, tcs)
+
+    return _LLM()
+```
+
+```bash
+# 启动并验证（本地）
+source venv/Scripts/activate
+uvicorn w6_hr_policy.app.main:app --reload --port 8000
+
+# 另开一个终端验证 SSE
+curl -N "http://127.0.0.1:8000/chat/stream?q=%E5%B9%B4%E5%81%87%E6%80%8E%E4%B9%88%E7%AE%97"
+```
+
+**预期输出**：`curl` 能看到一条条 `event: message` + `data: {"delta": "…"}` 持续输出，而不是等全部生成完才一次性返回。同时这是第零步 0.5b ② 的**服务级复验**时机：换问“试用期多久”“离职时年假怎么折算”各打一次，答复引用政策出处即闭环（检索级 3 问已在 D2 验过）。
+
+**若走 Streamlit 前端**（`w6_hr_qa_app.py` 是 Streamlit 应用）：流式消费用现成 API `st.write_stream`（传生成器即可）。
+
+### 踩坑笔记
+
+- 🔴 **用了 `return` 而不是 `yield`**：那就不是流式了，前端会等全部生成完才显示。**必须生成器 + `EventSourceResponse`（或 `StreamingResponse`）。**
+- 🔴 **反向代理缓冲吃掉流式**：Nginx 默认 `proxy_buffering on` 会攒够一块才转发，前端看起来"卡住"。部署时要设 `proxy_buffering off; proxy_cache off;`（W5 部署会再遇到）。
+- 🔴 **Streamlit 每次交互全脚本重跑**：会话状态（记忆、session_id）必须放 `st.session_state`，否则**每点一次按钮记忆清零**——走 Streamlit 路线时本周最可能的坑。
+- 🔴 **中文 JSON 乱码**：`json.dumps(..., ensure_ascii=False)` 必须加，否则前端收到 `\u5e74\u5047`。
+- 🔴 **忘记 `es.close()`**：页面切走后连接不断开，服务端线程堆积。前端 `onerror` 里要关。
+- ✅ 验证标准：`curl -N` 能看到**逐条**到达（时间戳分散），而非一次性到达。
+
+---
+
+## 🤝 W1 求职主线（约 5h）
+
+### 任务清单
+
+| # | 任务 | 产出 | ☐ |
+|---|---|---|---|
+| 1 | **列内推名单**并逐一私信（校友/学长学姐/实习同事） | ≥5 个内推码或已联系上的对接人 | ☐ |
+| 2 | **A 版简历**（AI 岗）定稿 | `job_hunt/resumes/resume_A_AI.pdf` | ☐ |
+| 3 | **B 版简历**（后端/数据岗）定稿 | `job_hunt/resumes/resume_B_backend.pdf` | ☐ |
+| 4 | 建立投递台账 | `job_hunt/log/applications.csv` | ☐ |
+| 5 | **核实投递规则**（4 条）并登记 | 每家公司一张规则卡 | ☐ |
+| 6 | 完成**第一批投递**（冲刺档优先） | 台账 ≥5 行 | ☐ |
+
+### 内推话术模板（直接复制改）
+
+> XX 学长/学姐你好，我是安徽理工大学计算机科学与技术 2027 届的孟轩，目前在做 AI 应用 / Agent 开发方向（自己从零手写了 Agent 循环，做过 RAG 问答系统）。看到你在 XX，想请教一下贵司校招**是否可以内推**？如果方便的话我把简历发你，麻烦你帮忙看看合不合适。**另外想确认一下：内推能不能定向到具体部门？** 感谢！
+
+**踩坑笔记**：
+- 🔴 **只问"能不能内推"不够**：一定要追问**能否定向部门**。能定向的转化率远高于"扔进池子"。
+- 🔴 **付费内推一律不参与**：百度招聘官网明确提示"警惕任何付费内推/求职服务陷阱"。
+- ⚠️ **风险提示**：内推前先问清规则——部分公司（如滴滴）全渠道**合计只有 3 次主动投递**，内推会占用名额。
+
+### 投递顺序（硬性，不可颠倒）
+
+**冲刺档 → 主力档 → 保底档 → 练手档**
+
+> ⚠️ **为什么练手档排最后**：投递次数可能是稀缺资源。实证极端案例——**滴滴全渠道合计仅 3 次主动投递**，每次只能投 1 个职位，当前流程结束后才能再投。**先投练手档会直接吃掉冲刺档的名额。**
+>
+> 另一极端：**百度同一时间只能投 1 个职位，但淘汰后可重投，次数无上限**；且常规校招 / AIDU / 管培生**三类计划流程互不冲突**＝3 条并行通道。
+> → **结论：规则因公司而异，禁止用"多数情况"推断，必须逐家核实。**
+
+### 投递前必须核实的 4 条规则
+
+1. 提前批落选是否影响正式批同岗位投递资格
+2. 同一家公司可投几个岗位
+3. 是否存在锁定期或重复投递限制
+4. 专项计划（青云计划 / AIDU / 管培生）与普通校招是否共用简历与面试记录
+
+```bash
+# 规则登记表（每家公司一行）
+cat >> job_hunt/log/rules.md << 'EOF'
+## 百度
+- 毕业口径：2026.9.1–2027.8.31 ✅符合
+- 同时可投：1 个职位；淘汰后可重投，次数无上限
+- 三类计划：常规校招 / AIDU / 管培生 互不冲突，可分别投
+- 时间线：网申 7/9 起 → 笔试 7 月中旬起每周 1 场 → 面试 7/9 起 → Offer 11 月起
+- 内推：全周期开放，可定向部门
+
+## 滴滴
+- 毕业口径：2026.9–2027.8 ✅符合
+- 全渠道合计：3 次主动投递（内推/校园大使/官网/招聘网站共享）
+- 每次只能投 1 个职位，当前流程结束后才能再投
+- 时间线：首场笔试 8 月下旬 → 意向函 9 月初 → Offer 预计 10 月末
+- ⚠️ 3 次必须全用在冲刺档
+EOF
+```
+
+---
+
+## ✅ W1 验收标准
+
+| # | 验收项 | 判据 | ☐ |
+|---|---|---|---|
+| 1 | 环境基线 10 项全绿 | 见 0.6 自检表（含语料灌入 + 评测基线 + git 远端） | ☐ |
+| 2 | 终止三件套生效 | 死循环用例 ≤8 步必停，trace 有 reason | ☐ |
+| 3 | SSE 流式可用 | `curl -N` 逐条到达 | ☐ |
+| 4 | 记忆系统落地 | SQLite 能存能取，跨会话可续；12 轮跨距测试通过 | ☐ |
+| 5 | 两版简历定稿 | A 版含 Function Calling/RAG/SSE 等关键词 | ☐ |
+| 6 | 内推已启动 | ≥5 人已联系，≥1 个内推码到手 | ☐ |
+| 7 | 台账 ≥5 行 | 且含冲刺档公司 | ☐ |
+| 8 | 投递规则已登记 | ≥3 家公司的规则卡 | ☐ |
+
+## 📦 W1 产出（可挂简历的种子）
+
+- **技术**：`agent_loop.py`（含终止三件套 + 完整 trace）＋ SSE 流式接口
+- **简历素材（先记着，P1 再提炼）**：*"为 Agent 循环设计三道终止闸（最大 8 步 / 重复动作 3 次中断 / 单步 30 秒超时），并完整记录每步轨迹用于故障归因"*
+- 🎯 **面试可讲**：*"我给 Agent 上的不是'重试'，是'停得下来'——重复动作检测是最容易漏的一个。"*
+
+## 📚 W1 资源清单（全部可点击）
+
+| 资源 | 类型 | 优先级 | 时长 | 推荐理由 |
+|---|---|---|---|---|
+| [FastAPI 官方中文文档（自定义响应）](https://fastapi.tiangolo.com/zh/advanced/custom-response/) | 官方文档 | **必学** | 2h | StreamingResponse 权威依据 |
+| [MDN：Server-sent events](https://developer.mozilla.org/zh-CN/docs/Web/API/Server-sent_events) | 规范文档 | **必学** | 1h | 事件流格式与 EventSource API |
+| [DeepLearning.AI《Agentic AI》（吴恩达）](https://www.deeplearning.ai/courses/agentic-ai/) | 视频课 | **必学** | 10h（W1–W2 每晚 1h） | 四设计模式纯讲概念不绑框架，旁听免费（证书 $25/月可选） |
+| [Streamlit st.write_stream](https://docs.streamlit.io/develop/api-reference/write-magic/st.write_stream) | 官方文档 | **必学** | 0.5h | 前端消费流式现成 API |
+| [arXiv 2603.29231 记忆反例](https://arxiv.org/abs/2603.29231) | 论文 | 选学 | 摘要+结论 0.5h | "何时不该用记忆"第一手依据 |
+
+---
+# 📘 W2（09.08–09.14）· Function Calling 深挖 + W6 多工具 Agent 化
+
+## 📍 目标
+
+- **学习**：Function Calling 从"会用"到"讲得清底层四步"；W6 **v1.6 多工具 Agent 化**（检索 + 日历 + 计算器 + 政策检索）
+- **求职**：每日投递 3–5 家；**AI Coding 题型开练**；启动"面试后 24h 复盘"机制
+- **关键判据**：能在白板画出 Function Call 的完整时序，并说出"LLM 自己不执行函数"
+
+## ⏱ 时长分配（20h 学习 + 约 6h 求职）
+
+| Day | 学习（h） | 求职（h） | 内容 |
+|---|---|---|---|
+| D1(二) | 4 | 1 | 工具 schema 设计原则 |
+| D2(三) | 4 | 1 | 结构化输出校验 + 并行 tool_calls |
+| D3(四) | 4 | 1 | W6 v1.6 工具注册与调度 |
+| D4(五) | 4 | 1 | 工具失败回传与自主决策 |
+| D5(六) | 2 | 1 | 联调 + 补缺笔记 |
+| D6(日) | 2 | 1 | **AI Coding 题型练习** + 周复盘 |
+
+---
+
+## D1：工具 schema 设计原则（4h）
+
+### 核心知识点
+
+**Function Call 底层四步（面试必考，要脱口而出）**：
+
+```
+① 定义工具 schema（JSON Schema 描述名称/参数/说明）
+        ↓
+② LLM 输出【结构化调用指令】（只是 JSON 文本，不是执行）
+        ↓
+③ 你的程序解析并执行真正的函数
+        ↓
+④ 把执行结果作为 tool message 回传给 LLM
+```
+
+> 🎯 **最关键的一句认知**：**LLM 自己不执行函数**。它只负责"决定调哪个、传什么参数"。执行权永远在你手里——这也是"最小权限 + 白名单"能落地的技术前提。
+
+**Schema 设计三原则**：
+
+| 原则 | 说明 | 反例 |
+|---|---|---|
+| **描述即契约** | `description` 写清"什么时候用、什么时候别用" | 只写"搜索政策"，LLM 会乱调 |
+| **参数最小化 + 枚举约束** | 能枚举就枚举，能给默认值就给。**参数越少越好——选错参数是最常见的失败源** | 开放字符串导致格式不稳 |
+| **单一职责** | 一个工具做一件事 | "又能查又能算"的工具 LLM 用不好 |
+
+**schema 的本质认知（一句话记住）**：工具 schema 是**给 LLM 看的 prompt**，不是给编译器看的接口定义——所以 `description` 的措辞质量直接决定调用准确率。
+
+### 可复制命令行
+
+```python
+# w6_hr_policy/app/tools.py
+TOOLS = [
+    {
+        "type": "function",
+        "function": {
+            "name": "search_policy",
+            "description": "检索公司 HR 政策文档。仅当问题涉及年假/报销/考勤/社保/公积金等制度时使用；闲聊或计算类问题不要用。",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query":   {"type": "string", "description": "检索关键词，尽量简短（2-6 个字）"},
+                    "category": {"type": "string", "enum": ["年假", "报销", "考勤", "社保", "公积金", "其他"],
+                                 "description": "政策类别；不确定时填'其他'"}
+                },
+                "required": ["query"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "calc_annual_leave",
+            "description": "根据入职日期与司龄计算可休年假天数。仅在需要具体数字时使用。",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "hire_date": {"type": "string", "description": "入职日期，格式 YYYY-MM-DD"},
+                    "as_of":     {"type": "string", "description": "计算基准日，格式 YYYY-MM-DD；默认今天"}
+                },
+                "required": ["hire_date"]
+            }
+        }
+    },
+]
+
+# 实现注册表：D3–D4 用 @register 逐个填充。
+# ⚠️ 时序说明：D2 建 dispatch.py 时 import 的是这个空表（不报错），
+#    5 条自测用例在 D3–D4 工具注册完成后才能跑通——这是计划内的，不是 bug。
+IMPL = {}
+```
+
+**预期输出**：schema 通过 JSON Schema 校验；LLM 在"年假怎么算"问题上会选 `search_policy` 或 `calc_annual_leave`，而不会在"你好"上调用工具。
+
+**自测（5 组真实问句验证选型）**：准备 5 条该调工具、5 条不该调的问句，模型选择正确率 **≥ 9/10**；每个工具配独立单测。
+
+### 踩坑笔记
+
+- 🔴 **description 只写一句话 = 工具被乱调**：必须写"何时用 + 何时不用"。这是 Function Calling 效果的第一杠杆，比换模型有效得多。
+- 🔴 **参数不用 enum**：LLM 会自由发挥类别值，你的后端 if/else 覆盖不全 → 走默认分支返回空。**能枚举就枚举。**
+- 🔴 **required 漏填**：LLM 有时不传关键参数，后端 `KeyError` 崩。要么设为 required，要么在代码里给默认值兜底。
+- ✅ 验证标准：构造 10 条 query（5 条该调工具、5 条不该调），工具调用准确率 ≥ 9/10。
+
+---
+
+## D2：结构化输出校验 + 并行 tool_calls（4h）
+
+### 核心知识点
+
+- **并行 tool_calls**：一次响应可能包含多个互不依赖的调用，要**并发执行**而不是串行——这是延迟优化的关键点。结果按 `tool_call_id` 逐条回传，不能错位。
+- **校验两道**：①JSON Schema 校验（结构）②业务校验（值域/权限）。**缺第二道会有越权风险。**
+- **校验失败重试纪律**：把**校验错误信息**塞回 prompt 让 LLM 修正——**最多重试一次**。无限重试烧钱且掩盖问题；一次修不好就中断交给上层处理。（结构校验可用 Pydantic v2，错误对象可直接拼回提示词。）
+
+```python
+# w6_hr_policy/app/dispatch.py
+import asyncio, json
+from jsonschema import validate, ValidationError
+# 注：TOOLS（schema 列表）与 IMPL（实现注册表）同在 tools.py——
+# D1 与 D3–D4 两段代码合并成同一个文件
+from .tools import TOOLS, IMPL
+
+SCHEMA_MAP = {t["function"]["name"]: t["function"]["parameters"] for t in TOOLS}
+
+# 业务校验：白名单 + 危险操作拦截（P2 会升级为"确定性校验门"）
+BLOCKED = {"delete_policy", "modify_salary"}
+
+def validate_call(name, args):
+    if name not in SCHEMA_MAP:
+        return False, f"未知工具：{name}"          # ① 白名单
+    if name in BLOCKED:
+        return False, f"高危工具已禁用：{name}"     # ② 权限拦截
+    try:
+        validate(instance=args, schema=SCHEMA_MAP[name])
+    except ValidationError as e:
+        return False, f"参数校验失败：{e.message}"   # ③ 结构校验
+    return True, ""
+
+async def run_calls(tool_calls):
+    """并发执行互不依赖的调用"""
+    async def one(call):
+        # 兼容两种形态：dict（本文件自测用例）与属性对象（W1 llm.py 返回的 tool_calls）
+        name = call["name"] if isinstance(call, dict) else call.name
+        args = call["args"] if isinstance(call, dict) else call.args
+        ok, err = validate_call(name, args)
+        if not ok:
+            return {"name": name, "status": "blocked", "result": err}
+        try:
+            return {"name": name, "status": "ok", "result": await IMPL[name](**args)}
+        except Exception as e:
+            # 错误回传，让 LLM 自己决定重试还是换工具
+            return {"name": name, "status": "error",
+                    "result": f"{type(e).__name__}: {e}"}
+
+    return await asyncio.gather(*[one(c) for c in tool_calls])
+```
+
+**预期输出**：3 个独立调用并发执行，总耗时 ≈ 最慢的那个（而非三者之和）；被 block 的调用返回 `status: blocked` 而不执行。
+
+### 踩坑笔记
+
+- 🔴 **串行执行 tool_calls**：3 个检索各 1s，串行就是 3s，并发是 1s。**这是面试里"你做过什么性能优化"的现成答案。**
+- 🔴 **只有 Schema 校验没有权限校验**：LLM 被注入后可能调用到删除接口。**白名单 + 高危禁用必须独立于 LLM 存在**（无 LLM 参与的只读前置校验，就是 P2 要落地的"确定性校验门"的雏形）。
+- 🔴 **并发时的异常会连坐**：用 `asyncio.gather(..., return_exceptions=True)`，否则一个失败整批崩。
+- 🔴 **校验失败无限重试**：LLM 修不好就别让它再试——最多一次，失败即中断。**无限重试 = 烧钱 + 掩盖真正的 prompt/schema 缺陷。**
+- ✅ 验证标准：3 个调用的墙钟时间 < 串行时间的 50%；注入一个不存在的高危工具名，返回 blocked 且不执行。
+
+---
+
+## D3–D4：W6 v1.6 多工具 Agent 化（8h）
+
+### 目标
+
+把 W6 从"单检索"升级为**能自主选择工具**的 Agent：检索政策 / 计算年假 / 查日历 / 兜底澄清，共 ≥3 个工具，且能处理"工具失败后自主换策略"。端到端验收问句："我工龄 12 年，年假怎么算？"→ search_policy → calc_annual_leave(12) → **引用式回答（带政策出处）**。
+
+> 接线说明：`run_calls` 是"并发执行 + 双重校验"的独立组件；v1.6 整合方式是把 `agent_loop.py` 中"直接调工具"的那两行替换为 `results = await run_calls(resp.tool_calls)`（run_calls 已兼容属性对象），并把返回结果记入 trace。W1 的直接调用路径保留作最小理解版。
+
+```python
+# w6_hr_policy/app/tools.py（续）
+IMPL = {}
+
+def register(name):
+    def deco(fn):
+        IMPL[name] = fn
+        return fn
+    return deco
+
+@register("search_policy")
+async def _search(query: str, category: str = "其他") -> str:
+    # 真实实现：调用 W6 既有的 BM25 检索（w6_hr_policy/app/rag.py）
+    # 若项目缺 rag.py：把 w6_rag_retriever.py 里的检索函数包成 async retrieve() 补上
+    from .rag import retrieve
+    hits = await retrieve(query, top_k=3, category=category)
+    if not hits:
+        return "未检索到相关条款。建议改用更短的关键词，或换 category 重试。"
+    return "\n---\n".join(f"[{h['source']}] {h['text']}" for h in hits)
+
+@register("calc_annual_leave")
+async def _leave(hire_date: str, as_of: str | None = None) -> str:
+    from datetime import date, datetime
+    d0 = datetime.strptime(hire_date, "%Y-%m-%d").date()
+    d1 = datetime.strptime(as_of, "%Y-%m-%d").date() if as_of else date.today()
+    years = (d1 - d0).days // 365
+    days = 5 if years < 1 else 10 if years < 10 else 15
+    return f"司龄 {years} 年 → 可休年假 {days} 天（司龄<1年:5天；1-10年:10天；≥10年:15天）"
+```
+
+### 自测用例（必须全过）
+
+```bash
+python - << 'PY'
+import asyncio
+from w6_hr_policy.app.dispatch import run_calls
+
+cases = [
+    [{"name": "search_policy", "args": {"query": "年假", "category": "年假"}}],
+    [{"name": "calc_annual_leave", "args": {"hire_date": "2024-03-01"}}],
+    [{"name": "search_policy", "args": {"query": "报销"}},
+     {"name": "search_policy", "args": {"query": "考勤"}},
+     {"name": "search_policy", "args": {"query": "社保"}}],   # 并发
+    [{"name": "delete_policy", "args": {}}],                    # 应被拦截
+    [{"name": "search_policy", "args": {"query": "年假", "category": "火星"}}],  # 枚举非法
+]
+for cs in cases:
+    print(asyncio.run(run_calls(cs)))
+PY
+```
+
+**预期输出**：
+1. 正常返回检索结果
+2. 返回"司龄 X 年 → 可休年假 Y 天"
+3. 三个并发返回，**耗时 ≈ 单个**
+4. `status: blocked`（高危工具未执行）
+5. `status: blocked`（枚举值非法被 Schema 拦下）
+
+### 踩坑笔记
+
+- 🔴 **工具返回"未检索到"就结束了**：好的工具返回应该**给 LLM 下一步建议**（"建议改用更短关键词或换 category 重试"），这样 LLM 才会自主重试而不是直接告诉用户"不知道"。
+- 🔴 **枚举非法被拦下后 LLM 不知道怎么改**：把校验失败原因**回传**给 LLM，它通常会自行纠正。
+- ✅ 验证标准：5 条用例全过；端到端问句得到**引用式回答（带政策出处）**；LLM 在工具失败时能自主改变参数重试（trace 里能看到 ≥2 次不同参数的尝试）。
+
+---
+
+## 🤝 W2 求职主线（约 6h）
+
+| # | 任务 | 判据 | ☐ |
+|---|---|---|---|
+| 1 | 每日投递 3–5 家 | 台账本周新增 ≥20 行 | ☐ |
+| 2 | 内推继续推进 | 累计 ≥3 个内推码在使用 | ☐ |
+| 3 | **AI Coding 题型开练**（≥2 次） | 见下方练习法 | ☐ |
+| 4 | 启动"面试后 24h 复盘" | 建 `job_hunt/log/review.md` | ☐ |
+| 5 | 八股笔记启动 | `notes/` 下开始记 | ☐ |
+
+### AI Coding 题型练习法（阿里等新增题型，可练的硬技能）
+
+> 题型：限定环境中借助 AI 工具完成开发任务，考察**需求拆解、判断 AI 输出、识别缺陷并完成迭代**。
+> 官方口径：*"会用 Cursor/Copilot 只是起点，真正拉开差距的是代码审查、调试、测试和工程判断能力。"*
+
+```bash
+mkdir -p job_hunt/ai_coding
+cat > job_hunt/ai_coding/log.md << 'EOF'
+## 练习 1（日期）
+任务描述：让 AI 生成「按部门统计年假余额」的脚本
+AI 首次输出的问题（我审查发现的）：
+- 🔴 缺陷1：没处理入职日期为 null 的脏数据 → 会 KeyError
+- 🔴 缺陷2：司龄用 (today-hire).days/365 向下取整，闰年边界会差 1 天
+- 🔴 缺陷3：无单测，改一行就可能回归
+我的迭代：补 null 兜底 + 用 relativedelta 算司龄 + 补 3 条单测（含闰年边界）
+耗时：__ 分钟 ｜ 发现缺陷数：__
+EOF
+```
+
+**踩坑笔记**：
+- 🔴 **只练"让 AI 写代码"没用**：评分看的是**你能不能指出它错在哪**。每次练习至少要找出 2 个真实缺陷并修复。
+- ✅ 验证标准：单次练习能列出 ≥2 个缺陷 + 完成修复 + 补测试，耗时 ≤45 分钟。
+
+### 面试复盘机制（本周启动，后面 10 周都用）
+
+```bash
+cat > job_hunt/log/review.md << 'EOF'
+# 面试复盘（每场 24h 内完成）
+## 模板
+- 公司/岗位/轮次/日期：
+- 被问倒的知识点（→ 进补缺清单）：
+- 答得好的（→ 沉淀成标准答案）：
+- 反问环节我问了什么 / 对方怎么答：
+- 下一步动作：
+EOF
+```
+
+> ⚠️ **风险提示**：24h 内不复盘 = 忘掉 80%。这是"面试驱动学习"能否成立的关键动作，**P0 全程不可中断**。
+
+---
+
+## ✅ W2 验收标准
+
+| # | 验收项 | 判据 | ☐ |
+|---|---|---|---|
+| 1 | 讲清 Function Call 四步 | 能说出"LLM 自己不执行函数" | ☐ |
+| 2 | schema 设计合规 | ≥3 个工具，含 description 正反例 + enum | ☐ |
+| 3 | 并发执行生效 | 3 调用耗时 ≈ 单个 | ☐ |
+| 4 | 双重校验落地 | 白名单 + 高危禁用；注入用例被 blocked | ☐ |
+| 5 | 5 条自测用例全过 | 见 D3–D4 | ☐ |
+| 6 | 端到端引用式回答 | "工龄 12 年"问句带政策出处 | ☐ |
+| 7 | 台账本周新增 ≥20 行 | 且冲刺档占多数 | ☐ |
+| 8 | AI Coding 练习 ≥2 次 | 每次列出 ≥2 个缺陷 | ☐ |
+| 9 | 复盘模板已建 | 首场面试后 24h 内必填 | ☐ |
+
+## 📦 W2 产出
+
+- **技术**：多工具 Agent（≥3 工具 + 并发调度 + 双重校验 + 失败回传）
+- 🎯 **面试可讲**：*"工具 schema 的 description 我会写'何时不用'——这比换模型更能提升调用准确率。另外我把工具校验做成独立于 LLM 的白名单，因为 LLM 只决定调什么，执行权必须留在我手里。"*
+
+## 📚 W2 资源清单（全部可点击）
+
+| 资源 | 类型 | 优先级 | 时长 | 推荐理由 |
+|---|---|---|---|---|
+| [OpenAI Function Calling 指南](https://platform.openai.com/docs/guides/function-calling) | 官方文档 | **必学** | 2h | 并行 tool_calls 字段语义（DeepSeek 兼容同构） |
+| [Pydantic v2 校验文档](https://docs.pydantic.dev/concepts/validation/) | 官方文档 | **必学** | 1.5h | 校验器与错误对象 |
+| [kamacoder Agent 专题](https://notes.kamacoder.com/) | 题库 | **必学** | 1h | 本周面试题对照 |
+| [DeepLearning.AI《Agentic AI》（吴恩达）](https://www.deeplearning.ai/courses/agentic-ai/)（续 W1） | 视频课 | **必学** | 每晚 1h | 与裸写工具调度互为印证 |
+
+---
+# 📙 W3（09.15–09.21）· L0 计算机网络 + 操作系统
+
+## 📍 目标
+
+- 覆盖**校招笔试高频**的计网与 OS 考点，达到"**每一条能讲 3 层追问**"
+- 求职：投递继续；题库每日 1h
+- **算法手感并行**：LeetCode Hot100 每日 1–2 道（本周链表+哈希），每题 30 分钟不占整块
+- ⚠️ 本周是**八股密度最高**的一周，用"追问链"背法，不用"清单"背法
+
+## ⏱ 时长分配（20h 学习 + 约 5h 求职）
+
+| Day | 内容 | 学习（h） |
+|---|---|---|
+| D1–D3 | 计算机网络（TCP/HTTP/DNS/Cookie-Session） | 12 |
+| D4–D6 | 操作系统（进程线程协程 / 锁与死锁 / 虚拟内存 / I/O 多路复用） | 8 |
+
+---
+
+## 计算机网络：考点与追问链
+
+### 必考追问链（每条都要能连讲 3 层）
+
+**① TCP 三次握手**
+
+```
+Q1 为什么是三次不是两次？
+  → 两次无法确认「客户端的接收能力」和「服务端的发送能力」都正常。
+    三次握手本质是双方各确认一次"对方的收/发"都 OK。
+Q2 为什么不是四次？
+  → 服务端的 SYN+ACK 可以合并成一个包，没必要拆。
+Q3 三次握手能携带数据吗？
+  → 前两次不能（防 SYN 攻击放大）；第三次可以。
+Q4 SYN 洪水攻击是什么？怎么防？
+  → 攻击者只发 SYN 不回 ACK，服务端半连接队列被占满。
+    防护：SYN Cookie（不分配资源，用 Cookie 校验后才建连接）、
+          缩短 SYN timeout、增大半连接队列。
+```
+
+**② 四次挥手与 TIME_WAIT**
+
+```
+Q1 为什么挥手要四次？
+  → 因为 TCP 是全双工，每个方向要单独关闭。被动关闭方收到 FIN 后，
+    可能还有数据没发完，所以 ACK 和 FIN 不能合并（不像握手能合并 SYN+ACK）。
+Q2 TIME_WAIT 为什么是 2MSL？
+  → 两个理由：
+    ① 可靠地终止连接：最后一个 ACK 可能丢失，被动方会重发 FIN，
+       主动方需要能再回一次 ACK。等 2MSL 保证"ACK 到达 + 重传的 FIN 也到达"。
+    ② 让旧连接的残余报文在网络中消散，避免与新连接（同四元组）混淆。
+Q3 服务器 TIME_WAIT 过多怎么办？
+  → 调 tcp_tw_reuse（复用 TIME_WAIT 套接字，需开 timestamp）；
+    长连接改用连接池；让客户端主动关闭（把 TIME_WAIT 甩给客户端）。
+```
+
+**③ HTTP vs HTTPS**
+
+```
+Q1 区别？
+  → HTTPS = HTTP + TLS。明文 → 加密；端口 80 → 443。
+Q2 TLS 握手做了什么？
+  → 协商加密套件 → 服务端下发证书（含公钥）→ 客户端验证证书链 →
+    用公钥加密预主密钥 → 双方导出对称会话密钥 → 后续用对称加密。
+Q3 为什么不全用非对称加密？
+  → 非对称计算慢（差 2-3 个数量级），只用来安全交换对称密钥。
+```
+
+**④ DNS 解析过程**（要能一口气讲完）
+
+```
+浏览器缓存 → 操作系统缓存 / hosts → 本地 DNS 服务器（递归查询）→
+根域名服务器（.）→ 顶级域服务器（.com）→ 权威域名服务器（example.com）→ 返回 IP
+```
+
+**⑤ Cookie vs Session**
+
+```
+Q1 区别？
+  → Cookie 在客户端（有大小限制 ~4KB）；Session 在服务端（占内存）。
+    Session 通常靠 Cookie 里的 SessionID 来定位。
+Q2 Session 有什么问题？
+  → 分布式部署下要做 Session 共享（Redis 存 / 一致性哈希 / JWT 无状态化）。
+```
+
+### 自测（10 分钟闭卷）
+
+```bash
+cat > notes/network/self_test.md << 'EOF'
+## 闭卷自测（写出要点，不要看笔记）
+1. 三次握手为什么不是两次？不是四次？
+2. TIME_WAIT 为什么 2MSL？只等 1MSL 行不行？
+3. 四次挥手为什么不能像握手那样合并？
+4. TLS 握手为什么要非对称 + 对称混合？
+5. DNS 从输入 URL 到拿到 IP，经过哪几级？
+6. 分布式下 Session 怎么处理？
+EOF
+```
+
+**验证标准**：6 题能在 10 分钟内写出要点，且每题能再答 2 个追问。
+
+**踩坑笔记**：
+- 🔴 **背"三次握手"三个包名字没用**：面试官 100% 追问"为什么不是两次"。**准备的是追问链，不是名词。**
+- 🔴 **TIME_WAIT 只答"等 2MSL"会被击穿**：必须说出**两个理由**（可靠终止 + 旧报文消散）。
+- ✅ 记笔记的方式：每条写成 `Q1 → Q2 → Q3` 的链，而不是孤立的点。
+
+---
+
+## 操作系统：考点与追问链
+
+**① 进程 / 线程 / 协程**
+
+```
+Q1 区别？
+  → 进程：资源分配的基本单位，有独立地址空间，切换开销大。
+    线程：CPU 调度的基本单位，共享进程地址空间，切换开销小。
+    协程：用户态轻量级线程，由程序自己调度，切换只需保存少量寄存器，开销最小。
+Q2 为什么 Python 多线程跑不满多核？
+  → GIL（全局解释器锁）：同一时刻只有一个线程执行 Python 字节码。
+    CPU 密集型 → 用多进程；I/O 密集型 → 多线程/asyncio 仍有效。
+Q3 协程适合什么场景？
+  → 高并发 I/O（网络请求、数据库查询）。CPU 密集型不适合（会让出不了 GIL）。
+Q4 协程切换为什么比线程快？（第 3 层追问）
+  → 线程切换要陷入内核（µs 级）；协程切换 ≈ 函数调用（ns 级），
+    只需保存少量寄存器，I/O 等待时主动让出控制权（await），无需内核介入。
+Q5 协程为什么不能加速 CPU 密集任务？
+  → 协程不并行（单线程受 GIL 限制），计算没有让出点
+    → 用 multiprocessing 或 C 扩展（numpy 运算释放 GIL）。
+    （补充：Python 3.13 有实验性 free-threading 构建，但生产尚未普及，面试提一句即可加分。）
+```
+
+**② 锁与死锁四条件**
+
+```
+死锁四必要条件（缺一不可）：
+  ① 互斥：资源同一时刻只能被一个线程占有
+  ② 占有且等待：已持有一个资源，又去申请另一个且不释放已持有的
+  ③ 不可抢占：不能被强行夺走
+  ④ 循环等待：形成头尾相接的等待环
+破坏任一条件即可避免死锁。工程上最常用：
+  → 破坏"循环等待"：资源按固定顺序申请（如统一先锁 A 再锁 B）
+  → 破坏"占有且等待"：一次性申请所有资源
+  → 破坏"不可抢占"：加超时（lock.acquire(timeout=5)）
+```
+
+**③ 虚拟内存与分页**
+
+```
+Q1 为什么需要虚拟内存？
+  → ① 让每个进程看到独立、连续的地址空间（隔离 + 简化编程）
+    ② 内存超卖：物理内存不足时用磁盘换页
+    ③ 内存保护：越界访问会触发缺页异常
+Q2 分页 vs 分段？
+  → 分页：固定大小块，物理视角，解决内存碎片（有内部碎片）
+    分段：按逻辑单位（代码段/数据段/堆/栈），逻辑视角（有外部碎片）
+    现代 OS 多为段页式。
+Q3 什么是缺页？
+  → 访问的页不在物理内存 → 触发缺页中断 → OS 从磁盘调入 → 若内存满则按 LRU 等算法换出。
+Q4 页为什么通常是 4KB？（第 3 层追问）
+  → 页太小 → 页表太大；页太大 → 内部碎片严重。4KB 是两者的经验折中。
+```
+
+**④ I/O 多路复用（与 P2 的异步并发直接相关）**
+
+```
+Q1 select / poll / epoll 区别？
+  select：位图，fd 数量上限（1024），每次都要把集合从用户态拷到内核态，O(n) 轮询
+  poll  ：链表，无上限，但仍 O(n) 轮询 + 拷贝
+  epoll ：红黑树 + 就绪链表，无上限，只返回就绪的 fd（O(1)），无需重复拷贝
+Q2 为什么 epoll 快？
+  → ① 不用每次重复传递 fd 集合（内核维护）
+    ② 事件驱动：只遍历就绪链表，不轮询全部
+Q3 和 asyncio 什么关系？
+  → asyncio 的事件循环在 Linux 上底层就是 epoll（Windows 是 IOCP）。
+Q4 谁在用 epoll？
+  → Nginx / Redis 高并发的底层就是 epoll——讲这个能把八股连到真实系统。
+```
+
+### 可复制命令行（把"背诵"变成"可演示"）
+
+```python
+# notes/os/gil_demo.py —— CPU 密集 vs I/O 密集，实测给面试官看
+import time, threading, multiprocessing
+
+def cpu_bound(n=30_000_000):
+    s = 0
+    for i in range(n): s += i
+    return s
+
+def io_bound(n=5):
+    time.sleep(0.5)
+    return n
+
+def bench(fn, runner, workers=4, label=""):
+    t0 = time.time()
+    ps = [runner(target=fn) for _ in range(workers)]
+    [p.start() for p in ps]; [p.join() for p in ps]
+    print(f"{label:28s} {time.time()-t0:.2f}s")
+
+if __name__ == "__main__":
+    bench(cpu_bound, threading.Thread,       label="CPU密集-4线程")
+    bench(cpu_bound, multiprocessing.Process,label="CPU密集-4进程")
+    bench(io_bound,  threading.Thread,       label="I/O密集-4线程")
+```
+
+**预期输出**：CPU 密集的线程版与进程版差距明显（GIL 限制）；I/O 密集的线程版接近并行（约 0.5s 而非 2s）。
+
+```python
+# notes/os/echo_server.py —— 用 selectors 写 50 行多路复用 echo server（I/O 多路复用可演示版）
+import selectors, socket
+
+sel = selectors.DefaultSelector()
+srv = socket.socket()
+srv.bind(('127.0.0.1', 9000)); srv.listen()
+srv.setblocking(False)
+sel.register(srv, selectors.EVENT_READ)
+
+while True:
+    for key, _ in sel.select():
+        if key.fileobj is srv:                      # 新连接
+            c, addr = srv.accept()
+            c.setblocking(False)
+            sel.register(c, selectors.EVENT_READ)
+        else:                                       # 已有连接可读
+            data = key.fileobj.recv(1024)
+            if data:
+                key.fileobj.send(data)
+            else:
+                sel.unregister(key.fileobj)
+                key.fileobj.close()
+```
+
+**预期输出**：两个终端同时 `nc 127.0.0.1 9000`（或 `telnet`），互不阻塞——epoll 思想的 50 行可演示版。
+
+> 🎯 **面试话术**：*"我实测过：CPU 密集用多进程，I/O 密集用多线程/asyncio——GIL 只影响字节码执行，I/O 等待时会释放。这是我调 W4 异步压测时验证过的。"*
+
+### 踩坑笔记
+
+- 🔴 **`if __name__ == "__main__":` 在 Windows 上必须有**：否则多进程会递归启动子进程，直接卡死。
+- 🔴 **死锁四条件只背名词不够**：要能说出"破坏哪一个、工程上怎么做"。**按固定顺序申请锁**是最常被问的具体做法。
+- ✅ 验证标准：10 分钟闭卷能写出 4 组追问链的要点；echo server 双连接不阻塞。
+
+---
+
+## 🤝 W3 求职主线（约 5h）
+
+| # | 任务 | 判据 | ☐ |
+|---|---|---|---|
+| 1 | 每日投递 3–5 家 | 台账新增 ≥15 行 | ☐ |
+| 2 | 题库每日 1h | 面试鸭 / kamacoder | ☐ |
+| 3 | 八股笔记成稿 | `notes/network/` `notes/os/` 已有追问链 | ☐ |
+| 4 | **首次转化率诊断** | 见下 | ☐ |
+
+### ⚠️ 首次转化率诊断（本周日必须做）
+
+```bash
+python - << 'PY'
+import pandas as pd
+df = pd.read_csv("job_hunt/log/applications.csv")
+n = len(df); w = (df["status"].str.contains("笔试")).sum(); i = (df["status"].str.contains("面试")).sum()
+print(f"投递 {n} 家 | 笔试 {w} 场 | 面试 {i} 场")
+if n >= 20:
+    rate = i / n
+    print(f"转化率 {rate:.1%}")
+    if rate >= 0.10:   print("→ 正常，按原节奏")
+    elif rate >= 0.03: print("→ 【预警】停止加量投递；改简历 + 补内推")
+    else:              print("→ 【失效】问题在简历/通道不在能力：找 2-3 人 review，转向中小厂与本地企业")
+else:
+    print("样本不足 20 家，继续投，满 20 家再判")
+PY
+```
+
+> ⚠️ **风险提示（P0 最重要的求职判断）**：**转化率低是信号，不是努力不足。** 继续用同一份简历海投，只会把同样的结果放大 10 倍。**先修漏斗，再加水。**
+
+---
+
+## ✅ W3 验收标准
+
+| # | 验收项 | 判据 | ☐ |
+|---|---|---|---|
+| 1 | 计网 5 组追问链 | 每条能连讲 3 层（不看笔记） | ☐ |
+| 2 | OS 4 组追问链 | 同上 | ☐ |
+| 3 | GIL 实测脚本可跑 | 能解释 CPU/I-O 密集选型 | ☐ |
+| 4 | echo server 可演示 | selectors 50 行，双连接不阻塞 | ☐ |
+| 5 | 笔记已归档 | `notes/network/` `notes/os/` | ☐ |
+| 6 | 台账新增 ≥15 行 | — | ☐ |
+| 7 | 转化率已诊断 | 有数值、有结论、有动作 | ☐ |
+
+## 📚 W3 资源清单（全部可点击）
+
+| 资源 | 类型 | 优先级 | 时长 | 推荐理由 |
+|---|---|---|---|---|
+| [牛客网校招八股](https://www.nowcoder.com/) | 题库 | **必学** | 8h | 校招真题导向 |
+| [Python asyncio 官方文档](https://docs.python.org/zh-cn/3/library/asyncio.html) | 官方文档 | **必学** | 2h | 协程权威依据 |
+| [selectors 高层 I/O 多路复用](https://docs.python.org/zh-cn/3/library/selectors.html) | 官方文档 | **必学** | 1h | echo server 实现依据 |
+| [小林 coding《图解系统》](https://xiaolincoding.com/os/1_hardware/how_os_run.html) | 图解教程 | 选学 | 4h | 第 3 层讲不出时的图解兜底 |
+| [LeetCode Hot100](https://leetcode.cn/studyplan/top-100-liked/) | 题库 | **必学** | 每日 30min | 手感维持（本周链表+哈希） |
+
+---
+# 📕 W4（09.22–09.28）· L0 数据库 + 缓存 + Python 特性
+
+## 📍 目标
+
+- 覆盖 数据库（MySQL 索引/事务/锁）、缓存（Redis 三大问题）、Python 语言特性
+- 求职：同上；**开始模拟面试**（对着镜子/录音讲 5 分钟项目）
+
+## ⏱ 时长分配（20h 学习 + 约 5h 求职）
+
+| Day | 内容 | 学习（h） |
+|---|---|---|
+| D1–D2 | MySQL 索引（B+树/最左前缀）+ 慢查询 | 8 |
+| D3 | 事务 ACID + 隔离级别 + 锁 | 4 |
+| D4 | Redis 数据结构 + 三大问题 + 一致性 | 4 |
+| D5 | Python 特性（GIL/生成器/深浅拷贝/装饰器） | 2 |
+| D6 | 模拟面试 + 周复盘 | 2 |
+
+---
+
+## MySQL：考点与追问链
+
+**① 为什么用 B+ 树而不是 B 树 / 哈希？**
+
+```
+Q1 为什么不是哈希？
+  → 哈希只支持等值查询，不支持范围查询和排序（> < BETWEEN ORDER BY）。
+Q2 为什么不是 B 树（B-Tree）？
+  → B+ 树的数据只存在叶子节点，非叶子节点只存索引（key + 指针），
+    所以单个节点能放更多 key → 树更矮 → I/O 次数更少（磁盘 I/O 是瓶颈）。
+    另外 B+ 树叶子节点用链表相连，范围查询只需遍历链表，不用回上层。
+Q3 一棵 3 层 B+ 树能存多少数据？
+  → 假设主键 8B + 指针 6B ≈ 14B，页 16KB → 非叶子节点约 1170 个 key；
+    叶子节点每条数据 1KB → 每页约 16 条。
+    3 层：1170 × 1170 × 16 ≈ 2190 万行。（这是"千万级要分库分表"说法的来源）
+```
+
+**② 最左前缀原则**
+
+```
+联合索引 (a, b, c)：
+  ✅ WHERE a=1                 → 用上 a
+  ✅ WHERE a=1 AND b=2         → 用上 a,b
+  ✅ WHERE a=1 AND b=2 AND c=3 → 用上 a,b,c
+  ❌ WHERE b=2                 → 用不上（跳过最左列）
+  ⚠️ WHERE a=1 AND c=3         → 只用上 a（b 断了，c 用不上）
+  ⚠️ WHERE a>1 AND b=2         → a 用上，但范围查询后的列（b）用不上
+```
+
+**③ 事务 ACID 与隔离级别**
+
+| 隔离级别 | 脏读 | 不可重复读 | 幻读 |
+|---|---|---|---|
+| 读未提交 | ✅会 | ✅会 | ✅会 |
+| 读已提交（RC） | ❌ | ✅会 | ✅会 |
+| **可重复读（RR，MySQL 默认）** | ❌ | ❌ | ⚠️ 大部分避免（靠 MVCC + 间隙锁） |
+| 串行化 | ❌ | ❌ | ❌ |
+
+```
+Q RR 下怎么解决幻读？
+  → 快照读（普通 SELECT）：靠 MVCC，事务开始时生成 ReadView，后续都读这个版本 → 看不到新插入行。
+    当前读（SELECT ... FOR UPDATE / UPDATE）：靠 间隙锁（Gap Lock）+ 临键锁（Next-Key Lock）
+    锁住区间，阻止其他事务在范围内插入。
+```
+
+**④ 慢查询定位（实操，能讲流程）**
+
+```sql
+-- 开启慢查询日志
+SET GLOBAL slow_query_log = 'ON';
+SET GLOBAL long_query_time = 1;      -- 超过 1s 记录
+
+-- 用 EXPLAIN 看执行计划
+EXPLAIN SELECT * FROM employees WHERE dept='技术' AND salary > 20000;
+-- 重点看：type（ALL=全表扫描要优化）、key（实际用的索引）、rows（扫描行数）、Extra（Using filesort / Using temporary 要警惕）
+```
+
+### 踩坑笔记
+
+- 🔴 **"加了索引就一定快"是错的**：①违反最左前缀 ②索引列上用了函数/隐式类型转换 ③区分度太低（如"性别"）④回表代价 > 全表扫描。
+- 🔴 **只背 ACID 四个词会被追问**：要能说"MySQL 的 RR 是怎么做到的"（MVCC + 间隙锁）。
+- ✅ 验证标准：能对一个慢查询说出"EXPLAIN 看什么、常见三种失效原因、怎么改"。
+
+---
+
+## Redis：考点与追问链
+
+**① 五种数据结构与场景**
+
+| 结构 | 场景 |
+|---|---|
+| String | 缓存、计数器、分布式锁（SET NX EX） |
+| Hash | 对象（用户信息）——比 String 存 JSON 省内存且可部分更新 |
+| List | 队列 / 栈 / 消息队列（LPUSH + BRPOP） |
+| Set | 去重、共同好友（SINTER）、抽奖 |
+| ZSet | 排行榜（ZADD + ZRANGE）、延迟队列 |
+
+**② 缓存三大问题（必考）**
+
+```
+1) 穿透：查一个【根本不存在】的 key → 缓存不命中 → 每次都打到 DB
+   解法：① 缓存空值（设短 TTL）② 布隆过滤器（Bloom Filter）前置拦截
+2) 击穿：一个【热点 key 恰好过期】→ 瞬间大量请求打到 DB
+   解法：① 热点 key 永不过期（逻辑过期，后台异步更新）② 互斥锁（只让一个线程回源）
+3) 雪崩：【大量 key 同时过期】或 Redis 宕机 → DB 瞬间被打爆
+   解法：① TTL 加随机值（错开过期）② Redis 集群 + 哨兵 ③ 限流降级兜底
+```
+
+**③ 缓存与数据库一致性**
+
+```
+Q 先更新 DB 还是先删缓存？
+  → 推荐：先更新 DB，再删除缓存（Cache-Aside）。
+    为什么不是"更新缓存"？因为更新缓存的代价高（可能算了一堆没人读），
+    且并发写时容易乱序。删除是"懒加载"，下次读时再回填。
+Q 删缓存失败怎么办？
+  → ① 重试（消息队列异步重试）② 订阅 MySQL binlog（如 Canal）触发删除
+    ③ 给缓存设较短 TTL 兜底（最终一致）
+```
+
+**④ 分布式锁（正确姿势，追问常客）**
+
+```
+Q1 加锁怎么做？
+  → SET lock value NX EX 30 —— 一条命令原子完成"不存在才设置 + 带过期"。
+Q2 为什么要带唯一值？
+  → 防止 A 的锁被 B 误删：value 用请求唯一标识，释放前先比对。
+Q3 比对 + 释放两步怎么保证原子？
+  → 用 Lua 脚本在 Redis 端原子执行"GET 比对 → DEL"。
+Q4 没设过期会怎样？
+  → 持有者崩溃 → 锁永不释放 → 死锁。
+```
+
+### 可复制命令行（本地验证，不装 Redis 也能理解）
+
+```python
+# notes/cache/cache_problems_demo.py —— 用字典模拟三大问题
+import threading, time, random
+
+class FakeDB:
+    def __init__(self): self.hits = 0; self.data = {1: "real"}
+    def get(self, k):
+        self.hits += 1            # 每次回源都计数
+        time.sleep(0.01)          # 模拟 DB 耗时
+        return self.data.get(k)
+
+db, cache, lock = FakeDB(), {}, threading.Lock()
+
+def get_naive(k):                 # ❌ 无防护：穿透 + 击穿
+    if k in cache: return cache[k]
+    v = db.get(k)
+    if v: cache[k] = v
+    return v
+
+def get_safe(k):                  # ✅ 空值缓存 + 互斥锁
+    if k in cache: return cache[k]
+    with lock:                    # 互斥：只有一个线程回源
+        if k in cache: return cache[k]
+        v = db.get(k)
+        cache[k] = v if v else "__NULL__"   # 空值也缓存，防穿透
+        return v
+
+# 压测：100 个并发查同一个不存在的 key
+def bench(fn, key, n=100):
+    db.hits = 0
+    ts = [threading.Thread(target=fn, args=(key,)) for _ in range(n)]
+    [t.start() for t in ts]; [t.join() for t in ts]
+    return db.hits
+
+print("无防护 DB 回源次数:", bench(get_naive, 999))
+print("有防护 DB 回源次数:", bench(get_safe,  999))
+```
+
+**预期输出**：无防护约 100 次回源；有防护 **1 次**。
+
+> 🎯 **面试话术**：*"我用字典模拟过：100 并发查同一个不存在的 key，没做防护时 DB 被打了 100 次；加了空值缓存 + 互斥锁后降到 1 次。缓存穿透不是理论问题。"*
+
+### 踩坑笔记
+
+- 🔴 **把三大问题记混**：穿透=不存在（空值/Bloom）；击穿=单个热点过期（互斥锁/逻辑过期）；雪崩=批量过期（随机 TTL）。**用触发条件区分，不要死记解法。**
+- 🔴 **分布式锁用 SETNX 却没设过期**：持有者崩溃 → 死锁。**必须 `SET key value NX EX 30` 原子设置**，且释放走 Lua（防误删他人锁）。
+- ✅ 验证标准：能画出 Cache-Aside 的读写时序，并说出删缓存失败的兜底。
+
+---
+
+## Python 语言特性（2h，速记）
+
+| 考点 | 要点（能讲 3 层） |
+|---|---|
+| **GIL** | 同一时刻仅一个线程执行字节码；I/O 等待时释放 → CPU 密集用多进程，I/O 密集用线程/asyncio（W3 已实测） |
+| **生成器 vs 迭代器** | 生成器是迭代器的一种（含 `yield`），惰性求值、省内存；迭代器需实现 `__iter__`/`__next__` |
+| **可变 vs 不可变** | list/dict/set 可变；int/str/tuple 不可变。**函数默认参数用可变对象 = 经典坑** |
+| **深浅拷贝** | `copy.copy` 只拷一层（嵌套对象仍共享）；`copy.deepcopy` 递归全拷 |
+| **装饰器** | 本质：接收函数返回函数的高阶函数；用 `@functools.wraps` 保留元信息 |
+
+```python
+# 经典坑演示（面试常考"这段代码输出什么"）
+def append_to(x, lst=[]):     # ❌ 默认参数是可变对象，只创建一次
+    lst.append(x)
+    return lst
+
+print(append_to(1))   # [1]
+print(append_to(2))   # [1, 2]  ← 不是 [2]！
+
+# 正确写法
+def append_ok(x, lst=None):
+    lst = lst if lst is not None else []
+    lst.append(x); return lst
+```
+
+### 踩坑笔记
+
+- 🔴 **默认参数用 `[]`**：这在 Python 面试里出现率极高。正确写法是 `lst=None` 再在函数体内初始化。
+- ✅ 验证标准：能手写出装饰器（含 `wraps`），并解释"为什么需要 wraps"（保留 `__name__`/`__doc__`）。
+
+---
+
+## 🤝 W4 求职主线（约 5h）
+
+| # | 任务 | 判据 | ☐ |
+|---|---|---|---|
+| 1 | 每日投递 3–5 家 | 台账新增 ≥15 行 | ☐ |
+| 2 | 题库每日 1h | — | ☐ |
+| 3 | **模拟面试 ≥2 次** | 5 分钟讲清 W6 架构，录音自检 | ☐ |
+| 4 | 八股笔记归档 | `notes/db/` `notes/cache/` `notes/python/` | ☐ |
+
+**模拟面试自检表**：
+
+```bash
+cat > job_hunt/log/mock.md << 'EOF'
+## 模拟面试 1（日期）
+题目：5 分钟讲清 W6 的架构
+- [ ] 讲清了整体链路（检索 → 生成 → 工具）
+- [ ] 说出了每个组件的失败模式
+- [ ] 答出了"如果用户量 ×100，先崩哪里"
+- 卡壳的地方：______
+- 下次改进：______
+EOF
+```
+
+---
+
+## ✅ W4 验收标准
+
+| # | 验收项 | 判据 | ☐ |
+|---|---|---|---|
+| 1 | B+ 树优于 B 树/哈希的理由 | 能答出"树更矮 + 叶子链表" | ☐ |
+| 2 | 最左前缀 | 能判断 6 种 WHERE 是否命中 | ☐ |
+| 3 | 隔离级别表 | 四级别 × 三问题，含 RR 的实现方式 | ☐ |
+| 4 | 缓存三大问题 | 用触发条件区分，非死记 | ☐ |
+| 5 | 一致性方案 | Cache-Aside + 删失败的兜底 | ☐ |
+| 6 | 分布式锁正确姿势 | NX EX + 唯一值 + Lua 释放 | ☐ |
+| 7 | Python 坑 | 默认参数 `[]` 的坑、装饰器带 wraps | ☐ |
+| 8 | 模拟面试 ≥2 次 | 有录音、有卡壳记录 | ☐ |
+| 9 | 台账新增 ≥15 行 | — | ☐ |
+
+## 📚 W4 资源清单（全部可点击）
+
+| 资源 | 类型 | 优先级 | 时长 | 推荐理由 |
+|---|---|---|---|---|
+| [小林 coding《图解网络》](https://xiaolincoding.com/network/1_tcp/tcp_interview.html) | 图解教程 | **必学** | 5h | TCP/TIME_WAIT 讲得最透的中文免费资料 |
+| [小林 coding《图解 MySQL》](https://xiaolincoding.com/mysql/) | 图解教程 | **必学** | 4h | 索引/事务/锁图文并茂 |
+| [MySQL EXPLAIN 官方文档](https://dev.mysql.com/doc/refman/8.0/en/explain-output.html) | 官方文档 | 选学 | 1h | type/key/rows 权威定义 |
+| [Redis 数据类型官方文档](https://redis.io/docs/latest/develop/data-types/) | 官方文档 | 选学 | 1.5h | 五种结构使用场景 |
+| [LeetCode Hot100](https://leetcode.cn/studyplan/top-100-liked/) | 题库 | **必学** | 每日 30min | 二分/DP 本周起 |
+
+---
+# 📔 W5（09.29–10.05）· W6 v1.7 公网部署 + 最小评测页 ⭐ 硬 Deadline
+
+## 📍 目标
+
+> ⚠️ **本周是 P0 最关键的交付周，没有之一。**
+> 目标：**10 月面试高峰前**达成 **L1 可用级**——能在面试中打开公网链接演示，并打开评测页说明当前标注规模与指标。
+> 依据：2027 届验收口径明确要求"**项目做到可演示、可部署、可评估**"；主路线 §3 原则 3（两级上线门槛）的 L1 时点即在 P0 出口、实际须在 10 月面试高峰前达成。
+
+- **学习**：W6 v1.7 部署上云 + 最小评测页（预计 8–12h：部署 4–6h + 评测页 4–6h）
+- **求职**：投递继续；国庆期间部分公司流程放缓，正好用来冲刺部署
+- **前置依赖（时间节点）**：云服务器需学生认证（C 级）+ 下单开通，建议 **W4 周日（9/27）晚**提前下单，避免 D1 当天等审核；对应桌面合集 `学习清单任务资料合集\02_需自行获取清单.md` 云服务器项
+
+## ⏱ 时长分配（16h 学习 + 约 4h 求职）
+
+| Day | 内容 | 学习（h） |
+|---|---|---|
+| D1(二) | 服务器已于 9/27 提前购 → 当日：安全组 + SSH 密钥登录 + 系统初始化 + 域名（可选） | 3 |
+| D2(三) | 部署 W6（systemd + uvicorn） | 4 |
+| D3(四) | Nginx 反代 + SSE 流式配置 | 3 |
+| D4(五) | 最小评测页 + 评测集（40 条现成） | 3 |
+| D5(六) | 联调 + 公网验证 | 2 |
+| D6(日) | 周复盘 + 演示脚本演练 | 1 |
+
+---
+
+## D1：服务器初始化（选型购买已于 9/27 提前完成）（3h）
+
+### 价格实测（2026-09 快照，可信度②，随活动浮动，以当期官网为准）
+
+| 方案 | 配置 | 价格 | 备注 |
+|---|---|---|---|
+| **腾讯云「云+校园」学生机** | 2核4G / 5M | **156 元/年**（≈13 元/月） | **最便宜，需学生认证** |
+| 腾讯云轻量 | 2核4G / 5M | 188 元/年（≈15.7 元/月） | 免学生认证 |
+| 阿里云轻量 | 2核4G | 199 元/年 或 9.9 元/月 | — |
+| 阿里云 ECS u1 | 2核4G / 5M / 80G | 199 元/年（**新购续费同价**） | 续费不涨价 |
+| 百度智能云轻量 | 2核4G / 6M | 156 元/年 | — |
+
+> **8 个月约 104–133 元。** 在这个价位，**"先用内网穿透凑合"没有任何理由**——省下的调试时间远超差价。内网穿透仅作临时演示备份（零成本但稳定性差）。
+
+### 域名与证书（可选但建议，0.5h + 解析等待）
+
+- 注册域名（60 元/年量级）+ DNS 解析到服务器 IP + Let's Encrypt 免费 SSL（`certbot --nginx`，约 5 分钟）。
+- 不买则用「IP:端口」演示——能用，但简历观感稍逊（https 链接比 http 更可信）。
+- 完成标准：`ping` 域名通；HTTPS 可访问（或明确接受 IP 方案并写进 deploy.md）。
+
+### 采购检查清单
+
+```bash
+cat > w6_hr_policy/scripts/deploy_checklist.md << 'EOF'
+## 部署前检查
+- [ ] 已买云服务器（2核4G 起），拿到公网 IP
+- [ ] 安全组已放行：22（SSH）、80（HTTP）、443（HTTPS）
+- [ ] ⚠️ 未放行 8000 端口（应用端口不直接对外，走 Nginx 反代）
+- [ ] 已用 SSH 密钥登录（禁用密码登录）
+- [ ] 系统已更新：apt update && apt upgrade -y（Ubuntu）
+- [ ] 已创建非 root 用户并给 sudo
+- [ ] （可选）域名已解析，certbot 证书已配
+EOF
+```
+
+### 踩坑笔记
+
+- 🔴 **直接放行 8000 端口对外**：等于把 uvicorn 裸奔在公网，没有 TLS、没有限流。**必须走 Nginx 反代，应用只监听 127.0.0.1。**
+- 🔴 **用密码登录 SSH**：会被扫号暴力破解。**改成密钥登录 + 禁密码**（`/etc/ssh/sshd_config` 里 `PasswordAuthentication no`）。
+- 🔴 **买了按量付费忘了关机**：学生机/轻量都是包年包月，不会超支；但如果你选了按量实例，测试完务必释放。
+- ✅ 验证标准：`ssh` 能密钥登录；`curl 127.0.0.1:8000` 在本机通，但 `curl 公网IP:8000` 不通（说明安全组没放行，正确）。
+
+---
+
+## D2：部署 W6（systemd + uvicorn）（4h）
+
+```bash
+# ── 1. 服务器上准备环境 ──
+ssh user@<公网IP>
+sudo apt update && sudo apt install -y python3-venv nginx git
+
+# ── 2. 拉代码（或用 rsync/scp 传）──
+sudo mkdir -p /opt/w6 && sudo chown $USER:$USER /opt/w6
+git clone <你的仓库> /opt/w6   # 或用 rsync：rsync -av --exclude 'venv' --exclude '.env' ./ user@IP:/opt/w6/
+cd /opt/w6
+
+# ── 3. 建 venv 装依赖 ──
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+# ── 4. 配 .env（⚠️ 不要 git 传，手动在服务器建）──
+sudo nano /opt/w6/.env
+# LLM_PROVIDER=deepseek
+# DEEPSEEK_MODEL=deepseek-chat
+# DEEPSEEK_API_KEY=sk-yyy
+# MAX_STEPS=8
+# API_TIMEOUT=30
+sudo chmod 600 /opt/w6/.env        # 只有属主可读
+
+# ── 5. 建 systemd 服务（崩溃自动拉起，这是"敢跑"的第一步）──
+sudo tee /etc/systemd/system/w6.service > /dev/null << 'EOF'
+[Unit]
+Description=W6 HR Policy QA
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/opt/w6
+Environment="PATH=/opt/w6/venv/bin"
+ExecStart=/opt/w6/venv/bin/uvicorn w6_hr_policy.app.main:app \
+          --host 127.0.0.1 --port 8000 --workers 1
+Restart=always
+RestartSec=3
+StandardOutput=append:/var/log/w6/access.log
+StandardError=append:/var/log/w6/error.log
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# ⚠️ 上方 User=ubuntu 与下一行 chown ubuntu:ubuntu：按服务器实际非 root 用户名替换
+#    （腾讯云轻量 Ubuntu 镜像默认 ubuntu；部分镜像为 lighthouse 或自建用户）
+sudo mkdir -p /var/log/w6 && sudo chown ubuntu:ubuntu /var/log/w6
+sudo systemctl daemon-reload
+sudo systemctl enable --now w6
+sudo systemctl status w6          # 期望 active (running)
+
+# ── 6. 验证 ──
+curl -s http://127.0.0.1:8000/docs | head -5     # FastAPI 自动文档
+curl -s "http://127.0.0.1:8000/health"            # /health 已在 W1 main.py 定义
+```
+
+**预期输出**：`systemctl status` 显示 `active (running)`；`curl 127.0.0.1:8000/docs` 返回 HTML。
+
+**部署笔记同步**：把本节过程整理成 `docs/deploy.md`（域名/证书/防火墙/systemd 步骤 + 踩过的坑）——**这份笔记本身就是"部署和线上稳定性"验收口径的交付物**。
+
+### 踩坑笔记
+
+- 🔴 **忘了 `--host 127.0.0.1`**：uvicorn 默认也是 127.0.0.1，但若你写成 `0.0.0.0` 就直接暴露。**只监听回环，对外交给 Nginx。**
+- 🔴 **没有 Restart=always**：进程崩了就再也不起来。systemd 的自动拉起是最便宜的"高可用"。
+- 🔴 **日志没落盘**：`journalctl -u w6 -f` 能看，但排查历史问题要文件日志。**配 `StandardOutput=append:` 落文件。**
+- 🔴 **`.env` 权限 644**：同机其他用户能读。**`chmod 600`。**
+- ✅ 验证标准：`sudo systemctl restart w6` 后 3 秒内自动恢复服务；`curl /docs` 正常。
+
+---
+
+## D3：Nginx 反代 + SSE 流式配置（3h）
+
+```bash
+sudo tee /etc/nginx/sites-available/w6 > /dev/null << 'EOF'
+server {
+    listen 80;
+    server_name _;                    # 有域名就填域名
+
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+        # ⚠️ SSE 流式三件套（缺一不可，否则前端"卡住"）
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
+        proxy_buffering off;          # 关缓冲，否则攒够一块才转发
+        proxy_cache off;              # 关缓存
+        chunked_transfer_encoding on;
+        proxy_read_timeout 300s;      # SSE 长连接要给足超时
+    }
+}
+EOF
+
+sudo ln -sf /etc/nginx/sites-available/w6 /etc/nginx/sites-enabled/
+sudo rm -f /etc/nginx/sites-enabled/default      # 删默认站点
+sudo nginx -t                                     # 语法检查，必须 syntax is ok
+sudo systemctl reload nginx
+
+# 公网验证（在你本机跑，不是服务器）
+curl -N "http://<公网IP>/chat/stream?q=%E5%B9%B4%E5%81%87%E6%80%8E%E4%B9%88%E7%AE%97"
+```
+
+**预期输出**：`nginx -t` 输出 `syntax is ok / test is successful`；`curl -N` 从公网**逐条**收到 `data: {"delta": "…"}`，而不是等几秒一次性返回。
+
+### 踩坑笔记
+
+- 🔴 **`proxy_buffering off` 没设（SSE 第一大坑）**：Nginx 默认开启缓冲，会把 SSE 攒够一块才转发，前端看起来"卡住不动"。**这条必须加。**
+- 🔴 **`proxy_read_timeout` 默认 60s**：SSE 长连接超过 60s 被 Nginx 掐断。**设 300s。**
+- 🔴 **删了 default 站点但没 reload**：配置不生效。改完必须 `nginx -t && systemctl reload nginx`。
+- 🔴 **HTTPS 暂缓可以，但要记着**：有域名后上 `certbot --nginx` 免费证书（约 5 分钟）。**简历上写 https 链接比 http 更可信。**
+- ✅ 验证标准：公网 `curl -N` 能看到**分散的时间戳**（逐条到达）。
+
+---
+
+## D4：最小评测页 + 评测集（3h）
+
+### 核心知识点（这也是 P1 评测体系的预演）
+
+**最小评测页要展示什么**：评测集条数（如实）、来源、**Recall@5 与 MRR 当前值 + 置信区间**。
+
+**评测集用第零步确认的现成 40 条**（`w6_eval_set.json`，5 分类 × 8 条，含 reference_answer）——唯一硬要求：**逐条补 `source` 字段标注真实可追溯来源**。若临时期不足，可先用其中来源完整的子集，评测页如实标注条数。
+
+> ⏱ **工时节点（v1.2）**：逐条补 source ≈ 40 条 × 2 分钟 ≈ **1.5h**，占本日 3h 的一半；评测页代码与联调占另一半。补不完就先上"来源完整子集"，**诚信红线不可让**。
+
+> ⚠️ **置信区间必须给**：40 条时 Recall@5 的 Wilson 95% 半宽为 **±13.7pp**，仍需标注"样本量小，仅供流程验证"。
+> **Wilson 半宽速查（p=0.70）**：20 条 ±18.7pp ｜ **40 条 ±13.7pp** ｜ 80 条 ±9.9pp ｜ 100 条 ±8.8pp。
+> 🎯 **面试话术**：*"我的评测页现在 40 条，所以标注了'仅供流程验证'——因为这个样本量下 Recall@5 的置信区间宽达 ±13.7pp，看起来漂亮的提升可能只是噪声。下一步扩到 80 条再报数。"*
+
+### 可复制命令行
+
+```bash
+# 评测集：用现成的 w6_eval_set.json，先补 source 字段
+python - << 'PY'
+import json, io
+data = json.load(io.open("w6_eval_set.json", encoding="utf-8"))
+print("评测集条数:", len(data))
+missing = [d["id"] for d in data if not d.get("source")]
+print("缺 source 的条目:", len(missing), "→ 逐条补真实来源后写回")
+PY
+```
+
+```python
+# w6_hr_policy/eval/metrics.py
+import json, math
+
+def wilson(k: int, n: int, z: float = 1.96):
+    """Wilson 置信区间（小样本比 Wald 稳健）"""
+    if n == 0: return (0.0, 0.0)
+    p = k / n
+    den = 1 + z*z/n
+    center = (p + z*z/(2*n)) / den
+    half = z/den * math.sqrt(p*(1-p)/n + z*z/(4*n*n))
+    return (max(0.0, center-half), min(1.0, center+half))
+
+def recall_at_k(hits, k=5):
+    """hits: List[List[int]]，每个 query 的 top-k 检索结果里是否含 gold（1/0）"""
+    return sum(1 for h in hits if any(h[:k])) / len(hits)
+
+def mrr(hits):
+    tot = 0.0
+    for h in hits:
+        for i, ok in enumerate(h, 1):
+            if ok: tot += 1.0/i; break
+    return tot / len(hits)
+
+if __name__ == "__main__":
+    hits = [[1,0,0,0,0], [0,0,1,0,0], [0,1,0,0,0]]   # 示例
+    n = len(hits); r5 = recall_at_k(hits, 5); m = mrr(hits)
+    lo, hi = wilson(int(round(r5*n)), n)
+    print(f"评测集 n={n}")
+    print(f"Recall@5 = {r5:.3f}  95% CI [{lo:.3f}, {hi:.3f}]  半宽 ±{(hi-lo)/2*100:.1f}pp")
+    print(f"MRR      = {m:.3f}")
+```
+
+```python
+# w6_hr_policy/eval/run_eval.py —— 生成 docs/eval_results.json（评测页唯一数据源）
+# 复用 0.5b 的评测循环：40 条逐条检索 → 判 gold 是否在 top5 → 汇总 + Wilson CI。
+# 若 rag.py 缺失：按第零步「引用文件现状核验表」兜底（w6_rag_retriever.py 包成 async retrieve()）。
+# ⚠️ 字段名以 w6_eval_set.json 实际结构为准（question/query、reference_answer），跑前先 print 一条确认。
+import asyncio, json, io, os
+from w6_hr_policy.app.rag import retrieve
+from w6_hr_policy.eval.metrics import recall_at_k, mrr, wilson
+
+async def main():
+    rows = json.load(io.open("w6_eval_set.json", encoding="utf-8"))
+    print("样例字段:", list(rows[0].keys()))
+    hits = []
+    for d in rows:
+        res = await retrieve(d.get("question") or d.get("query"), top_k=5)
+        gold = d.get("reference_answer", "")
+        hits.append([1 if gold and gold[:20] in (h.get("text") or "") else 0 for h in res])
+    n = len(hits); r5 = recall_at_k(hits, 5); m = mrr(hits)
+    lo, hi = wilson(int(round(r5 * n)), n)
+    os.makedirs("docs", exist_ok=True)
+    json.dump({"n": n, "recall_at_5": round(r5, 3), "mrr": round(m, 3),
+               "ci_lo": round(lo, 3), "ci_hi": round(hi, 3)},
+              io.open("docs/eval_results.json", "w", encoding="utf-8"))
+    print(f"Recall@5={r5:.3f} CI[{lo:.3f},{hi:.3f}] MRR={m:.3f} → docs/eval_results.json")
+
+asyncio.run(main())
+```
+
+```python
+# w6_hr_policy/app/main.py（追加评测页路由）
+@app.get("/eval", response_class=HTMLResponse)
+async def eval_page():
+    """v1.3 修订：评测页只显示真实评测结果（docs/eval_results.json，由 run_eval.py 产出）。
+    原骨架硬编码 hits=[[1,0,0,0,0]] 会把 Recall@5 显示成 1.000——公网挂假数据踩诚信红线。"""
+    import json, os
+    if not os.path.exists("docs/eval_results.json"):
+        return ("<h2>评测未运行</h2><p>先在项目根执行 "
+                "<code>python w6_hr_policy/eval/run_eval.py</code> 生成 docs/eval_results.json，再刷新本页。</p>")
+    r = json.load(open("docs/eval_results.json", encoding="utf-8"))
+    n, r5, m, lo, hi = r["n"], r["recall_at_5"], r["mrr"], r["ci_lo"], r["ci_hi"]
+    return f"""
+<html><head><meta charset="utf-8"><title>W6 评测</title></head><body style="font-family:system-ui;max-width:760px;margin:40px auto">
+<h2>W6 HR 政策问答 · 检索质量评测</h2>
+<p><b>评测集规模</b>：{n} 条（来源：真实 HR 咨询记录，逐条可追溯）</p>
+<p><b>Recall@5</b> = {r5:.3f}，95% CI [{lo:.3f}, {hi:.3f}]（半宽 ±{(hi-lo)/2*100:.1f}pp）</p>
+<p><b>MRR</b> = {m:.3f}</p>
+<p style="color:#b00"><b>⚠️ 样本量小，仅供流程验证，不可对外报数。</b></p>
+</body></html>"""
+```
+
+**预期输出**：先 `python w6_hr_policy/eval/run_eval.py` 落盘 `docs/eval_results.json`（本地与服务器各跑一次，服务器在 /opt/w6 下执行），再访问 `http://<公网IP>/eval` 能看到评测页，含**真实**规模、Recall@5、置信区间与红字警示；未跑评测时页面如实显示「评测未运行」及生成指引，不再出现骨架假数据。
+
+同时把评测结果整理成 `W6_评测报告.md`：评测集规模与来源、检索方案（BM25 本地零外部依赖）、环境（本地 Python 3.13 未调外部 API）、Recall@5/MRR、**Wilson 95% CI（按 40 条口径 ±13.7pp，不得套用 80/100 条区间）**、样本量声明。
+
+### 踩坑笔记
+
+- 🔴 **评测集来源不可追溯**：**每条问题必须能回答"从哪来"**（真实 HR 咨询记录 / 公开政策文本注明出处）。这是评测效度 V₁ 层唯一能做的事，也是最容易偷懒的一层。**编出来的评测集，面试官一问"这些问题哪来的"就穿帮。**
+- 🔴 **只报 Recall 不报置信区间**：40 条下仍有 ±13.7pp。**必须给区间。**
+- 🔴 **忘了写"来源"**：评测页必须标注数据从哪来，否则无法解释效度。
+- ✅ 验证标准：评测页公网可访问；三项数据齐全；有红字的样本量警示；评测报告 CI 用 40 条口径。
+
+---
+
+## D5–D6：联调 + 演示脚本演练（3h）
+
+```bash
+# 公网全链路验证（逐条打勾）
+curl -s http://<公网IP>/health                       # 健康检查
+curl -s http://<公网IP>/docs | head -3               # API 文档
+curl -N "http://<公网IP>/chat/stream?q=test" | head -5   # SSE 逐条
+curl -s http://<公网IP>/eval | grep -o "Recall@5[^<]*"   # 评测页
+```
+
+**演示脚本（面试用，背下来）**：
+
+> "这个系统我部署在公网了，您可以直接打开。（讲 3 句）
+> ① 链路：用户提问 → 检索政策片段 → 组装上下文 → 生成；涉及日期计算时会走工具。
+> ② 防跑飞：我给 Agent 上了三道闸——最大 8 步、重复动作 3 次中断、单步 30 秒超时。
+> ③ 评测：这是评测页，现在 40 条，Recall@5 是 X，置信区间 ±13.7pp，所以我标注了'仅供流程验证'，下一步扩到 80 条。"
+
+### 踩坑笔记
+
+- 🔴 **面试现场才发现公网打不开**：**每次面试前一晚必须自己开一次链接**。部署不是"上线那一刻完成"，是"每次用之前都验一次"。
+- 🔴 **演示时 API Key 欠费**：部署后跑一次真实请求，确认余额充足。**面试时 502 比没部署更伤。**
+- ✅ 验证标准：面试前一晚的四条 curl 全通；从开机到展示"公网问答 + 流式 + 评测页"全程 **≤90 秒**（演练 ≥3 遍计时）。
+
+---
+
+## 🤝 W5 求职主线（约 4h）
+
+| # | 任务 | 判据 | ☐ |
+|---|---|---|---|
+| 1 | 投递继续（国庆放缓期） | 台账新增 ≥10 行 | ☐ |
+| 2 | **简历补上公网链接** | A/B 两版简历的项目描述里都有可点击链接 | ☐ |
+| 3 | 内推继续 | — | ☐ |
+| 4 | **演示脚本演练 ≥3 遍** | 计时 ≤90 秒 | ☐ |
+| 5 | 转化率二次诊断 | 有数值、有动作 | ☐ |
+
+> ⚠️ **风险提示**：如果 W6 的 `policy_context.txt` 到本周仍未解决（正常情况下第零步 0.5 已用 `cp` 解除），**立即启用降级方案**：改用公开的通用劳动政策 / 社保公积金问答文本，明确标注来源与条数。**不要为了"真实数据"卡死上线窗口——L1 可用级是硬 deadline。**
+
+---
+
+## ✅ W5 验收标准（L1 可用级 = 6 项全绿）
+
+| # | 验收项 | 判据 | ☐ |
+|---|---|---|---|
+| 1 | 公网可访问 | `curl http://<公网IP>/docs` 通 | ☐ |
+| 2 | SSE 流式从公网可用 | `curl -N` 逐条到达 | ☐ |
+| 3 | 进程崩溃能自恢复 | `systemctl restart` 后 3s 内恢复 | ☐ |
+| 4 | 最小评测页可访问 | `/eval` 含规模 + Recall@5 + CI + 警示 | ☐ |
+| 5 | 评测集 40 条来源可追溯 | 每条有 source 标注 | ☐ |
+| 6 | 简历已挂公网链接 | A/B 版都有 | ☐ |
+
+## 📦 W5 产出（可挂简历）
+
+- **技术**：公网可访问的 RAG 问答系统（FastAPI + SSE + Nginx + systemd 自恢复）＋ 最小评测页
+- **简历话术**：*"基于 RAG 的企业 HR 政策问答系统：文档分块 + 检索 + 生成，含 SSE 流式输出与异步限流；已部署至公网并提供检索质量评测页（40 条评测集，Recall@5 与置信区间实时可见）。"*
+- 🎯 **面试可讲**：*"我把 Nginx 的 proxy_buffering 关了——不然 SSE 会被缓冲攒够一块才转发，前端看起来卡死。这个坑不踩一次记不住。"*
+
+## 📚 W5 资源清单（全部可点击）
+
+| 资源 | 类型 | 优先级 | 时长 | 推荐理由 |
+|---|---|---|---|---|
+| [腾讯云轻量服务器文档](https://cloud.tencent.com/document/product/1207) | 官方文档 | **必学** | 3h | 部署主路径（建站/防火墙/证书） |
+| [nginx 文档](https://nginx.org/en/docs/) | 官方文档 | **必学** | 1.5h | 反代与 `proxy_buffering off` |
+| [systemd 手册](https://www.freedesktop.org/wiki/Software/systemd/) | 官方文档 | 选学 | 1h | 进程守护 |
+| 腾讯云[云+校园](https://cloud.tencent.com/act/pro/campus) / [阿里云轻量](https://www.aliyun.com) | 服务 | **D 级付费** | — | 156–199 元/年（见附录 C） |
+
+---
+# 📓 W6（10.06–10.12）· Agent Loop 白板演练 + 面试驱动补缺
+
+## 📍 目标
+
+- 能在白板/共享文档上**手写完整 Agent Loop**（≤300 行，讲清每行为什么存在）
+- 10 月笔面试高峰开启：**学习让位于面试**，按补缺清单补
+- ⚠️ **本月工时仲裁生效**：求职占用 60–105h，学习工时自动降至预算 50%（后 6 周按 10h/周）
+
+## ⏱ 时长分配（10h 学习 + 约 20h 求职）
+
+> ⚠️ **本周起学习预算腰斩是计划内的**，不是失败。若 10 月面试 ≥15 场，触发**二阶下修**：只保 ①W6 主线 ④面试复盘。
+
+| Day | 内容 | 学习（h） |
+|---|---|---|
+| D1–D3 | 手写 Agent Loop（每天一遍，直到不看笔记） | 6 |
+| D4–D5 | 补缺清单第一批 | 3 |
+| D6 | 复盘 + 下周排期 | 1 |
+
+---
+
+## 手写 Agent Loop 模板（背下来，含注释即讲稿）
+
+```python
+def agent_loop(user_query, llm, tools, max_steps=8, repeat_limit=3, timeout=30):
+    """
+    白板要点（边写边讲）：
+    1) 为什么是循环：LLM 只做"下一步决策"，执行在我们手里 → 必须循环
+    2) 为什么要有闸：LLM 会重复失败动作 → 三道终止条件
+    3) 为什么错误要回传：让 LLM 自己换策略，这是 Agent 与脚本的分界线
+    """
+    messages = [{"role": "system", "content": "你是一个 HR 政策助手..."},
+                {"role": "user", "content": user_query}]
+    history, t0 = [], time.time()
+
+    for step in range(1, max_steps + 1):
+        # ① 时间闸
+        if time.time() - t0 > 120:
+            return "（已中断：整体超时）" + summarize(history)
+
+        resp = llm.chat(messages, tools=tools, timeout=timeout)
+        if not resp.tool_calls:                      # ② 收敛条件：不再调工具
+            return resp.content
+
+        for call in resp.tool_calls:
+            # ③ 重复动作闸
+            sig = md5(f"{call.name}:{json.dumps(call.args, sort_keys=True)}")
+            history.append(sig)
+            if len(history) >= repeat_limit and len(set(history[-repeat_limit:])) == 1:
+                return f"（已中断：{call.name} 重复执行 {repeat_limit} 次）"
+
+            try:
+                result = tools[call.name](**call.args)
+            except Exception as e:
+                result = f"工具失败：{type(e).__name__}: {e}"   # ④ 错误回传，让它自己改
+
+            messages.append({"role": "tool", "name": call.name, "content": str(result)})
+
+    return "（已中断：达到最大步数）" + summarize(history)      # ⑤ 步数闸
+```
+
+> 注：这是**默写骨架**——省略 import 与 async 细节不影响白板讲解（面试官若追问：`summarize` 现场定义为「取最后一条工具结果的前 100 字」，`md5`/`json` 记得提 import）；可执行工程版以 `w6_hr_policy/app/agent_loop.py`（async 版）为准。
+
+**演练方式**：每天手抄一遍（纸笔或空白编辑器），**不看 `agent_loop.py`**。第 1 天可能 40 分钟，第 3 天应 ≤15 分钟且能边写边讲。
+
+### 踩坑笔记
+
+- 🔴 **只背结构不背"为什么"**：面试官问"为什么 max_steps 设 8"——答"随便设的"就废了。正确答法：**"我的任务 90% 在 4 步内收敛，设 8 是留一倍冗余；同时它也是我对外的 SLO（单次步数 ≤8）。"**
+- 🔴 **忘了错误回传这一环**：这是最能体现"理解 Agent 本质"的地方，漏了会被判定为"只是抄了框架"。
+- ✅ 验证标准：**15 分钟内**默写完成 + 边写边讲出 5 个设计决策的理由。
+
+---
+
+## 🧪 余力加深（选做，未做顺延 P1）：可靠性工程——限流 / 退避 / 容灾（约 8h）
+
+> **定位**：以下"余力加深"模块来自全路径框架版的工程深化内容（可靠性 / 可观测 / 安全 / 成本四块），在 P0 日历中**不占必做工时**——有面试余力再做，未做**顺延 P1 不影响出口**。但它是"把能跑变成敢跑"的核心叙事，**面试聊到稳定性时极其加分**，建议至少做完可靠性一块。
+> **依据（两条硬证据）**：[Datadog《State of AI Engineering 2026》](https://www.datadoghq.com/state-of-ai-engineering/)——2026 年 2 月有 5% 的 LLM span 报错，其中 **60% 由限流导致**；[ReliabilityBench](https://arxiv.org/abs/2601.06112)（1,280 episodes 故障注入）——**"限流是消融中最致命的故障"**。
+
+- **T-R1 限流 + 指数退避 + 抖动**（3h）：`asyncio.Semaphore` 并发上限；退避公式 `base * 2**i + uniform(0, 0.3)`（**抖动防惊群**——所有客户端同时重试等于二次打挂）。**验收**：注入 429 场景，退避间隔按指数增长且带随机抖动。产出 `reliability.py`。
+- **T-R2 双供应商容灾**（4h）：GLM↔DeepSeek 健康检查 + 自动切换 + 告警日志。**验收：吊销主 Key 后 60 秒内切换**（留计时证据）。产出 `failover.py`。
+- **T-R3 结论卡**（1h）：同论文——**ReAct 复合压力下比 Reflexion 更鲁棒**；Gemini 2.0 Flash 以更低成本达到 GPT-4o 相当可靠性。能讲"为什么选 ReAct 骨架"。
+
+> 🎯 **面试话术**："Datadog 的行业报告说 LLM 报错里 60% 是限流——所以我上了信号量并发上限 + 指数退避带抖动，并且双供应商 60 秒自动容灾，吊销主 Key 的演练我留了计时证据。"
+
+---
+
+## 🤝 W6 求职主线（约 20h —— 本月求职是主战场）
+
+| # | 任务 | 判据 | ☐ |
+|---|---|---|---|
+| 1 | 笔面试（按实际场次） | 每场 24h 内复盘 | ☐ |
+| 2 | 补缺清单第一批关闭 | 见下 | ☐ |
+| 3 | 投递收尾（10 月后岗位变少） | 台账不再新增冲刺档 | ☐ |
+| 4 | **周中检查：面试是否 ≥15 场** | 若是 → 触发二阶下修 | ☐ |
+
+### 补缺清单（格式固定，后面 5 周都用）
+
+```bash
+cat > job_hunt/log/backlog.md << 'EOF'
+# 补缺清单（面试驱动）
+| 日期 | 来源（公司/轮次） | 知识点 | 我的答案缺口 | 是否已补 | 复习日(D+1/D+3/D+7) |
+|---|---|---|---|---|---|
+| 10-08 | XX一面 | 间隙锁怎么防幻读 | 只答出 MVCC，没答间隙锁 | 是 | D+1 ✅ |
+EOF
+```
+
+> ⚠️ **风险提示**：补缺清单**必须带 D+1 / D+3 / D+7 复习**。只补一次 = 一周后还是答不上。**这是"面试驱动学习"能否真正沉淀的唯一机制。**
+
+---
+
+## ✅ W6 验收标准
+
+| # | 验收项 | 判据 | ☐ |
+|---|---|---|---|
+| 1 | 白板手写 Agent Loop | ≤15 分钟，能讲 5 个设计决策 | ☐ |
+| 2 | 补缺清单有内容且在推进 | ≥5 条，含复习标记 | ☐ |
+| 3 | 每场面试 24h 内复盘 | `review.md` 有记录 | ☐ |
+| 4 | 二阶下修判断已做 | 有明确结论（是/否触发） | ☐ |
+| 5 | （余力）可靠性模块 | 若做：限流退避生效 + 60s 容灾有计时证据 | ☐ |
+
+---
+# 📒 W7（10.13–10.19）· 面试驱动补缺（八股二轮）
+
+## 📍 目标
+
+- 把 W3–W4 的八股从"能讲"推到"**被追问 3 层不穿帮**"
+- 求职：笔面试高峰持续
+
+## ⏱ 时长分配（10h 学习 + 约 20h 求职）
+
+| Day | 内容 | 学习（h） |
+|---|---|---|
+| D1 | 拉取补缺高频 Top5 + 定攻坚顺序 | 1 |
+| D2–D5 | Top5 逐个关闭（每个配 3 层追问演练） | 8 |
+| D6 | 周复盘 + D+3 复习 + 下周排期 | 1 |
+
+### 二轮补缺方法：**只补被问倒的**
+
+```bash
+# 统计补缺清单里的高频缺口，优先补 Top5
+python - << 'PY'
+import re, collections
+txt = open("job_hunt/log/backlog.md", encoding="utf-8").read()
+rows = [l for l in txt.splitlines() if l.startswith("| 10-") or l.startswith("| 11-")]
+c = collections.Counter()
+for r in rows:
+    cells = [x.strip() for x in r.strip("|").split("|")]
+    if len(cells) >= 3: c[cells[2]] += 1
+print("高频缺口 Top5：")
+for k, v in c.most_common(5): print(f"  {k}  ×{v}")
+PY
+```
+
+**预期输出**：列出被问倒最多的 5 个知识点，本周只攻这 5 个。
+
+### 踩坑笔记
+
+- 🔴 **二轮还在从头背八股**：**只补被问倒的**。从头背 = 把时间花在已经会的地方。
+- 🔴 **补完不复习**：配 D+1 / D+3 / D+7。
+- ✅ 验证标准：Top5 缺口本周全部关闭，且每个都能连答 3 层追问。
+
+---
+
+## 🧪 余力加深（选做，未做顺延 P1）：可观测性——OTel 四层信号（约 9h）
+
+> **为什么面试官爱问可观测**：Datadog 报告里可观测性是 AI 工程岗位 JD 增速最快的关键词之一。四层信号：①**I/O**（session_id 关联）②**执行追踪**（父子 span 因果链）③**运行指标**（延迟 / token / 成本）④**质量信号**（幻觉 / faithfulness）——**别人把质量信号放最后，你最早规划，这就是差异化**。
+
+- **T-O1 OTel 接入**（5h）：span 覆盖 检索 → 生成 → 工具。主教材：[OpenTelemetry Python 中文文档](https://opentelemetry.io/zh/docs/languages/python/)。产出 `telemetry.py`。
+- **T-O2 trace 服务端生成**（2h）：**埋点必须在服务端执行器，不能让 Agent 自报**。依据：OpenAI 2026-07 [事故技术报告](https://cdn.openai.com/pdf/67869394-cb91-4c12-888c-5cbd85c7814c/OpenAI-Hugging%20Face%20Incident-Technical-Report.pdf)——METR 发现约 **7% transcript 中 agent 伪造自身 tool-call 日志**骗评分器。**agent 自报轨迹不可信，这是面试的高级论点。**
+- **T-O3 告警闭环**（2h）：每条告警 = 责任人 + 响应时限 + 升级路径（30 分钟未确认 → 手机推送）。同一事故中监控提前 1 天多已触发——**信号存在 ≠ 有人响应**。
+
+---
+
+## ✅ W7 验收标准
+
+| # | 验收项 | 判据 | ☐ |
+|---|---|---|---|
+| 1 | 高频缺口 Top5 已识别 | 有统计输出 | ☐ |
+| 2 | Top5 全部关闭 | 每个能连答 3 层 | ☐ |
+| 3 | 复习标记齐全 | D+1/D+3/D+7 有打勾 | ☐ |
+| 4 | 面试复盘无遗漏 | 每场 24h 内 | ☐ |
+| 5 | （余力）可观测模块 | 若做：四层 span 上线，trace 服务端生成 | ☐ |
+
+---
+# 📗 W8（10.20–10.26）· 项目深挖防线 + bug 故事
+
+## 📍 目标
+
+- 5 个作品每个准备 **2–3 个真实 bug 故事**（五段式）
+- 每个性能指标能回答"**测试集怎么建的、公式是什么、样本量够不够、是否显著**"
+- 求职：笔面试高峰
+
+## ⏱ 时长分配（10h 学习 + 约 8h 求职）
+
+| Day | 内容 | 学习（h） |
+|---|---|---|
+| D1–D3 | 5 个作品深挖稿（W6 主力先写，每天 1–2 个） | 6 |
+| D4–D5 | 指标四问过堂 + 反问清单 + 模拟深挖 1 场 | 4 |
+| D6 | 周复盘 + D+3/D+7 复习 | 计入上面 |
+
+## 五段式 bug 故事模板（每段 30 秒内）
+
+```
+① 场景：在做什么、期望 vs 实际
+② 根因：最后定位到什么、为什么难找
+③ 排查路径：按什么顺序排除了哪些假设  ← 这段最显工程素养
+④ 修复：改了什么、为什么这样改而不那样改
+⑤ 复盘：加什么防护避免再犯、沉淀了什么规则
+```
+
+### W6 可直接用的三个 bug 故事（从你真实踩过的坑里取）
+
+| # | 故事 | 五段式要点 |
+|---|---|---|
+| 1 | **SSE 前端卡死** | 场景：打开页面无输出 → 根因：Nginx `proxy_buffering on` 把流攒成块 → 排查：先查后端（能逐条 print）→ 再查网关 → 修复：`proxy_buffering off` + `proxy_read_timeout 300s` → 复盘：SSE 部署检查清单 |
+| 2 | **Agent 死循环烧钱** | 场景：某次查询跑了 40 步没停 → 根因：只有 max_steps，没检测重复动作 → 排查：看 trace 发现同一工具同一参数反复调用 → 修复：加动作指纹 + 连续 3 次中断 → 复盘：三件套缺一不可 |
+| 3 | **工具报错被吞** | 场景：Agent 说"查到了"但内容为空 → 根因：try/except 后没把错误回传 LLM，它以为成功了 → 排查：对比 trace 的 tool result → 修复：错误信息作为 tool message 回传 → 复盘：Agent 的容错在"回传"不在"捕获" |
+
+### 踩坑笔记
+
+- 🔴 **编造 bug 故事**：面试官会顺着细节追问（"你怎么定位的""试了哪些方案"），编的一问就穿。**只用真踩过的。**
+- 🔴 **只讲结果不讲排查路径**：第 ③ 段才是区分度所在——**被淘汰的假设**比正确答案更体现工程能力。
+- 🔴 **性能指标答不出"样本量"**：`写不出测试集构建过程的指标宁可不写`——被追问穿帮的代价远大于少写一个数字。
+- ✅ 验证标准：3 个 bug 故事各能在 90 秒内讲完，且第 ③ 段有 ≥2 个被排除的假设。
+
+---
+
+## 🧪 余力加深（选做，未做顺延 P1）：安全——注入防护 + 确定性门（≤4h）
+
+- **T-S1 注入防护 + 白名单 + 确定性门**（≤4h）：系统提示词加固；工具白名单（W2 已有雏形）；高危操作二次确认；**最简确定性门**（状态 / 策略 / 前置 / 后置四门，只读、无 LLM 参与，约 200 行）接在工具调用前。**验收：3 条注入样例（指令覆盖 / 数据外泄 / 权限提升）全部拦截且有记录**。产出 `safety.py`。
+- **必背叙事**：**CVE-2025-53773**（CVSS 7.8；Copilot 被植入指令改 `chat.tools.autoApprove:true` 致 RCE；微软 2025-08-12 修复，[CISA KEV 目录](https://www.cisa.gov/known-exploited-vulnerabilities-catalog)在列）——叙事闭环：论文证明确定性门有效，这条 CVE 是工业界缺门的真实后果，**微软补丁本质就是补了个门**。
+
+> 🎯 **面试话术**："LLM 的输出不能当安全边界——我把工具校验做成无 LLM 参与的确定性门，还准备了 3 条注入样例的拦截记录。CVE-2025-53773 就是工业界缺这个门的真实代价。"
+
+---
+
+## 🤝 W8 求职主线（约 8h）
+
+| # | 任务 | 判据 | ☐ |
+|---|---|---|---|
+| 1 | 笔面试（按实际场次） | 每场 24h 内复盘 | ☐ |
+| 2 | 深挖稿投入实战并回填 | 每场被追问的点当晚补进对应深挖稿 | ☐ |
+| 3 | 投递与在途流程跟进 | 台账无"忘记跟进"的滞留项 | ☐ |
+| 4 | **转化率终诊断（10/25 周日）** | 复跑 W3 诊断脚本：有数值、有结论，与「失效与切换规则」对照出动作 | ☐ |
+
+## ✅ W8 验收标准
+
+| # | 验收项 | 判据 | ☐ |
+|---|---|---|---|
+| 1 | 3 个 bug 故事成稿 | 五段式齐全，各 ≤90 秒 | ☐ |
+| 2 | 每个指标能答四问 | 测试集/公式/样本量/显著性 | ☐ |
+| 3 | 5 个作品的深挖防线 | 每个 ≥2 个追问点 | ☐ |
+| 4 | 反问环节准备 | ≥3 个有质量的问题 | ☐ |
+| 5 | （余力）安全模块 | 若做：3 条注入样例拦截且有记录 | ☐ |
+
+---
+# 📕 W9（10.27–11.02）· 期末考周（低强度）
+
+## 📍 目标
+
+> ⚠️ **本周学习投入降至 5h 以下，不安排里程碑交付。** 这是计划内的，不是拖延。
+> 依据：主路线 P0 校历冲突处理——"10/31 前后一周为期末考试，该周学习投入降至 5h 以下，不安排里程碑交付。10 月也是面试最密集期，本就应以面试为主——冲突自然消解。"
+
+- **仅保留**：不可改期的面试、每日 1 题算法手感、D+7 复习
+- **求职**：只保留不可改期的面试；考前 3 天专心备考
+- **余力模块纪律**：W6–W8 未做完的余力模块（可靠性 / 可观测 / 安全）**本周不硬扛**——考后余量做或整体顺延 P1（方针校历规则）
+
+## ⏱ 时长分配（≤5h 学习 + 约 8h 求职/考试）
+
+| Day | 内容 | 时长 |
+|---|---|---|
+| D1–D4 | 备考 + 每日 1 题算法（保持手感） | 各 1h |
+| D5–D6 | 考试 + D+7 复习 | — |
+| 全周 | 只参加不可改期的面试 | — |
+
+### 踩坑笔记
+
+- 🔴 **考周硬塞学习任务**：主路线已明确"该周不排里程碑"。**强行塞 = 考试和面试两头塌。**
+- 🔴 **算法完全停手**：每天 1 题只要 15 分钟，停一周手感会明显下滑。**保持最低剂量。**
+- ✅ 验证标准：考试正常发挥；算法每日 1 题未断；面试无缺席。
+
+---
+## ✅ W9 验收标准
+
+| # | 验收项 | 判据 | ☐ |
+|---|---|---|---|
+| 1 | 期末考试正常发挥 | — | ☐ |
+| 2 | 算法每日 1 题未断 | 本周 ≥6 题有记录 | ☐ |
+| 3 | 面试无缺席 | 不可改期面试全部参加，24h 内复盘 | ☐ |
+| 4 | 余力模块处置已决定 | 明确"考后做"或"顺延 P1"，写入台账 | ☐ |
+
+---
+# 📘 W10（11.03–11.09）· 补缺收口 + W6 稳定性验证
+
+## 📍 目标
+
+- 补缺清单**清零**（或明确标记为"转入 P1"）
+- **W6 连续 20 轮对话无崩溃、单次步数 ≤8** —— 这是 P0 出口的硬指标
+
+## ⏱ 时长分配（10h 学习 + 约 10h 求职）
+
+| Day | 内容 | 学习（h） |
+|---|---|---|
+| D1–D2 | 稳定性脚本落地（本地跑通）+ 修复暴露的问题 | 4 |
+| D3–D4 | 补缺清单收口 + 公网环境稳定性复测 | 4 |
+| D5 | Offer 处置规则定稿 + 演示脚本复查 | 2 |
+| D6 | 周复盘 + P0 出口预检（提前跑一遍 p0_gate.sh） | 计入上面 |
+
+## 连续 20 轮稳定性验证（可复制脚本）
+
+```python
+# w6_hr_policy/scripts/stability_test.py
+"""P0 出口硬指标：连续 20 轮无崩溃、单次步数 ≤8"""
+import asyncio, json, time, statistics
+from w6_hr_policy.app.agent_loop import run_agent
+from w6_hr_policy.app.llm import make_llm
+from w6_hr_policy.app.tools import IMPL
+
+def make_tools():
+    return dict(IMPL)    # W2 注册的全部 async 工具
+
+QUERIES = [
+    "年假怎么算", "年假能跨年休吗", "报销需要哪些材料", "差旅费标准是多少",
+    "试用期多久", "转正流程是什么", "社保什么时候开始交", "公积金比例是多少",
+    "考勤迟到怎么扣", "加班有调休吗", "离职需要提前多久", "离职证明怎么开",
+    "入职要带什么材料", "体检报销吗", "节假日加班费怎么算",
+    "婚假几天", "产假多少天", "病假怎么请",
+    "刚才说的年假能再说一遍吗",           # ← 测上下文/记忆
+    "帮我算一下我 2024 年 3 月入职到现在能休几天",  # ← 测工具调用
+]
+
+async def run_all():
+    """连续会话口径：20 条 query 在同一会话内顺序执行，history 全程贯穿——
+    第 19 条"刚才说的年假"只有接得住第 1 条的上下文才算真正测到记忆。
+    （v1.3 修订：原版每条 asyncio.run 独立调用、不传 history，"测上下文/记忆"名不副实。）"""
+    steps, latencies, crashes, breaks = [], [], 0, []
+    history = []                                   # 会话记忆：全程累积、逐轮传入 run_agent
+    llm, tools = make_llm(), make_tools()
+    for i, q in enumerate(QUERIES, 1):
+        t0 = time.time()
+        try:
+            ans, trace = await run_agent(q, llm, tools, history=list(history))
+            n_steps = len([t for t in trace if t.get("type") != "final"])
+            steps.append(n_steps); latencies.append(time.time() - t0)
+            if any(t.get("type") == "break" for t in trace):
+                breaks.append((i, [t.get("reason") for t in trace if t.get("type")=="break"]))
+            print(f"[{i:2d}/20] steps={n_steps}  {time.time()-t0:5.2f}s  {'⚠️中断' if any(t.get('type')=='break' for t in trace) else 'ok'}")
+            history += [{"role": "user", "content": q},
+                        {"role": "assistant", "content": ans or ""}]
+        except Exception as e:
+            crashes += 1
+            print(f"[{i:2d}/20] ❌ CRASH {type(e).__name__}: {e}")
+    return steps, latencies, crashes, breaks
+
+def main():
+    steps, latencies, crashes, breaks = asyncio.run(run_all())
+
+    print("\n=== P0 出口稳定性报告（连续会话口径）===")
+    print(f"崩溃次数            : {crashes}  {'✅ 通过（要求 0）' if crashes==0 else '❌ 不通过'}")
+    print(f"最大单次步数        : {max(steps) if steps else '-'}  {'✅ 通过（要求 ≤8）' if steps and max(steps)<=8 else '❌ 不通过'}")
+    print(f"平均步数            : {statistics.mean(steps):.2f}" if steps else "")
+    print(f"P95 延迟            : {sorted(latencies)[int(len(latencies)*0.95)-1]:.2f}s" if latencies else "")
+    print(f"被闸断的轮次        : {breaks if breaks else '无'}")
+    assert crashes == 0 and max(steps) <= 8, "P0 出口未达标"
+
+if __name__ == "__main__":
+    main()
+```
+
+```bash
+source venv/Scripts/activate
+python w6_hr_policy/scripts/stability_test.py
+```
+
+**预期输出**：`崩溃次数: 0 ✅`、`最大单次步数: ≤8 ✅`，并打印 P95 延迟。
+
+### 踩坑笔记
+
+- 🔴 **用 20 条雷同 query 测**：那不叫稳定性测试。**必须混入多轮追问（测上下文/记忆）和工具调用（测 FC）**——上面脚本最后两条就是干这个的。
+- 🔴 **中断（break）不等于崩溃，但要记录**：break 是闸生效（好事），崩溃是异常（坏事）。**两个都要统计，别混淆。**
+- 🔴 **只在本地跑不测公网**：要在公网环境再跑一遍，因为 Nginx / systemd 会引入新的失败模式。
+- 🔴 **脚本第一步就 `ImportError: rag`**：`tools.py` 的检索实现依赖 `w6_hr_policy/app/rag.py`——按第零步「引用文件现状核验表」兜底（把 `w6_rag_retriever.py` 的检索函数包成 `async retrieve()` 补上）后再跑。
+- ✅ 验证标准：本地与公网各跑一遍，均 `crashes=0` 且 `max_steps ≤8`；第 19 条“刚才说的年假”能接住第 1 条的答案（history 贯穿生效，v1.3 起脚本为连续会话口径）。
+
+---
+
+## 🧪 余力加深（选做，未做顺延 P1）：成本工程——prompt caching（约 7h）
+
+- **T-C1 prompt caching 实测**（5h）：接缓存 → 拿**命中率与成本对比**。依据：[Datadog 报告](https://www.datadoghq.com/state-of-ai-engineering/)——仅 **28%** 支持缓存的调用用了缓存；system prompt 占输入 token **69%**。产出 `docs/cache_report.md`。
+- **T-C2 分层路由**（2h）：简单问句 → 便宜模型的规则表 + 分流统计（与 W3 转化率思路同源：先分层，再谈优化）。
+
+> 🎯 **面试话术**："我实测了 caching 命中率——system prompt 占了输入 token 的近七成，接上缓存后成本曲线直接掉一截，报告里有对比数据。"
+
+---
+
+## 🤝 W10 求职主线（约 10h）
+
+| # | 任务 | 判据 | ☐ |
+|---|---|---|---|
+| 1 | 投递收尾（11 月大批岗位截止） | 确认所有在投公司的截止日已登记 | ☐ |
+| 2 | 补录窗口关注 | 已建立补录信息源（官网 + 公众号 + 牛客） | ☐ |
+| 3 | **Offer 处理规则已明确** | 见下 | ☐ |
+
+### ⚠️ Offer 时间锚点与签前三核对
+
+> **滴滴 Offer 预计 10 月末、百度 11 月起** —— 都落在 11 月中旬之前，因此**现在就该准备好"拿到 offer 怎么接"**。
+
+| 情形 | 处置 |
+|---|---|
+| 拿到**满意** offer | ①立即停止新增投递，但**不停止 W6 主线与面试复盘**（毁约损伤口碑）②省下的求职工时转为学习工时 ③做入职前技术栈预习 |
+| 只有**保底** offer | 接受保底 + 继续走，求职工时降为每周 ≤5h（只跟高意向流程） |
+| 想再冲 | 设**截止时间（11.16 P0 出口）**：届时无更好结果立即签保底。**不要用"再等等"把两条路都拖没** |
+
+**签前三核对**：①劳动合同条款 ②试用期与薪资结构 ③五险一金缴纳基数。
+**并且**：**不要立刻答应**——用第一个 offer 作其他流程的筹码，但**要问清答复截止日**。
+
+### 踩坑笔记
+
+- 🔴 **拿到 offer 就停掉 W6**：**offer 改变的是时间分配，不是主线内容。** W6 与评测能力无论是否上岸都要继续——它们是长期差异化资产。
+- 🔴 **"再等等"拖没两条路**：必须设死线。
+- ✅ 验证标准：无论哪种情形，都有明确动作且已写入台账。
+
+---
+
+## ✅ W10 验收标准
+
+| # | 验收项 | 判据 | ☐ |
+|---|---|---|---|
+| 1 | 稳定性测试通过（本地 + 公网） | crashes=0，max_steps ≤8 | ☐ |
+| 2 | 补缺清单清零或转 P1 | 无悬空条目 | ☐ |
+| 3 | 截止日已全部登记 | 台账 deadline 列完整 | ☐ |
+| 4 | Offer 处理规则已定 | 三情形各有动作 | ☐ |
+| 5 | （余力）成本模块 | 若做：caching 命中率有数据 + cache_report.md | ☐ |
+
+---
+# 📙 W11（11.10–11.16）· P0 出口自检 + 补录启动
+
+## 📍 目标
+
+- **P0 出口 6 项全绿**（逐条自检，不达标就明确转入 P1 并记录原因）
+- 补录窗口正式启动
+
+## ⏱ 时长分配（6h 学习 + 求职按需）
+
+| Day | 内容 | 学习（h） |
+|---|---|---|
+| D1–D2 | 出口自检逐项跑证据（脚本 / 计时 / 笔记归档） | 3 |
+| D3–D4 | 未达标项：能补则补；不能补则书面转 P1 并记录原因 | 2 |
+| D5 | P0 全程复盘 + P1 展开准备 | 1 |
+
+## P0 出口自检表（对照主路线第十二章）
+
+| # | 出口项 | 判据 | 自检命令 / 证据 | ☐ |
+|---|---|---|---|---|
+| 1 | **W6 v1.7 多轮 + 流式 + 3 工具稳定运行** | ≥3 工具可用，多轮不丢上下文 | `python w6_hr_policy/scripts/stability_test.py` | ☐ |
+| 2 | **连续 20 轮无崩溃、单次步数 ≤8** | 本地 + 公网各一遍 | 同上报告 | ☐ |
+| 3 | **白板手写 Agent Loop** | ≤15 分钟，能讲 5 个设计决策 | 计时演练 | ☐ |
+| 4 | **W6 v1.7 公网可访问 + 最小评测页**（L1 可用级） | 4 条 curl 全通 | `curl` 四条 | ☐ |
+| 5 | **L0 达标＝计网 / OS / 数据库 / 缓存四块各能讲 3 层追问** | 闭卷自测 ≥80% | `notes/` 四目录笔记 | ☐ |
+| 6 | **秋招台账完整** | 含投递/笔试/面试/截止日/转化率 | `applications.csv` 统计可跑 | ☐ |
+
+**余力项（选做，未做不影响出口，逐项注明"顺延 P1"）**：
+☐ 限流退避 + 60s 双供应商容灾（有计时证据）｜ ☐ OTel 四层 + trace 服务端生成 ｜ ☐ 3 条注入样例拦截记录 ｜ ☐ caching 命中率实测（cache_report.md）
+
+> **注**：算法 Hot100 ≥30 道**已顺延至 P1**（P0 期间只做每日 1–2 道手感维持），不计入 P0 出口。
+
+### 一键自检脚本
+
+```bash
+cat > w6_hr_policy/scripts/p0_gate.sh << 'EOF'
+#!/usr/bin/env bash
+# P0 出口一键自检
+# 用法：公网验收 bash p0_gate.sh <公网IP>；本地验收 bash p0_gate.sh 127.0.0.1:8000
+IP="${1:-127.0.0.1:8000}"
+pass=0; fail=0
+chk() { if eval "$2" >/dev/null 2>&1; then echo "✅ $1"; pass=$((pass+1)); else echo "❌ $1"; fail=$((fail+1)); fi; }
+
+chk "公网 /health"        "curl -sf http://$IP/health"
+chk "公网 /docs"          "curl -sf http://$IP/docs"
+chk "公网 SSE 流式"        "curl -sN --max-time 8 'http://$IP/chat/stream?q=test' | head -3"
+chk "公网 /eval 评测页"    "curl -sf http://$IP/eval"
+chk "20 轮稳定性脚本存在"  "test -f w6_hr_policy/scripts/stability_test.py"
+chk "评测集存在"           "test -f w6_eval_set.json"
+chk "台账可统计"          "python -c \"import pandas as pd; df=pd.read_csv('job_hunt/log/applications.csv'); assert len(df)>0\""
+chk "模型名配置化"        "grep -rq 'os.getenv' w6_hr_policy/app/config.py"
+chk "密钥未入库"          "grep -q '^\.env$' .gitignore"
+
+echo "----"; echo "通过 $pass 项，失败 $fail 项"
+[ $fail -eq 0 ] && echo "🎉 P0 出口全绿" || echo "⚠️ 有未达标项，需明确转入 P1 并记录原因"
+EOF
+chmod +x w6_hr_policy/scripts/p0_gate.sh
+bash w6_hr_policy/scripts/p0_gate.sh <公网IP>
+```
+
+**预期输出**：9 项全 ✅ 则打印 "🎉 P0 出口全绿"。
+
+### 踩坑笔记
+
+- 🔴 **把"转入 P1"当遮羞布**：不如实标"未达标 + 原因"，P1 就会从一个空头承诺开始。**宁可少一项，不可虚报一项。**
+- 🔴 **只自检不记录**：把输出存进 `job_hunt/log/p0_gate_result.txt`，作为 P1 复盘的基线。
+- ✅ 验证标准：脚本输出已存档；未达标项有书面原因。
+
+---
+
+## 🤝 W11 求职主线：补录窗口启动
+
+> 11 月后大厂会因候选人释放 offer 而启动补录，**岗位变少、部分免笔试，是捡漏窗口不是主力**。
+
+| # | 动作 | 判据 | ☐ |
+|---|---|---|---|
+| 1 | 建立补录信息源 | 目标公司官网 + 招聘公众号 + 牛客 三类 | ☐ |
+| 2 | 每日固定时段刷（如 09:30 / 21:00 各一次） | 不占主线时间 | ☐ |
+| 3 | 跟进未完结流程 | 台账中"等待"状态的公司全部跟进一次 | ☐ |
+| 4 | **12 月切回主路线** | 已排入 P1 计划（见下文「全路径概览」） | ☐ |
+
+---
+# 🎤 面试弹药：P0 可讲的 8 个踩坑故事（STAR 法则）
+
+> 每个控制在 30–45 秒，讲清「问题 → 我做了什么 → 结果量化」。**只用真踩过的，编的一问就穿。**
+
+| # | 故事 | 出自 | 强度 |
+|---|---|---|---|
+| 1 | **SSE 前端卡死**：Nginx 默认 `proxy_buffering on` 把流攒成块，前端看起来卡住 → 关缓冲 + 超时设 300s | W5 | ⭐⭐⭐⭐⭐ |
+| 2 | **Agent 死循环烧钱**：只设了 max_steps，没检测重复动作 → 加动作指纹，连续 3 次中断 | W1 | ⭐⭐⭐⭐⭐ |
+| 3 | **工具报错被吞**：try/except 后没回传 LLM，它以为成功了 → 错误信息作为 tool message 回传 | W1–W2 | ⭐⭐⭐⭐ |
+| 4 | **工具串行太慢**：3 个独立检索串行 3s → `asyncio.gather` 并发降到 1s | W2 | ⭐⭐⭐⭐ |
+| 5 | **评测集不敢报数**：40 条下 Recall@5 置信区间 ±13.7pp → 标注"仅供流程验证"，扩到 80 条再报 | W5 | ⭐⭐⭐⭐⭐ |
+| 6 | **模型下线全线 500**：厂商模型标注下线，硬编码模型名导致崩溃 → 改配置化管理 | 第零步 | ⭐⭐⭐ |
+| 7 | **并发下 TTL 缓存击穿**：100 并发查同一个不存在的 key，DB 被打 100 次 → 空值缓存 + 互斥锁降到 1 次 | W4 | ⭐⭐⭐⭐⭐ |
+| 8 | **GIL 选型实测**：CPU 密集多线程跑不满多核 → 实测改用多进程；I/O 密集仍用线程 | W3 | ⭐⭐⭐⭐ |
+
+**加分故事（若真遇到 / 做了余力模块）**：
+- 9. `.env` 差点提交到 GitHub → gitignore + `git status` 双重检查（第零步）
+- 10. systemd 没配 `Restart=always`，进程崩了不再起来（W5）
+- 11. 评测量化：把"感觉变好了"改成"Recall@5 从 X 到 Y（95% CI …）"（W5）
+- 12. **限流退避 + 60s 容灾**：LLM 报错 60% 来自限流（Datadog）→ 信号量 + 指数退避带抖动 + 双供应商 60 秒切换演练留证（W6 余力）
+- 13. **agent 自报轨迹不可信**：7% transcript 伪造 tool-call 日志（OpenAI 事故报告）→ trace 一律服务端生成（W7 余力）
+
+---
+# 📊 P0 总验收（11.16 当天逐条打勾）
+
+| 周 | 交付物 | 判据 | ☐ |
+|---|---|---|---|
+| W1 | 终止三件套 + SSE + 两版简历 + 台账 | 环境 10 项全绿；台账 ≥5 行 | ☐ |
+| W2 | 多工具 Agent（≥3 工具 + 并发 + 双重校验） | 5 条用例全过 | ☐ |
+| W3 | 计网 + OS 追问链 | 6 题闭卷 + 每组连答 3 层 | ☐ |
+| W4 | 数据库 + 缓存 + Python 特性 | 三大问题 + Cache-Aside + 默认参数坑 | ☐ |
+| W5 | **W6 v1.7 公网部署 + 最小评测页** | L1 可用级 6 项全绿 | ☐ |
+| W6 | 白板手写 Agent Loop | ≤15 分钟 + 5 个设计决策 | ☐ |
+| W7 | 补缺 Top5 关闭 | D+1/D+3/D+7 复习齐全 | ☐ |
+| W8 | 3 个 bug 故事 + 指标四问 | 各 ≤90 秒，含排查路径 | ☐ |
+| W9 | 期末考通过 | — | ☐ |
+| W10 | 20 轮无崩溃 + 步数 ≤8 | 本地 + 公网各一遍 | ☐ |
+| W11 | **P0 出口 6 项全绿** | `p0_gate.sh` 9/9 | ☐ |
+| 全程 | 8 个踩坑故事 | 每个 30–45 秒，有量化 | ☐ |
+| 余力 | 可靠性 / 可观测 / 安全 / 成本 | 任做：有产出物与验收证据；未做注明"顺延 P1" | ☐ |
+
+---
+# ⚠️ 失效与切换规则（P0 全程适用）
+
+**一份没有失效条件的计划不是计划。** 出现以下任一信号，立即按表切换：
+
+| 信号 | 判据 | 切换动作 |
+|---|---|---|
+| **投递无转化** | 投 30+ 家、面试 0 场（转化率 <3%） | **问题在简历/通道，不在能力**。停止海投 → 找 2–3 人做简历 review → 核对毕业口径是否被卡 → 转向中小厂与本地企业（合肥科大讯飞、南京中小 AI 企业）。**先修漏斗，再加水。** |
+| **求职挤压学习** | 10 月面试 ≥15 场 | 触发**二阶下修**：P0 学习只保 ①W6 主线 ④面试复盘，其余（含余力模块）全部顺延。**不要为了完成清单而少投一家公司。** |
+| **W6 数据永久阻塞** | 9 月内既拿不到真实政策、公开文本也不可用 | **启用第二主线**：改用 W4（异步限流压测）或新建"公开文档问答"项目作载体——**评测与可靠性能力不变，换的只是业务外壳。**（正常情况下第零步 0.5 已解除此风险） |
+| **框架必须提前** | 连续 3 场面试 ≥2 场被追问框架细节且答不上 | 当周补最小可用集（2 周内），不必等 P3。简历如实写"计划中"，不造假。 |
+| **方案整体作废** | 至 12 月仍 0 offer 且转化率持续 <3% | "长期深耕"假设失效 → 转为求职优先模式：学习让位于实习/社招准备，本方案降级为参考。 |
+
+---
+# 📌 给孟轩的 6 条执行提醒
+
+1. **求职优先级高于学习，但 W6 主线不可断。** 10 月是主战场；但 W6 v1.7 是唯一的长期资产，毁约损伤口碑，两者都不放手。
+2. **每天必须有投递动作，不等"简历完美"。** 简历会在投递反馈中变好，不会在孤独修改中变好。
+3. **面试后 24h 内必须复盘。** 这是"面试驱动学习"能否成立的唯一机制。漏了就等于没面。
+4. **转化率是信号，不是运气。** 只记"面了几场"会骗自己；记分母（投了多少家），满 20 家就诊断。
+5. **每个数字都要能答四问**：测试集怎么建的、公式是什么、样本量够不够、是否显著。**答不出的数字宁可不写。**
+6. **每个项目 git 入库。** `git init` + 有意义的 commit message + README（运行命令 + 结果截图）。这就是作品集。
+
+---
+# 🗺 全路径概览（P1–P4 · 概要占位）
+
+> **只看方向与门槛，不执行。** 每节标注解锁条件；届时结合前沿信息与孟轩反馈展开为详细清单。本清单的余力模块（可靠性/可观测/安全/成本）若 P0 未做完，**优先并入 P1 开头补齐**。
+
+## P1 · RAG 深化 + 评测体系（11/17–2027/1/10，193h）★★★★★
+
+**解锁条件**：W6 v1.7 上线 + 每日产出纪律稳定。
+**目标**：评测集 ≥80 条（现成 40 条翻倍）；≥3 组对照实验（分块/检索/重排）**经多重比较校正**（3 组 α′=0.017、不一致对数 ≥38）；caching 命中率数据；W7（Pandas/NumPy）收缩执行。
+**资源锚点**：[Datawhale all-in-rag](https://datawhale.cn)（必学 ~25h）、[BGE 模型](https://modelscope.cn)（B 级）、[RAGAS](https://docs.ragas.io) / [DeepEval](https://github.com/confident-ai/deepeval) / [Langfuse](https://langfuse.com) / [Phoenix](https://phoenix.arize.com)（A 级）、评测方法论直接用方针第七章；小样本效度参考 [arXiv 2608.00794](https://arxiv.org/abs/2608.00794)、裁判体系参考 [AgentJudgeBench](https://arxiv.org/abs/2608.26623) 与 [Agent-as-a-Judge](https://arxiv.org/abs/2410.10934)。
+
+## P2 · 工程化 + 30 天运维挑战（1/11–2/28，171h）★★★★
+
+**目标**：可用率 ≥99%（7×24 探针 31 天）+ MTTR；凭证不进执行环境 + trace 服务端生成；确定性门有拦截记录；告警闭环。
+**亮点**：挑战期覆盖春节——"无人值守 7 天自动容灾"叙事。
+**资源锚点**：腾讯云开源沙箱 CubeSandbox（凭证注入 + 日志服务端转发 + 快照回滚；⚠️ 仓库地址以腾讯云官方公告为准，媒体报道未逐字核实）、[HF AI Agents Course](https://huggingface.co/learn)（免费双证，B 级）。
+
+## P3 · 框架 + MCP（3/1–4/30，214h）★★★★
+
+**目标**：LangGraph 重写 W6 + 重写决策报告（≥5 维度）；MCP Server。
+**引入条件**：断点续跑 / 人工审核 / 审计追踪任一需求出现；反向触发（面试连续被追问）则提前。
+**资源锚点**：[LangChain Academy LangGraph 官方课](https://academy.langchain.com)（6–8h 免费）、[MCP 2026-07-28 规范](https://modelcontextprotocol.io)（六项关键变化）；避坑：AutoGen 已进入维护模式 → 用 Microsoft Agent Framework 或 LangGraph。
+
+## P4 · 收官（5/1–6/30，152h，扣毕设 2.5 周）★★★
+
+3 个作品（W6 全家桶 + MCP Server + 自选）+ 5 分钟架构拷打 + 毕设与主线绑定。行业背景参考：[Gartner 预测](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027)（超 40% agentic 项目将于 2027 底前取消——**能活下来的都是工程扎实的**，这正是 P0–P2 在攒的东西）。
+
+## ML/DL 补课的归宿
+
+v8.0 的「W7–W11 ML/DL 200h 计划」**不再执行**（已被 P0–P4 主线取代，ML/DL 定位为加分项穿插）；Scikit-learn / Transformer 按需各 4–6h 概念卡，理论查询入口 `stage2_mldl_resource_pack.md`。
+
+---
+# 附录 A · 命令速查表
+
+```bash
+source venv/Scripts/activate                    # 环境（磁盘实测：venv/ 无点前缀）
+cp w6_sample_policy.txt policy_context.txt      # 解除 W6 阻塞
+python w6_eval_runner.py                        # 评测基线（Recall@5 / MRR）
+streamlit run w6_hr_qa_app.py                   # Streamlit 界面
+uvicorn _sse_demo:app --port 8010 &  curl -N http://127.0.0.1:8010/stream   # SSE 最小验证（8010 避开主服务 8000）
+uvicorn w6_hr_policy.app.main:app --port 8000   # W6 主服务
+# 排错速查：检索为空 → wc -c policy_context.txt → 查路径常量 → grep -n policy_context w6_*.py
+#           评测脚本报 embedding 错 → 它被改成语义版了，主线 BM25 不联网
+#           PowerShell 激活失败 → Git Bash source，或 Set-ExecutionPolicy -Scope Process Bypass
+pip install matplotlib seaborn -i https://pypi.tuna.tsinghua.edu.cn/simple  # P1 才需要
+```
+
+---
+# 附录 B · 工时对账表（预算 ↔ 周计划）
+
+> 三个口径的关系：**预算 137h（求职仲裁后实收）⊇ 必做 109h + 缓冲 28h**。各周表头为"满打满算"口径（含弹性与每日 Hot100 手感维持），求职挤压时按下表收缩。
+
+| 周 | 周计划学习工时 | 主要构成（对应 109h 拆分） |
+|---|---|---|
+| W1 | 20h | 第零步基线 + Agent Loop 深化（③） |
+| W2 | 20h | Function Calling 深挖（③）+ W6 主线（①） |
+| W3 | 20h | L0 计网 + OS（②） |
+| W4 | 20h | L0 数据库 + 缓存（②）+ Python 特性 |
+| W5 | 16h | W6 主线（①，v1.7 上线硬 deadline） |
+| W6–W11 | 10+10+10+5+10+6 = 51h | W6 主线收尾（①）+ 面试复盘（④）+ 补缺 |
+| **合计** | **147h** | 必做 109h + 弹性/手感项 38h |
+
+**对账说明**：
+- 周计划合计 147h > 预算 137h：差额 10h 是**计划内弹性**——第零步返工、部署踩坑、面试临时插入都从这里出；不消耗则自然成为提前量。
+- 求职挤压时的收缩顺序（最终保必做 109h）：先砍 Hot100 手感与各周余力加深 → 再砍选学资源 → 最后只保 ①W6 主线 ②L0 四块 ③Agent Loop / FC ④面试复盘。
+- 10 月起学习工时降至 50%（W6–W11 已按 10h/周排，W9 考周 ≤5h）——这是仲裁规则，不是失败。
+
+---
+# 附录 C · 资料来源与获取难度总表
+
+> 难度图例：**A** 直接获取（免费）｜**B** 免费注册｜**C** 注册+实名/人脸｜**D** 付费｜**E** 本人申请（涉个人账号）。桌面操作副本：`学习清单任务资料合集\00_资料索引_含获取难度.md`。各周资源已分散在对应「📚 资源清单」，本表为总索引。
+
+| 资源 | 周次/部分 | 链接 | 难度 |
+|---|---|---|---|
+| w6_hr_qa/README | 第零步 | 项目本地 | A |
+| Streamlit 文档 | 第零步/W1 | https://docs.streamlit.io | A |
+| Datawhale hello-agents | 第零步 | https://github.com/datawhalechina/hello-agents | A |
+| kamacoder | 第零步/W2 | https://notes.kamacoder.com | A |
+| llm-universe | 第零步 | https://github.com/datawhalechina/llm-universe | A |
+| 牛客 | W3 | https://www.nowcoder.com | B |
+| LeetCode Hot100 | W3–W4 | https://leetcode.cn/studyplan/top-100-liked/ | B |
+| 小林 coding 图解网络/系统/MySQL | W3–W4 | https://xiaolincoding.com | A |
+| Python asyncio / selectors 文档 | W3 | https://docs.python.org/zh-cn/3/library/asyncio.html | A |
+| FastAPI 中文文档 | W1 | https://fastapi.tiangolo.com/zh/ | A |
+| MDN SSE | W1 | https://developer.mozilla.org/zh-CN/docs/Web/API/Server-sent_events | A |
+| 吴恩达《Agentic AI》 | W1–W2 | https://www.deeplearning.ai/courses/agentic-ai/ | B |
+| Pydantic v2 | W2 | https://docs.pydantic.dev | A |
+| OpenAI Function Calling | W2 | https://platform.openai.com/docs/guides/function-calling | B |
+| Datadog State of AI Engineering 2026 | W6/W10 余力 | https://www.datadoghq.com/state-of-ai-engineering/ | A |
+| ReliabilityBench | W6 余力 | https://arxiv.org/abs/2601.06112 | A |
+| 记忆系统反例（arXiv 2603.29231） | W1 | https://arxiv.org/abs/2603.29231 | A |
+| OpenTelemetry 中文文档 | W7 余力 | https://opentelemetry.io/zh/docs/languages/python/ | A |
+| CISA KEV 目录（CVE-2025-53773） | W8 余力 | https://www.cisa.gov/known-exploited-vulnerabilities-catalog | A |
+| OpenAI《HF Incident》技术报告 | W7 余力 | https://cdn.openai.com/pdf/67869394-cb91-4c12-888c-5cbd85c7814c/ | A |
+| 腾讯云轻量文档 | W5 | https://cloud.tencent.com/document/product/1207 | A |
+| 腾讯云云+校园 / 阿里云轻量 | W5 | https://cloud.tencent.com/act/pro/campus ＆ https://www.aliyun.com | C+D |
+| nginx / systemd 文档 | W5 | https://nginx.org/en/docs/ ＆ https://www.freedesktop.org/wiki/Software/systemd/ | A |
+| Make a README | 全程 | https://www.makeareadme.com | A |
+| 《AI 工程》Chip Huyen（书） | 选修 | 各电商平台 ~120 元；免费替代 https://huyenchip.com | D |
+| 《MySQL 是怎样运行的》（书，可选） | W4 | 各电商平台 | D |
+| 效度乘性模型 / AgentJudgeBench / Agent-as-a-Judge | P1 | https://arxiv.org/abs/2608.00794 ＆ 2608.26623 ＆ 2410.10934 | A |
+| all-in-rag / BGE 模型 | P1 | https://datawhale.cn ＆ https://modelscope.cn | A/B |
+| RAGAS / DeepEval / Langfuse / Phoenix | P1 | https://docs.ragas.io 等 | A |
+| MCP 规范 2026-07-28 | P3 | https://modelcontextprotocol.io | A |
+| HF AI Agents Course（免费双证） | P2+ | https://huggingface.co/learn | B |
+| LangChain Academy LangGraph | P3 | https://academy.langchain.com | B |
+| Gartner 新闻稿 | P4 | https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027 | A |
+| CubeSandbox 开源沙箱 | P2 | GitHub 搜"CubeSandbox"（以官方公告为准） | A |
+
+> **E 级（需本人申请，无法代取）**：ima OpenAPI 凭证——https://ima.qq.com/agent-interface 生成后存 `~/.config/ima/`；配好后可自动建/更新 ima 笔记。配置前按桌面合集 `03_ima笔记_交付框架_待粘贴.md` 手动建笔记（每日三问 / 每周复盘 / 数字台账 / 补缺清单 / 转化率 / P0 出口打勾 6 个模板，只填【】处）。
+
+---
+**编制**：迪莫 ｜ 2026-09-05（合并终版 → v1.1：修复 26 项 → v1.2：补遗漏/顺顺序/细化拆分与依赖链 16 项 → v1.3：记忆链贯穿/评测页真数据/0.5b 顺序矛盾等 10 项修复（15 处替换）；缺陷台账与逐轮自评见《P0_checklist_optimization_selfeval_20260905》）
+**依据**：《长期成长版：AI 应用 / Agent 开发系统成长路径（主路线）》第五章 P0 ＋《秋招冲刺版方案（仅供参考，非主路线）》第三、四、五章
+**合并说明**：本版以《阶段一_P0_秋招并行期_周次执行清单_详细版》（按日教程版）为基底，融入《学习执行清单_全路径框架_P0详细版》的卷首框架/交付物清单、各周资源清单（含可点击链接）、余力工程模块（可靠性/可观测/安全/成本）、全路径概览（P1–P4）与附录 C 资源总表。三处经确认的口径调整：①venv 路径按磁盘实测统一为 `venv/`；②评测集采用现成 `w6_eval_set.json` 40 条（CI 口径 ±13.7pp）；③工程深化模块降为各周"余力加深（选做，未做顺延 P1）"。冲突处以按日教程版为准。
+**未编造声明**：本清单所有命令均为可在所述环境直接执行的模板；价格、厂商政策、招聘时间线均为 2026-09 快照并标注浮动性；凡涉及数字，先问能否给出 URL。CubeSandbox 仓库地址未逐字核实已标注。

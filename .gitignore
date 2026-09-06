@@ -19,3 +19,10 @@ w6_hr_qa/eval/result_*.json
 .idea/
 .DS_Store
 Thumbs.db
+
+# ── 运行产物与本地凭证脚本（2026-09-06 zcode 补）──
+w6_eval_results_*.json
+w6_eval_final_*.json
+recompute_*.out
+_cos_upload*
+w6_hr_policy/data/*.db

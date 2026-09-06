@@ -28,3 +28,14 @@ python-dotenv>=1.0.0     # 读取脚本同级 .env（import 名：dotenv）
 
 # 注意：chromadb 在 Windows 可能要求 C++ 编译环境，装不上可尝试降级
 #       pip install chromadb==0.4.24
+
+# ═══════════════════════════════════════════════
+# 【P0 · W6 v1.5+ 服务端依赖】（2026-09-06 zcode 按 venv pip freeze 实测锁定）
+# ═══════════════════════════════════════════════
+fastapi==0.141.1          # W6 v1.5 SSE 服务（随装 starlette==1.6.0 / pydantic==2.13.4）
+sse-starlette==3.4.11     # EventSourceResponse（SSE 流式）
+uvicorn==0.52.4           # ASGI 服务器
+python-dotenv==1.2.3      # .env 配置加载（锁版本优先于上方 >= 约束）
+pandas==3.0.5             # 投递台账统计（F-1 数字回填）
+jsonschema==4.26.0        # W6 v1.6 工具调用 Schema 校验
+openai==3.5.0             # DeepSeek OpenAI 兼容客户端
