@@ -39,5 +39,17 @@ def main():
     print("\n[PASS] C2 终止三件套（v1.6 接线）：死循环用例 %d 步停止，reason=%r，错误已回传记录" %
           (len(trace), breaks[-1]["reason"]))
 
+def test_max_steps_boundary():
+    """off-by-one 回归（Z12）：第 max_steps 步应可执行，step > max_steps 才中断。"""
+    from w6_hr_policy.app.agent_loop import LoopBreaker
+    b = LoopBreaker(max_steps=3)
+    assert not b.check(1)[0], "第 1 步不应中断"
+    assert not b.check(2)[0], "第 2 步不应中断"
+    assert not b.check(3)[0], "第 max_steps(3) 步应允许执行（off-by-one 已修复）"
+    brk, reason = b.check(4)
+    assert brk and "max_steps" in reason, "超过 max_steps 后必须中断"
+    print("[PASS] max_steps 边界：第 3 步可执行、第 4 步才中断（实际可执行步数 = MAX_STEPS）")
+
 if __name__ == "__main__":
     main()
+    test_max_steps_boundary()

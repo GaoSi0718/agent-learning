@@ -26,7 +26,7 @@ TOOLS = [
         "type": "function",
         "function": {
             "name": "calc_annual_leave",
-            "description": "根据入职日期计算司龄与国家法定年假档位。公司手册条款不在本工具职责内——回答公司口径前请先用 search_policy 检索'年假'核实。仅在需要具体数字时使用。",
+            "description": "根据入职日期计算司龄与国家法定年假档位。注意：本工具按司龄（入职本公司后的年数）计算，与国家法定的「累计工龄」口径不同——员工若有入职前工龄，其法定档位可能上浮，此时须并列说明两口径。公司手册条款不在本工具职责内——回答公司口径前请先用 search_policy 检索'年假'核实。仅在需要具体数字时使用。",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -92,6 +92,7 @@ async def _leave(hire_date: str, as_of: str | None = None) -> str:
     else:
         statutory = 15
     return (f"截至 {d1.isoformat()}，司龄约 {years} 年。"
+            f"【口径】本结果按司龄计算；国家法定档位以「累计工龄」为准，若员工有入职前工龄，法定档位可能上浮，两口径须并列说明。"
             f"【国家法定】累计工龄满1年不满10年 5 天 / 满10年不满20年 10 天 / 满20年 15 天"
             f"→ 本例按法定 {statutory} 天。"
             f"【注意】公司手册对年假另有规定，具体条款请先 search_policy 检索「年假」核实；"

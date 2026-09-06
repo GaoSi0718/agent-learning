@@ -17,8 +17,14 @@ ROOT = Path(__file__).resolve().parents[1]
 TESTS_DIR = ROOT / "w6_hr_policy" / "tests"
 PER_TEST_TIMEOUT = 120
 
-# 这些测试按设计需要「本地服务已启动 + 真实 LLM API」，不进默认门禁（--e2e 显式开启才跑）
-E2E_TESTS = {"test_b2_e2e.py", "test_b1_memory_12rounds.py"}
+# 这些测试按设计需要「真实 LLM API」或「本地服务已启动」，不进默认门禁（--e2e 显式开启才跑）。
+# test_b2_tool_selection 曾被误归类为离线（每次门禁烧 10 次真实调用），Z12 修正——以其自身
+# docstring「走真实 DeepSeek tool_calls 判定」为准。
+E2E_TESTS = {
+    "test_b2_e2e.py": "HTTP 段需本地服务已启动；进程内段需真实 API",
+    "test_b1_memory_12rounds.py": "12 轮真实 LLM 调用 + 需本地服务",
+    "test_b2_tool_selection.py": "10 条问句走真实 DeepSeek tool_calls（约 10 次 API 调用）",
+}
 
 def discover():
     offline, e2e = [], []

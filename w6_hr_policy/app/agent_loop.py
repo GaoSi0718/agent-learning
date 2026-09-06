@@ -26,8 +26,11 @@ class LoopBreaker:
         ).hexdigest()
 
     def check(self, step, tool_name=None, args=None):
-        """返回 (should_break, reason)。reason 会被写进日志——这是可复盘的关键。"""
-        if step >= self.max_steps:
+        """返回 (should_break, reason)。reason 会被写进日志——这是可复盘的关键。
+        off-by-one 修正（Z12，迪莫审计发现项）：原 `step >= max_steps` 会让第
+        max_steps 步被拦截，实际可执行步数只有 MAX_STEPS-1；改为 `step > max_steps`
+        后第 max_steps 步可正常执行，步数耗尽由 run_agent 的循环收尾统一交代。"""
+        if step > self.max_steps:
             return True, f"max_steps({self.max_steps}) reached"
         if time.time() - self.start > self.total_timeout:
             return True, f"total_timeout({self.total_timeout}s) exceeded"
@@ -93,4 +96,7 @@ async def run_agent(user_query, llm, tools, breaker=None, history=None):
             if cid:
                 msg["tool_call_id"] = cid
             messages.append(msg)
-    return "（达到最大步数，未得出最终结论）", trace
+    # 循环自然耗尽 = 恰好跑满 max_steps 步仍未收敛：与其他中断同构，留 break 记录可复盘
+    trace.append({"step": breaker.max_steps, "type": "break",
+                  "reason": f"max_steps({breaker.max_steps}) reached"})
+    return f"（已中断：max_steps({breaker.max_steps}) reached）根据已有信息：暂无结论", trace
