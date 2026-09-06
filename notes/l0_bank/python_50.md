@@ -1,0 +1,276 @@
+# L0 题库 · Python 50 题
+
+> **用途/格式/口径**：同 network_50.md。**高频重点**：GIL 与并发模型（配 gil_demo.py 实测）、装饰器/闭包、可变默认参数、内存与 GC、生成器与协程、深浅拷贝、异常与上下文管理器。
+> 主版本口径：Python 3.13（W6 venv 实测 3.13.x）。
+
+---
+
+## 一、数据结构与引用语义（8 题）
+
+### 1. 深拷贝与浅拷贝的区别？
+- **简答**：浅拷贝只复制容器第一层（内部对象仍共享引用）；深拷贝递归复制所有层级。
+- **深答**：`copy.copy` vs `copy.deepcopy`；`list[:]`/`dict.copy()`/构造器都是浅拷贝。经典坑：嵌套列表 `a=[[1,2]]*3` 三处共享同一内层列表，改一个全变——乘法复制的是引用。深拷贝的实现要点：memo 字典防循环引用；拷贝自定义对象可重写 `__copy__`/`__deepcopy__`。面试手写「深拷贝 json 序列化替代方案的缺陷」（不能处理不可序列化对象/性能差）是加分项。
+- **来源**：Python 官方文档 copy 模块；《流畅的 Python》第 8 章
+
+### 2. 可变对象作默认参数的坑？
+- **简答**：默认值在函数定义时求值一次并绑定到函数对象，可变默认值会被多次调用共享；修复用 None 哨兵。
+- **深答**：`def f(x, acc=[])` 的 acc 跨调用累积——因为默认值存在 `f.__defaults__` 里是同一个对象。正确写法 `def f(x, acc=None): acc = [] if acc is None else acc`。这个坑与闭包变量绑定、late binding（循环里定义 lambda 全捕获同一变量）并称 Python 三大「绑定时机」坑。W6 代码规范：任何工具函数签名禁止可变默认值。
+- **来源**：Python 官方 FAQ；W6 任务清单 D5 考点
+
+### 3. list/tuple/set/dict 的选型与复杂度？
+- **简答**：list 有序可变（append O(1)、in O(n)）；tuple 不可变可哈希；set/dict 哈希（in O(1)）无序（3.7+ dict 保插入序）。
+- **深答**：选型即性能：频繁成员判断用 set/dict（O(1)）不用 list（O(n)）；需要不可变/可哈希（做 dict 键、集合元素、函数注解常量）用 tuple；namedtuple/dataclass(frozen=True) 是「带名字的 tuple」。dict 保序是 3.7 语言规范（3.6 CPython 实现细节），依赖它合法但跨实现要谨慎。实现层：list 是过度分配的指针数组（扩容 1.125 倍系数需复核），dict 是开址哈希表+紧凑索引数组（3.6+ 内存优化）。
+- **来源**：Python 官方文档（TimeComplexity wiki 需复核链接）；《流畅的 Python》第 3 章
+
+### 4. is 与 == 的区别？什么对象会驻留？
+- **简答**：== 值相等（调 __eq__），is 身份相同（同一对象，比 id）；小整数与短字符串会被 CPython 驻留，is 判断可能「碰巧为真」。
+- **深答**：驻留范围：-5~256 小整数缓存、编译期字符串字面量自动 intern、运行期拼出的字符串不保证（sys.intern 手动）。规则：业务代码只用 is 判 None/True/False（单例），其余一律 ==。pyc 反例：`x=257; y=257` 在同一行 vs 两行结果不同（常量折叠差异）——证明 is 比较值是运气不是语义。
+- **来源**：Python 官方文档（Data Model/小整数缓存 CPython 行为需复核）；《流畅的 Python》第 8 章
+
+### 5. 什么是鸭子类型？与静态类型的关系？
+- **简答**：看行为不看血统（能 walk+quack 就是鸭子）；3.5+ 类型注解与 mypy 提供静态检查，运行时不强制，两者互补。
+- **深答**：duck typing 让「无需继承也能多态」：任何有 .read() 的对象都能传给要 file 的函数。工程折中：大型项目用 Protocol（结构化类型，typing.Protocol 定义「有这些方法就算」）显式表达鸭子契约，IDE/mypy 双收益。W6 的 FakeLLM 测试桩正是鸭子类型实践——注入对象只需实现 .chat()，llm.py 零改动。回答时引用项目这个例子比背概念强。
+- **来源**：Python 官方文档 typing.Protocol；《流畅的 Python》第 11 章；W6 llm.py 接线注释
+
+### 6. str 与 bytes 的区别与编码？
+- **简答**：str 是 Unicode 码点序列；bytes 是原始字节序列；编解码在两者之间转换，默认 UTF-8 环境。
+- **深答**：三件套：encode（str→bytes）/decode（bytes→str）/UnicodeDecodeError 的处理（errors='replace'/'ignore'）。Windows 经典坑：文件默认编码非 UTF-8（locale 依赖），读写文件显式 `open(path, encoding='utf-8')` 是铁律——W6 读取 policy_context.txt 就是显式 UTF-8。gbk 乱码问题、「锟斤拷」的由来（UTF-8 双重解码到替换字符 U+FFFD）是生动考点。
+- **来源**：Python 官方文档（Unicode HOWTO）；《流畅的 Python》第 4 章；W6 工程约定
+
+### 7. 什么是生成器？与迭代器的关系？
+- **简答**：含 yield 的函数即生成器（迭代器的工厂）；惰性产出、省内存、可表示无限序列。
+- **深答**：生成器自动实现迭代器协议（__iter__/__next__），执行到 yield 暂停并保存栈帧。三个工程价值：①流式处理大文件（逐行读不载入内存）；②构建管道（生成器链，只在最终消费时执行——惰性级联）；③协程的地基（yield 让出控制权→asyncio 的 await 语法糖前身）。陷阱：生成器只能遍历一次（耗尽即 StopIteration），复用要重新构造——「函数返回生成器，调用方重复迭代」是隐蔽 bug。
+- **来源**：《流畅的 Python》第 14、15 章；Python 官方文档（生成器）
+
+### 8. dict 的 key 要求与哈希机制？
+- **简答**：key 必须可哈希（实现 __hash__ 且生命周期内哈希不变）；自定义对象默认按 id 哈希可变对象（list）不可哈希。
+- **深答**：CPython dict 用开放寻址+扰动（哈希高位置异或低位减少碰撞）；扩容按 2/3 装填因子重哈希。自定义类做 key 要同时正确实现 __hash__ 与 __eq__（相等对象必须同哈希——不变式）；可变 __hash__ 是灾难（进 dict 后修改→找不到）。dataclass 的 eq=True 默认把 __hash__ 置 None（不可哈希），frozen=True 才恢复——能解释这个设计联动是加分项。
+- **来源**：Python 官方文档 Data Model；《流畅的 Python》第 3 章
+
+## 二、函数与作用域（7 题）
+
+### 9. Python 的作用域规则（LEGB）与闭包？
+- **简答**：查找顺序 Local→Enclosing→Global→Builtins；内层函数引用外层变量形成闭包（绑定变量不是值）。
+- **深答**：赋值语句决定作用域：函数内赋值即本地变量，要改外层须 global/nonlocal 声明。经典坑：循环里 `lambda: i` 全部返回同一个 i（闭包捕获变量绑定）——用默认参数 `lambda i=i:` 在定义时固化。闭包的内存含义：被引用的局部变量随 cell 对象存活（__closure__ 可查看），大量闭包=延迟释放。
+- **来源**：Python 官方文档（作用域/def 语义）；《流畅的 Python》第 7 章
+
+### 10. 装饰器的原理与带参装饰器？
+- **简答**：装饰器是「接收函数返回新函数」的高阶函数，@ 是语法糖；带参装饰器多包一层工厂。
+- **深答**：`@dec` 等价 `f = dec(f)`；带参 `@dec(arg)` 等价 `f = dec(arg)(f)`。工程标配：functools.wraps 保留原函数元信息（否则文档/调试名全变 wrapper）；类装饰器（实现 __call__）可维护状态。W6 tools.py 的 `@register("search_policy")` 就是注册型装饰器——把「新增工具」从改中心列表变成加一个函数，开闭原则的最小实现，面试可直接引用。
+- **来源**：Python 官方文档（functools.wraps）；《流畅的 Python》第 9 章；W6 tools.py
+
+### 11. *args 与 **kwargs、仅位置/仅关键字参数？
+- **简答**：*args 收集位置参数、**kwargs 收集关键字参数；`/` 前仅位置、`*` 后仅关键字（强制清晰调用）。
+- **深答**：参数顺序：positional-only(/) → *args → keyword-only(*) → **kwargs。设计价值：API 演进不破坏调用方（重要参数用 keyword-only 防位置错传——`send(msg, *, urgent=False)`）。解包调用 `f(*list, **dict)` 是参数转发标准姿势（W6 的 call_with_retry(fn, *args, **kwargs) 转发层就是实例）。面试手写：实现一个记录耗时的通用包装器。
+- **来源**：Python 官方文档（函数定义）；W6 resilience.py call_with_retry
+
+### 12. 什么是 functools.lru_cache？什么时候不能用？
+- **简答**：把函数结果按参数缓存（LRU 上限）；参数必须可哈希、函数要纯（同样入参同结果），有副作用/返回可变对象时不能用。
+- **深答**：注意点：①缓存可变返回值会被调用方改掉污染缓存（返回前拷贝或改设计）；②maxsize=None 无上限（内存风险）；③方法上加缓存会把 self 收进 key（对象不相等就各存一份，内存放大）——用 property+类级缓存更稳；④3.9+ 的 @cache 是无上限便捷版。递归 fib 的经典演示之外，真实场景是「工具调用结果缓存」——与 W6 计划中的答案缓存同构。
+- **来源**：Python 官方文档 functools；呼应 redis_50.md 题 50（答案缓存设计）
+
+### 13. lambda 的限制与替代？
+- **简答**：单表达式匿名函数；复杂逻辑用具名函数（可读性/可调试性）；sorted(key=lambda x: x[1]) 是典型用途。
+- **深答**：lambda 不能含语句（赋值/多行/try），这逼迫它只做「表达式级转换」。key 函数模式是核心用途：`sorted(users, key=lambda u: (-u.age, u.name))` 多键排序用负号/元组技巧。可读性原则：lambda 超过一行换 def； late-binding 坑见题 9。PEP8 规定不要把 lambda 赋值给变量（用 def）。
+- **来源**：PEP 8；Python 官方文档
+
+### 14. 高阶函数 map/filter/reduce 与列表推导的取舍？
+- **简答**：优先列表推导（可读、快）；多级链式用推导替代嵌套 map/filter；跨类型聚合用 reduce 谨慎（sum/max 先）。
+- **深答**：推导的优势：条件分支表达自然（`[f(x) if c else g(x) for x in xs]`）、避免 lambda。性能：推导有专用字节码（LIST_APPEND）比 map+lambda 免函数调用开销略快。生成器推导 `(x for x in xs)` 处理大数据流（不物化）。map 的适用位：已有现成函数（map(str, xs)）而非造 lambda。
+- **来源**：《流畅的 Python》第 2 章；Python 官方文档
+
+### 15. 什么是递归的尾调用问题？Python 为什么不优化尾递归？
+- **简答**：Python 无尾递归优化（Guido 的明确决定：保留栈轨迹可读性），深递归要改迭代或显式栈，默认递归深度约 1000。
+- **深答**：`sys.setrecursionlimit` 只是调阈值不改栈帧内存（真爆的是 C 栈，段错误风险）。树遍历类问题标准解法：显式栈/队列迭代（DFS 用 list 当栈、BFS 用 deque）。工程纪律：递归深度可控（树高有限）才用递归；外部输入驱动的递归（解析用户数据）一律迭代——DoS 面都考虑到了。OJ/笔试里 Python 深递归翻车是高频事故。
+- **来源**：Python 官方文档 sys.setrecursionlimit；Guido 博文（Tail Recursion Elimination，需复核链接）
+
+## 三、GIL 与并发（8 题）
+
+### 16. 什么是 GIL？它保护什么、限制什么？
+- **简答**：全局解释器锁保证同一时刻只有一个线程执行 Python 字节码；保护解释器内部状态（引用计数），限制多线程无法并行执行 CPU 密集代码。
+- **深答**：GIL 是 CPython 实现细节不是语言规范（Jython/IronPython 无）。细节：IO 阻塞时释放 GIL（所以多线程对 IO 密集有效）；C 扩展可在计算时释放（numpy 大矩阵运算走 BLAS 并行）。3.13 的实验性 free-threaded 构建（PEP 703，--disable-gil）开始去 GIL——2026 面试提到这个演进是亮点，但要说明「生态兼容仍在过渡，默认构建仍有 GIL」。
+- **来源**：Python 官方文档（GIL/glossary）；PEP 703；呼应 W6 gil_demo.py 实测
+
+### 17. 多线程 vs 多进程 vs asyncio 的选型？
+- **简答**：CPU 密集多进程；IO 密集线程或 asyncio（高连接数/长连接选 asyncio）；混合负载组合使用。
+- **深答**：W6 gil_demo.py 实测口径：CPU 密集 4 线程≈单核（GIL 串行化）vs 4 进程≈4 倍——「实测数字进答案」是面试杀手锏。asyncio 的适用条件：连接多、单连接流量小、全链路可异步（一同步阻塞全崩）；线程适合阻塞库生态（requests/DB 驱动）或低并发任务。决策树背下来：先问 CPU 还是 IO→再问连接规模→再问生态兼容。
+- **来源**：《流畅的 Python》第 21 章；W6 notes/os/gil_demo.py（实测需在 W2 补跑，D2 任务）
+
+### 18. threading.Lock 与 RLock 的区别？哪些操作是「原子的」？
+- **简答**：Lock 不可重入（重入死锁），RLock 可重入（同线程可多次获取）；单字节码级操作近似原子，`x+=1` 这类多字节码复合操作不是。
+- **深答**：GIL 下的原子性误区：dict[key]=val 单条 STORE_SUBSCR 原子，但 `d[k] = d.get(k,0)+1` 是三步——多线程计数仍要锁。竞态不只发生在「锁」，还发生在「检查再行动」（check-then-act）。标准库的选择：队列用 queue.Queue（内部锁+条件变量封装好）；计数用 itertools.count 或加锁。经验法则：共享可变状态要么锁、要么不可变、要么消息传递。
+- **来源**：Python 官方文档 threading；《流畅的 Python》第 21 章
+
+### 19. asyncio 的事件循环模型？什么时候 await 会让出控制权？
+- **简答**：单线程循环执行回调/协程任务；await 遇「真正异步操作」（IO/事件）时挂起当前协程让出循环，同步阻塞调用不会让出。
+- **深答**：心智模型：事件循环是「单线程的调度器」，await 是「可挂起的函数调用」。致命错误：在协程里调 time.sleep/requests——整个循环卡住（所有并发任务全停）。正确姿势：asyncio.sleep、异步库（aiohttp/httpx.AsyncClient）、CPU 活用 `loop.run_in_executor`/`asyncio.to_thread` 下沉线程池。W6 的 run_agent 里 gather 并发工具调用即 asyncio 实战（B2 并发 0.51s 实测）。
+- **来源**：Python 官方文档 asyncio；W6 dispatch.py run_calls 实测
+
+### 20. asyncio.gather 与 Task 的异常处理？
+- **简答**：gather 默认任一任务异常即抛出（但其余任务继续跑完，容易漏异常）；return_exceptions=True 收集所有结果/异常；Task 未 await 的异常在 GC 时才炸出警告。
+- **深答**：并发工具调用的健壮性设计（W6 dispatch 的真实问题）：每个任务 try 包裹收敛为结果对象（status: ok/error），保证「单工具失败不炸整批」——这就是 dispatch.run_calls 的设计，比裸 gather 更可控。调试神器：asyncio 的 debug 模式（PYTHONASYNCIODEBUG=1）能抓「协程从未 await」「回调超时」。
+- **来源**：Python 官方文档 asyncio.gather；W6 dispatch.py one() 收敛设计
+
+### 21. multiprocessing 的进程池与 IPC 注意点？
+- **简答**：Pool.map/apply_async 分发任务，参数经 pickle 跨进程；不能 pickle 的对象（连接/锁/lambda）不能传；共享用 Manager/共享内存。
+- **深答**：坑清单：①Windows 下 spawn 启动（重新 import 主模块，必须有 `if __name__ == '__main__'` 保护否则无限递归）；②大参数 pickle 开销（改传文件路径/共享内存）；③Pool 的回调在主进程线程执行（别阻塞）；④进程间状态不共享——「进程池里的全局计数器」是无效设计。数据科学并行（joblib）本质是进程池+大对象走内存映射。
+- **来源**：Python 官方文档 multiprocessing；W6 gil_demo.py 进程分支
+
+### 22. 什么是线程安全？W6 限流器怎么保证的？
+- **简答**：多线程并发访问数据结构仍保持正确；W6 rate_limit.py 用 threading.Lock 保护每 IP 时间戳字典的「清理+记账+判定」三步。
+- **深答**：限流器的竞态场景：两个请求同时 check 同一 IP——不持锁时都读到 59 个命中都放行（超卖）。锁内只做内存操作（deque popleft/append），无 IO，持锁纳秒级——符合「临界区最小」原则。升级路径：多 worker/多机部署时内存计数失效，迁 Redis 集中计数（ZSet+Lua），呼应 redis_50 题 40。这段是「把八股讲成自己项目」的现成素材。
+- **来源**：W6 rate_limit.py；呼应 redis_50.md 题 40
+
+### 23. 什么是协程的取消与超时控制？
+- **简答**：asyncio.wait_for(task, timeout) 超时抛 TimeoutError 并取消任务；协程在 await 点被 CancelledError 打断，清理放 finally。
+- **深答**：取消语义要点：CancelledError 不应被裸 except Exception 吞掉（要重新抛出或显式处理）；shield 保护不可中断段（写库事务）；超时三层：单操作超时（wait_for）→整链路预算（asyncio.timeout 上下文管理器 3.11+）→重试退避（W6 resilience 的 backoff）。W6 的重试总预算算式（3×30s+1.5s<120s 总闸）就是「超时预算思维」的实例。
+- **来源**：Python 官方文档（asyncio.timeout/wait_for）；W6 resilience.py 超时预算注释
+
+### 24. 什么是结构化并发（TaskGroup）？
+- **简答**：3.11+ 的 asyncio.TaskGroup 把并发任务组织成块：块内任务全结束/有异常才退出，异常聚合为 ExceptionGroup，杜绝「孤儿任务」。
+- **深答**：裸 create_task 的问题：任务生命周期游离，异常没人收（静默丢失），取消传播混乱。TaskGroup 的 async with 块保证：退出时所有子任务已终结；一个失败取消全部（fail-fast 可选）。W6 的 dispatch 若升级 3.11+ 可用 TaskGroup 收敛 gather 的异常处理。这是「asyncio 从玩具走向工程」的分水岭特性，2026 面试新宠。
+- **来源**：PEP 654/671 相关（TaskGroup，需复核）；Python 官方文档 asyncio.TaskGroup
+
+## 四、内存管理与 GC（6 题）
+
+### 25. Python 的内存管理与引用计数？
+- **简答**：主机制是引用计数（归零即释放，实时无暂停）；辅以分代 GC 处理循环引用；小对象走 pymalloc 内存池。
+- **深答**：引用计数的代价：每次赋值/传参都改计数（GIL 保护的原子性之一，这也是 GIL 存在的根因——去 GIL 后引用计数要改成biased reference counting，PEP 703 的核心工作）；无法处理循环引用→gc 模块分代回收（0/1/2 三代，扫描容器对象）。pymalloc：≤512B 对象从 arena 池分配，免 malloc 系统调用。
+- **来源**：《Python 高性能编程》第 2 章需复核；CPython 文档（gc 模块/内存管理）；PEP 703
+
+### 26. gc 模块的阈值与手动控制？
+- **简答**：gc.get_threshold() 默认 (700,10,10)：分配-释放差超 700 触发 0 代回收，0 代回收 10 次触发 1 代……；大量短命对象场景可调或 gc.freeze()。
+- **深答**：调优场景：①批处理前 gc.disable() + freeze()（把长期存活对象移出扫描集）降低停顿；②内存泄漏排查：gc.get_objects()/objgraph 找增长类型；③weakref 建缓存/观察者不阻止回收（weakref.WeakValueDictionary）。真相澄清：大多数「Python 内存泄漏」是引用被有意无意持有（全局表/闭包/缓存无界），不是 gc 的锅——先查持有者再怪 GC。
+- **来源**：Python 官方文档 gc 模块；objgraph 文档（需复核）
+
+### 27. __del__ 与上下文管理器（with）的资源释放？
+- **简答**：__del__ 时机不确定（解释器退出/循环引用延迟）不可依赖；确定性释放用 with/async with 的 __exit__；W6 的 SQLite 连接建议 with。
+- **深答**：with 的原理是上下文管理器协议（__enter__/__exit__），exit 无论异常与否都执行（异常时收异常参数，返回 True 吞异常）；contextlib.contextmanager 用生成器快速构造。文件/锁/连接一律 with——CPython 的引用计数让「离开作用域即释放」看似可靠，但循环引用/异常路径下会失效，**显式 with 是唯一可靠姿势**。Java try-with-resources/C++ RAII 同思想。
+- **来源**：Python 官方文档（with 语句/contextlib）；W6 main.py SQLite 用法（改进点）
+
+### 28. __slots__ 是干什么的？
+- **简答**：类声明固定属性集合，省去每实例的 __dict__——省内存（约 50-70%）+属性访问稍快，代价是不能动态加属性。
+- **深答**：百万级小对象场景（解析器节点、游戏实体）的内存优化首选；配合 dataclass(slots=True)（3.10+）一行开启。代价：多继承冲突、弱引用需 __weakref__ 显式、序列化库兼容性检查。判断口诀：「对象数量级上万才值得 slots，否则是过早优化」。
+- **来源**：Python 官方文档（__slots__）；《流畅的 Python》第 11 章
+
+### 29. 什么是内存泄漏的常见来源？怎么定位？
+- **简答**：无界缓存、全局容器只增不减、闭包持有大对象、线程局部残留、C 扩展泄漏；定位：tracemalloc 快照对比/objgraph 找引用链/gc.get_referrers。
+- **深答**：实操流程：①RSS 增长曲线确认泄漏；②tracemalloc.start() + 两个时点 snapshot + compare_to 找增长 top；③objgraph.show_growth()/show_backrefs() 找「谁引用着它」；④修复模式：lru_cache 加 maxsize、缓存加 TTL、WeakValueDictionary。W6 的场景提示：记忆库 load limit=40 行是有界设计——「有界」是防泄漏的设计意识。
+- **来源**：Python 官方文档 tracemalloc；objgraph 文档；W6 main.py load() 注释
+
+### 30. Python 对象的「可哈希」「可变」与别名（aliasing）？
+- **简答**：Python 变量是「名字绑定对象」的引用；赋值从不拷贝；函数传参同理（call by object reference / call by sharing）。
+- **深答**：一切坑的总根源：`b = a` 后改 `a.append` 影响 b（同一对象两个名字）；函数内改可变参数会惊动调用方（防御性 copy 或文档声明）。别名+可变+共享=并发/调试地狱三件套，解法梯度：不可变对象（tuple/frozen dataclass）→ 拷贝边界（函数入口拷贝）→ 所有权约定。面试经典题：`def f(x, lst=[])` 与 `b=a[:]` 组合出题。
+- **来源**：《流畅的 Python》第 8 章（变量与别名）；Python 官方 FAQ
+
+## 五、面向对象与协议（7 题）
+
+### 31. @property 与 setter 的使用时机？
+- **简答**：把方法伪装成属性访问，用于「读时计算/写时校验」；不滥用——有逻辑才包属性，纯透传直接用字段。
+- **深答**：渐进式设计的钥匙：字段先裸奔，需要校验时无缝升级为 property（调用方零改动）——这正是它的设计动机（Java 的 getX/setX 前置噪音的反面）。注意点：property 里做重 IO 是陷阱（属性语义应轻）；setter 抛 ValueError 保护不变量。dataclass 时代简单数据类不需要 property，行为型类才用。
+- **来源**：《流畅的 Python》第 22 章需复核；Python 官方文档 property
+
+### 32. 魔法方法速查：__repr__ 与 __str__、__eq__、__getitem__？
+- **简答**：__repr__ 面向开发者（要能重建对象）、__str__ 面向用户；__eq__ 定相等（连带 __hash__）；__getitem__ 让对象可下标迭代。
+- **深答**：铁律：只写 __repr__ 不写 __str__ 时 str 回退 repr（可接受）；写 __eq__ 会置 __hash__ 为 None（变不可哈希）除非同时实现——呼应题 8 的 dataclass 联动。协议化思维：实现 __len__/__getitem__ 就支持 for/切片/in——「面向协议编程」让自定义类无痛接入语言设施（W6 的 _Resp 对象带 .content/.tool_calls 即鸭子协议）。
+- **来源**：Python 官方文档 Data Model；《流畅的 Python》第 1、10 章
+
+### 33. 类方法/静态方法/实例方法的区别与 classmethod 的妙用？
+- **简答**：实例方法收 self；classmethod 收 cls（工厂构造、继承感知）；staticmethod 只是命名空间的函数。
+- **深答**：classmethod 的杀手锏：`Date.from_iso(s)` 这类替代构造器——子类调用时 cls 自动是子类（继承友好），比把构造逻辑塞 __init__ 判断类型干净得多。enum.Enum 的 _missing_、dataclass 的工厂都是该模式。staticmethod 的定位：与类相关但不用类/实例状态的纯函数（放类里为了内聚）。
+- **来源**：《流畅的 Python》第 11 章；Python 官方文档
+
+### 34. MRO 与多重继承的坑？
+- **简答**：MRO 是 C3 线性化的方法查找顺序（类定义序+继承序的调和）；super() 按 MRO 找下一个而非「父类」；菱形继承用 cooperative multiple inheritance（各层 super 链式调用）。
+- **深答**：super().method() 的正确心智：沿 MRO 找下一个类，不是「我的父类」——混入（Mixin）设计的基础。Mixin 纪律：混入类不实现 __init__（或都 super 调用）、功能正交、命名带 Mixin 后缀。dataclass/enum/abc 都是标准库里的 Mixin 实战。面试手写：给出菱形继承图问 super 调用顺序——画 MRO 即答。
+- **来源**：Python 官方文档（MRO/C3）；《流畅的 Python》第 12 章
+
+### 35. dataclass 与普通类的取舍？
+- **简答**：@dataclass 自动生成 __init__/__repr__/__eq__，适合「以数据为主」的类；行为复杂/需要自定义不变量的用普通类或组合。
+- **深答**：进阶参数：field(default_factory=list) 解决可变默认值（呼应题 2 的类版）；frozen=True 不可变+可哈希；slots=True 省内存（题 28）；kw_only=True 强制关键字构造（3.10+）。与 Pydantic 的分工：dataclass 纯数据结构零依赖；Pydantic 增加运行时校验与序列化（API 边界）——W6 的 LLM 参数校验若升级，Pydantic 是现成路线。
+- **来源**：Python 官方文档 dataclasses；Pydantic 官方文档
+
+### 36. 什么是抽象基类与 Protocol 的区别？
+- **简答**：ABC 是名义类型（显式继承才「是」），可提供模板方法；Protocol 是结构类型（有这些方法就行），无需继承，接近静态语言的 interface 但按行为匹配。
+- **深答**：选型：库作者约束「必须继承我」用 ABC（可注册虚拟子类 register）；想兼容第三方/鸭子对象用 Protocol（mypy 静态验证）。W6 的 FakeLLM 如果要静态检查，定义 `class LLMProto(Protocol): def chat(...)` 即可——测试桩与真实 LLM 都满足协议，注入零改动。这是「测试友好设计」的类型化表达。
+- **来源**：Python 官方文档（abc/typing.Protocol）；PEP 544
+
+### 37. 异常的最佳实践？自定义异常体系怎么设计？
+- **简答**：继承 Exception 起业务异常族（不要裸继承 BaseException）；捕获具体类型；异常链 raise ... from e；不吞异常、不裸 except。
+- **深答**：设计要点：①模块顶层定义异常基类（W6Error），子类表达语义（ToolValidationError）——调用方可按族捕获；②except Exception as e 后 raise NewError(...) from e 保留因果链（__cause__）；③finally/else 的语义分工；④「捕获-记录-再抛」还是「捕获-处理」按层决定（边界层转 HTTP 状态码，内层只抛）。反模式：except: pass（吞中断信号 KeyboardInterrupt 也在 BaseException——裸 except 会连它一起吞）。
+- **来源**：PEP 3134（异常链）；Python 官方文档（异常层级）；《流畅的 Python》第 24 章需复核
+
+## 六、标准库与工程化（7 题）
+
+### 38. logging 的分层配置与最佳实践？
+- **简答**：Logger 层级树传播→Handler 输出→Formatter 格式；库代码只 getLogger(__name__) 不配 handler，配置交给应用层。
+- **深答**：实践清单：①用参数化消息 logger.info("x=%s", x) 而非 f-string（延迟格式化，DEBUG 关闭时省开销）；②结构化日志（json 字段）便于检索；③不要在循环里高频 ERROR（告警风暴）；④多进程/asyncio 下用 QueueHandler 收敛写文件。W6 的启动日志（fail-closed 提示）遵循「库打印到 stdout、部署层收集」约定。
+- **来源**：Python 官方文档 logging HOWTO；W6 auth.py/main.py 日志实践
+
+### 39. pathlib 与 os.path 的取舍？
+- **简答**：pathlib 面向对象（/ 拼接、glob、read_text），跨平台分隔符统一；新代码默认 pathlib，与旧 API 交互时 str(p) 转换。
+- **深答**：价值点：`Path(__file__).resolve().parents[2]` 求项目根（W6 各测试与 config.py 都用它替代 cwd 相对路径——呼应 Z2 报告的 memory.db 相对路径坑）；`p.read_text(encoding='utf-8')` 一行替代 open+read+close。坑：Path 不能直接进某些 C 扩展 API（转 str）；比较大小写随文件系统行为。
+- **来源**：Python 官方文档 pathlib；W6 config.py/rag.py 实践
+
+### 40. json 序列化的坑（datetime/自定义对象/ensure_ascii）？
+- **简答**：json 只支持有限类型，datetime/dataclass 要 default 参数或先转字典；ensure_ascii=False 输出真中文；中文写文件带 encoding='utf-8'。
+- **深答**：工程要点：①default=lambda o: o.isoformat() 处理时间；②dataclasses.asdict/object.__dict__ 的取舍（asdict 递归且类型安全）；③round-trip 精度（float 的 js 兼容问题）；④W6 的 trace/SSE 输出都用 ensure_ascii=False 保证中文可读——这是项目里的真实参数（main.py SSE 分片 json.dumps）。CSV 用 utf-8-sig 让 Excel 识别 BOM（Z4 候选池 CSV 的实际选择）。
+- **来源**：Python 官方文档 json；W6 main.py/Z4 gen_eval_candidates.py 实践
+
+### 41. time.sleep vs asyncio.sleep、time.monotonic vs time.time？
+- **简答**：异步代码用 asyncio.sleep（让出循环）；测耗时用 time.monotonic（单调钟不受系统改时影响），time.time 是墙上时钟。
+- **深答**：两个时钟的分工：time.time 可回拨（NTP 校时），做超时/测量会出负时长——monotonic/perf_counter 专为测量（perf_counter 精度更高含休眠，monotonic 不保证跨平台语义细节需复核）。W6 两处实证：rate_limit.py 用 time.monotonic 记时间戳（限流窗口不受改时影响）；resilience.py 用 time.perf_counter 算延迟 ms。「选对时钟」是分布式/监控题的基础素养。
+- **来源**：Python 官方文档 time；W6 rate_limit.py/resilience.py 实践
+
+### 42. typing 的常用姿势与边界？
+- **简答**：注解提升可读性与静态检查（mypy/pyright）；常用 Optional/list[str]/Literal/TypedDict/Protocol；运行时基本不生效（除非显式取 __annotations__）。
+- **深答**：边界意识：注解是文档+工具输入，不是运行时护栏（越界参数照样进来）；数据校验要在边界层显式做（Pydantic/W6 的 jsonschema）。常用组合：函数签名注解全套、复杂结构 TypedDict、枚举约束 Literal["年假","报销",...]（W6 TOOLS schema 的 enum 思想在 Python 侧的对应物）。类型检查进 CI 是 2026 年 Python 工程标配。
+- **来源**：Python 官方文档 typing；PEP 484；W6 tools.py schema 设计
+
+### 43. venv/pip freeze 的依赖管理实践？
+- **简答**：项目级 venv 隔离（python -m venv --clear 原地重建）、requirements.txt 声明依赖、pip freeze 产出 requirements.lock 精确锁版本。
+- **深答**：W6 实战对应：受管解释器创建 venv（G1 #1 任务）、`pip freeze > requirements.lock.txt` 锁 54 包精确版本（Z1 交付物）——「txt 声明意图、lock 锁定现实」的双文件策略是中型项目主流（更重的方案：poetry/uv）。Windows 坑：路径含中文/空格、ACL 只读文件（.env 手动改）。教训：受管解释器目录名与真实版本可能不一致（3.13.12 目录装的是 3.13.14，Z1 实测）——「实测为准」。
+- **来源**：Python 官方文档 venv；W6 Z1 任务交付（requirements.lock.txt）
+
+### 44. 什么是 WAL/SQLite 的并发模式？（Python 视角）
+- **简答**：SQLite 默认一写多读靠文件锁；WAL 模式读写不互斥（写进 -wal 文件，checkpoint 合并），适合「多读少写」的本地存储。
+- **深答**：Python sqlite3 注意点：①默认连接隔离级别隐式事务，autocommit 行为要显式（isolation_level=None 自动提交）；②WAL 是持久化设置（pragma journal_mode=wal）；③busy_timeout 防锁即报错；④多线程要 check_same_thread=False + 自管串行（或每线程独立连接）。W6 记忆库当前默认 journal 模式——v1.7 若多线程访问，开 WAL 是升级项（呼应 mysql 题 26 的 WAL 思想同源）。
+- **来源**：SQLite 官方文档（WAL）；Python 官方文档 sqlite3；W6 main.py（升级点）
+
+### 45. 怎么给 Python 程序做性能分析？
+- **简答**：cProfile 找热点函数、py-spy 无侵入采样线上进程、line_profiler 逐行、memory_profiler/tracemalloc 看内存；先测量再优化。
+- **深答**：流程：①量化基线（timeit 微基准/全链路日志）；②cProfile 排序 cumulative time 找瓶颈（80/20）；③怀疑某函数再 line_profiler 细看；④优化后回归对比。认知框架：Python 慢的三大类——解释开销（热点循环下沉 numpy/C 扩展）、IO 等待（并发化）、算法复杂度（换数据结构 set/dict）。W6 实测案例：BM25 纯标准库 151 chunks 检索毫秒级，瓶颈根本不在检索而在 LLM 网络调用——「先测量再优化」的直接证明。
+- **来源**：Python 官方文档 profile/py-spy（需复核）；W6 评估报告（检索 vs LLM 耗时口径，需查 metrics_log）
+
+## 七、综合（5 题）
+
+### 46. 单例模式在 Python 怎么实现？哪种最 Pythonic？
+- **简答**：模块级实例天然单例（Pythonic 首选）；或 __new__ 控制/装饰器/元类；多进程下每进程一份要注意共享状态。
+- **深答**：模块导入缓存（sys.modules）让模块对象天然单例——「需要单例就把状态放模块级」。需要延迟构造/可控测试时用 `functools.cache` 包装工厂或 __new__ 判断。坑：测试隔离（单例状态跨用例污染，用 fixture 重置）；asyncio 下单例配置对象（如 Redis 连接池）是合理场景。W6 rag.py 的 `_retriever` 单例懒加载就是标准实践（进程内只建一次索引）。
+- **来源**：《流畅的 Python》单例讨论；W6 rag.py `_get()` 实现
+
+### 47. 如何设计一个可测试的模块？（依赖注入）
+- **简答**：依赖显式传入而非内部硬构造（make_llm 返回对象可被替换）、接口窄且稳定、副作用集中（IO 与逻辑分离）、测试桩用鸭子类型。
+- **深答**：W6 的三层实证：①llm.py 暴露 make_llm() 且 client 挂实例属性（Z3 改造）→ 测试注入 FakeClient；②dispatch 收敛结果对象 → 断言不依赖真实网络；③resilience 的 retry_on 可注入 → FakeTimeout 类名即测。原则总结：**可测试性=可替换性**，把「不可控的东西」（网络/时间/随机）变成可注入参数。这题能全程引用自己项目代码，是全场最有说服力的题。
+- **来源**：W6 llm.py/dispatch.py/resilience.py（Z3 交付）；《单元测试的艺术》需复核
+
+### 48. Python 项目怎么组织目录结构与模块边界？
+- **简答**：包（目录+__init__）分模块，单一职责：config/llm/rag/tools/agent_loop/main 分文件；相对导入约定；入口薄（main 只做接线）。
+- **深答**：W6 的 app/ 9 模块结构是活教材：config（环境配置）→llm（模型适配）→rag（检索）→tools（能力注册）→dispatch（并发调度）→agent_loop（循环）→context（上下文管理）→main（FastAPI 接线）——每层只依赖下层，测试可逐模块打桩。红线：循环导入（把共享类型下沉到独立模块解决）；跨层 import（tools 直接碰 DB 之类的越界）。答法：拿自己项目画依赖图讲一遍。
+- **来源**：W6 w6_hr_policy/app/ 结构；CONTEXT.md 项目结构节
+
+### 49. 什么是 uvicorn/FastAPI 的开发-生产配置差异？
+- **简答**：开发 --reload 自动重载；生产多 worker/守护进程/systemd 托管/鉴权限流开启/日志收集/优雅关闭。
+- **深答**：W6 v1.7 的真实清单：①鉴权 fail-closed（W6_API_KEY 未配置即全拒）；②限流单进程内存版（多 worker 需 Redis）；③memory.db 相对路径 → 部署必须 WorkingDirectory 正确（Z2 报告实录）；④启动日志提示未配置 Key；⑤SSE 要关代理缓冲（proxy_buffering off）。把「配置差异清单」答成自己项目的上线 checklist，远超背概念。
+- **来源**：uvicorn 官方文档（部署）；W6 Z2 报告与 auth.py/rate_limit.py
+
+### 50. 如果把 W6 从单机走向服务化，Python 层面要做哪些事？
+- **简答**：多 worker 部署（限流迁 Redis）、连接池化（SQLite→MySQL 或 WAL+池）、配置中心化、结构化日志与 trace、异步任务队列、灰度与回滚。
+- **深答**：按优先级展开：①状态外移：限流器/记忆库从进程内挪到 Redis/DB——服务化的第一性原理（进程可死可扩）；②可观测：trace id 贯穿 SSE 链路（P2 的 OTel 方向）；③韧性：resilience 的重试/降级已就位（B3 骨架），补熔断与舱壁；④交付：requirements.lock+一键测试（tools/run_all_tests.py）保证可复现。收尾话术：「每一步都有项目内对应物，不是从零发明」——体现演进式架构观。
+- **来源**：W6 全项目（rate_limit.py/llm.py/resilience.py/tools/）；CONTEXT.md P2 规划
+
+---
+
+## 附：来源标注说明
+- 同前几科：官方文档/《流畅的 Python》/PEP 编号均可核查；标「需复核」处使用前核实。
+- 本科与 W6 关联最密（10/16/17/19/20/22/23/27/41/44/46/47/48/49/50），引用的代码路径全部真实存在，面试前请打开对应文件过一遍行号。
