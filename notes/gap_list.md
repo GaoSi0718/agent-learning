@@ -17,7 +17,7 @@
 
 ## 观察项（未进 Top5）
 
-- origin 远端未配置（git 备份单点）——阻塞在孟轩提供地址，配置后 5 分钟内可关闭
+- ~~origin 远端未配置（git 备份单点）~~ **已关闭（9/6 深夜）**：origin=github.com/GaoSi718/agent-learning，14 commits 已推送并跟踪
 - venv Python 3.13.4 与受管 3.13.12 不一致——择机重建，非阻塞
 - Function Calling 底层四步能讲清但未实装（W2 D1–D4 主线，届时自然消缺）
 - GIL/八股四块（W3–W4 才到，提前不背）
