@@ -21,8 +21,15 @@ def make_tools():
         return {}
 DB = "w6_hr_policy/data/memory.db"
 
+def _connect():
+    """统一连接入口（R14）：busy_timeout 让并发写等待锁而非立刻报
+    'database is locked'；WAL 在 init_db 设置一次（持久化到库文件）。"""
+    return sqlite3.connect(DB, timeout=5.0)
+
 def init_db():
-    con = sqlite3.connect(DB)
+    con = _connect()
+    con.execute("PRAGMA journal_mode=WAL")   # 读写不互斥，多线程/并发请求更稳
+    con.execute("PRAGMA busy_timeout=5000")
     con.execute("""CREATE TABLE IF NOT EXISTS memory (
         session_id TEXT, ts REAL, role TEXT, content TEXT)""")
     con.commit(); con.close()
@@ -35,7 +42,7 @@ def _():
               "公网部署前请在 .env 配置 W6_API_KEY（.env 不入库）。")
 
 def save(session_id, role, content):
-    con = sqlite3.connect(DB)
+    con = _connect()
     con.execute("INSERT INTO memory VALUES (?,?,?,?)",
                 (session_id, time.time(), role, content))
     con.commit(); con.close()
@@ -44,7 +51,7 @@ def load(session_id, limit=40):
     """v1.5 修订：默认 20→40 行。原 limit=20（10 轮）会让 12 轮跨距测试的第 1 轮
     在第 12 轮前必然滑出窗口（每轮 user+assistant 共 2 行），跨距记忆无从谈起；
     长会话的体量控制仍由 build_context 的 70% token 预算闸门 + compact 负责。"""
-    con = sqlite3.connect(DB)
+    con = _connect()
     rows = con.execute(
         "SELECT role, content FROM memory WHERE session_id=? ORDER BY ts DESC LIMIT ?",
         (session_id, limit)).fetchall()
