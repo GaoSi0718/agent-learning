@@ -1,0 +1,33 @@
+﻿company,city,position,track,channel,url,priority,notes
+科大讯飞,合肥,AI应用开发工程师（大模型方向）,AI应用,官方招聘网站（北森平台）,https://iflytek.zhiye.com/,首批,合肥主力；校招批次时间需核实；JD关键词：大模型应用/Agent/知识问答，与W6项目对口；URL实测可达(2026-09-07)
+中兴通讯,南京,AI应用开发工程师,AI应用,官方招聘网站-应届生招聘,https://job.zte.com.cn/cn/campus-recruitment/Recruitment_positions/freshstudent.html,首批,南京主力；2027届秋招2026-08-31已启动（官方公告）；URL实测可达(2026-09-07)；建议首批第一顺位
+华为,南京,AI应用开发/软件开发工程师,AI应用,官方招聘网站,https://career.huawei.com/cn,首批,南京研究所；校招批次需核实；客户经理/研究型算法岗不投，投应用开发与软件开发；URL实测可达（根域跳/cn）
+帆软软件,无锡,后端开发工程师（Java）,后端数据,官方招聘网站-校园招聘,https://join.fanruan.com/campus,首批,保底优先（CONTEXT §1.4）；2026届春招已启动（官方），2027届批次需核实；微信公众号「帆软招聘」；URL实测可达
+思必驰,苏州,AI应用开发工程师（对话式AI）,AI应用,官网-加入我们,https://www.aispeech.com/,首批,苏州保底（CONTEXT §1.4）；大模型人机对话方向与W6对口；URL实测可达
+阿里巴巴,杭州,大模型应用开发工程师,AI应用,官方招聘网站,https://talent.alibaba.com/,冲刺,余杭；投应用工程岗不投研究岗；URL实测可达(2026-09-07)
+蚂蚁集团,杭州,Agent/大模型应用工程师,AI应用,官方招聘网站,https://talent.antgroup.com/,冲刺,西湖区；URL实测可达
+网易,杭州,AI应用开发工程师（有道/数智）,AI应用,官方招聘网站,https://campus.163.com/,冲刺,滨江；URL实测可达
+海康威视,杭州,AI应用/软件开发工程师,AI应用,官方招聘网站-校园招聘,https://campushr.hikvision.com/,冲刺,官方校招域为campushr（campus子域不存在）；2027校园招聘板块+2027超新星实习已上线；牛客网消息称8/21启动；脚本SSL被WAF拦，浏览器打开为准
+同花顺,杭州,AI应用开发工程师（金融大模型）,AI应用,官方招聘网站-校园招聘,https://campus.10jqka.com.cn/,冲刺,官方校招专区（job.10jqka.com.cn为总入口）；2027届提前批已开放（杭州AI算法类岗位）；简历邮箱zhaopin@myhexin.com
+字节跳动,北京,大模型应用开发工程师,AI应用,官方招聘网站-校园招聘,https://jobs.bytedance.com/campus,冲刺,校招主入口（根域404属正常，需带/campus路径）；仅投应用工程岗；Seed及研究型算法岗在CONTEXT §1.4不投清单内
+百度,北京,大模型应用开发工程师,AI应用,官方招聘网站,https://talent.baidu.com/,冲刺,仅投应用工程岗；AIDU及研究型算法岗在§1.4不投清单内；URL可达（跳/jobs/social，校招从顶部「校园招聘」进入）
+美团,北京,LLM应用开发工程师,AI应用,官方招聘网站,https://zhaopin.meituan.com/,冲刺,URL可达（跳/web/home）；2027届校招8/17已启动（媒体报道），AI原生岗多，AI轨定稿后建议提优先
+小米,北京,后端开发工程师,后端数据,官方招聘网站,https://hr.xiaomi.com/,冲刺,北京/南京均有研发基地，投递时注意工作地选择；URL实测可达
+京东,北京,后端/数据开发工程师,后端数据,官方招聘网站,https://campus.jd.com/,冲刺,URL实测可达
+腾讯,深圳,AI应用开发工程师,AI应用,官方招聘网站,https://join.qq.com/,练手,深圳/上海/北京多地；2027届启动公告8/11发布（媒体）；URL实测可达
+OPPO,深圳,AI应用/Agent开发工程师,AI应用,官方招聘网站,https://careers.oppo.com/,练手,URL实测可达（页面标题「OPPO招聘-加入我们」）
+vivo,深圳,AI应用开发工程师,AI应用,官网-加入我们,https://www.vivo.com.cn/,练手,官网可达；campus.vivo.com证书错配不存在，校招入口从官网「加入我们」进（疑在vivo.com.cn子域，待浏览器确认）
+信锐技术,深圳,后端/AI应用开发工程师,后端数据,官方校招网站,https://hr.sundray.com.cn/,练手,官方域为sundray.com.cn（原表sunraytech.com有误已修正）；2027届秋招简章已发布（高校就业网）；微信公众号「信锐HR」
+微众银行,深圳,后端开发工程师（Java）,后端数据,官网,https://www.webank.com/,练手,URL可达（页面JS渲染，招聘入口需浏览器确认）
+顺丰科技,深圳,数据开发工程师,后端数据,官网-加入我们,https://www.sf-express.com/,练手,URL可达；顺丰科技为顺丰旗下科技板块，入口需浏览器确认
+商汤科技,上海,AI应用工程岗,AI应用,官网-人才招聘,https://www.sensetime.com/cn/join-index,练手,仅投应用工程岗不投研究岗；官网人才招聘入口实测可达
+哔哩哔哩,上海,AI应用开发工程师,AI应用,官方招聘网站,https://jobs.bilibili.com/home,练手,校招域跳jobs.bilibili.com/home；URL可达
+米哈游,上海,AI应用/工具链开发工程师,AI应用,官方招聘网站,https://jobs.mihoyo.com/,练手,官方校招已迁移至jobs.mihoyo.com（campus.mihoyo.com页面自述）；URL可达
+拼多多,上海,后端开发工程师,后端数据,官方招聘网站,https://careers.pddglobalhr.com/campus/,练手,官方校招跳pddglobalhr.com/campus（最终地址实测）；提前批「云弧计划」不影响正式批
+蔚来,合肥,后端开发工程师（Python/Java）,后端数据,官网-中国站,https://www.nio.cn/,主力,合肥先进制造基地+上海研发；官网跳nio.cn；招聘入口需浏览器确认
+华米科技(Zepp Health),合肥,后端/AI应用开发工程师,AI应用,官网-加入我们,https://www.huami.com/,主力,合肥高新区；URL实测可达，招聘入口需浏览器确认
+长鑫存储,合肥,数据开发工程师,后端数据,官网-加入我们,https://www.cxmt.com/,主力,合肥主力半导体厂；URL实测可达，招聘入口需浏览器确认
+京东方,合肥,数据开发工程师,后端数据,官网-加入我们,https://www.boe.com/,主力,合肥产线基地；URL实测可达，招聘入口需浏览器确认
+润和软件,南京,AI应用开发工程师,AI应用,官网-加入我们,https://www.hoperun.com/,主力,南京软件园；金融科技方向；脚本检测超时（疑WAF），浏览器打开为准
+亿嘉和,南京,AI应用开发工程师（机器人方向）,AI应用,官网-加入我们,https://www.yijiahe.com/,主力,南京机器人企业；URL实测可达，招聘入口需浏览器确认
+诚迈科技,南京,后端开发工程师,后端数据,官网-加入我们,https://www.archermind.com/,主力,南京软件企业；URL实测可达，招聘入口需浏览器确认
