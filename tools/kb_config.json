@@ -1,0 +1,20 @@
+{
+  "_why": "**ID 形态因通道而异**（2026-09-12 双通道实测定案）：① 本脚本走 OpenAPI（ima_api.cjs / openapi/wiki/v1/*）→ 用**加密串**；② MCP connector（mcp__ima-mcp__*）→ 用**数字 ID**。任一方拿错形态的报错分别是 220004 / 220001。历史教训：2026-09-09 有人只在 OpenAPI 通道测过，就把「数字 ID 全部失效」写成了普适结论 → 本次据此误删过可用值。**引用 KB ID 前必须同时说明「哪条通道」并实测。**",
+  "_how_to_refresh": "用 ima 客户端查看，或调 search_knowledge_base 实测后覆盖本文件的 knowledge_base_id，并更新 verified_at。",
+  "knowledge_base_id": "lEJxwm6JaTQ-X6yA-rp4z3zzYlVKdgBzsd5qZwoeNs0=",
+  "knowledge_base_name": "Agent学习路线",
+  "verified_at": "2026-09-12 19:41（本机双通道实测）",
+  "verified_by": "search_knowledge_base 实测（87 条 / 81MB）",
+  "confidence": {
+    "level": "verified",
+    "verified_at": "2026-09-12 19:41",
+    "ttl_days": 7,
+    "note": "TTL 与 kb_uploader.py 的 MAX_KB_ID_AGE_DAYS 对齐（2026-09-13 T8 补）；超期须实测刷新 verified_at"
+  },
+  "folder_ids_verified": false,
+  "folder_ids_note": "FOLDER_MAP 中的 folder_7503007* 为 2026-09-08 实测值，2026-09-09 ID 格式变更后未复核，使用前必须重新实测。",
+  "_channel_map": {
+    "openapi（kb_uploader.py / ima_api.cjs）": "lEJxwm6JaTQ-X6yA-rp4z3zzYlVKdgBzsd5qZwoeNs0=",
+    "mcp（mcp__ima-mcp__*）": "7491061882583856"
+  }
+}

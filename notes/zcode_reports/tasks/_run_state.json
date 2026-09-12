@@ -1,0 +1,71 @@
+{
+  "run_id": "zcode-20260913-1",
+  "started_at": "2026-09-13T03:31:04+08:00",
+  "tasks": {
+    "T1": {
+      "status": "DONE"
+    },
+    "T3": {
+      "status": "DONE"
+    },
+    "T4": {
+      "status": "DONE"
+    },
+    "T5": {
+      "status": "DONE"
+    },
+    "T6": {
+      "status": "DONE"
+    },
+    "T7": {
+      "status": "DONE"
+    },
+    "T8": {
+      "status": "DONE"
+    },
+    "T20": {
+      "status": "IN_PROGRESS",
+      "step": "staged"
+    },
+    "T9": {
+      "status": "DONE"
+    },
+    "T10": {
+      "status": "DONE"
+    },
+    "T11": {
+      "status": "DONE"
+    },
+    "T12": {
+      "status": "DONE"
+    },
+    "T13": {
+      "status": "DONE"
+    },
+    "T14": {
+      "status": "DONE"
+    },
+    "T15": {
+      "status": "DONE"
+    },
+    "T16": {
+      "status": "DONE"
+    },
+    "T18": {
+      "status": "DONE"
+    },
+    "T19": {
+      "status": "DONE"
+    },
+    "T22": {
+      "status": "DONE"
+    },
+    "T23": {
+      "status": "DONE"
+    }
+  },
+  "blocked": [],
+  "budget_used_usd": 0.0,
+  "resume_hint": "",
+  "last_heartbeat": "2026-09-13T04:15:19+08:00"
+}

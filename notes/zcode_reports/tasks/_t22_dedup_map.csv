@@ -1,0 +1,85 @@
+﻿q_id,处置,理由
+cand-001,剔除,D001 §二 A 级：同章节同事实被现行题覆盖（q_con/a_con 证据见 D001 表）
+cand-002,保留,转入 v2（excerpt_verified=True）
+cand-003,保留,转入 v2（excerpt_verified=True）
+cand-004,保留,转入 v2（excerpt_verified=True）
+cand-005,保留,转入 v2（excerpt_verified=True）
+cand-006,保留,转入 v2（excerpt_verified=True）
+cand-007,保留,转入 v2（excerpt_verified=True）
+cand-008,剔除,D001 §二 A 级：同章节同事实被现行题覆盖（q_con/a_con 证据见 D001 表）
+cand-009,剔除,D001 §二 A 级：同章节同事实被现行题覆盖（q_con/a_con 证据见 D001 表）
+cand-010,保留,转入 v2（excerpt_verified=True）
+cand-011,剔除,D001 §二 A 级：同章节同事实被现行题覆盖（q_con/a_con 证据见 D001 表）
+cand-012,保留,转入 v2（excerpt_verified=True）
+cand-013,保留,转入 v2（excerpt_verified=True）
+cand-014,保留,转入 v2（excerpt_verified=True）
+cand-015,保留,转入 v2（excerpt_verified=True）
+cand-016,保留,转入 v2（excerpt_verified=True）
+cand-017,保留,转入 v2（excerpt_verified=True）
+cand-018,保留,转入 v2（excerpt_verified=True）
+cand-019,保留,转入 v2（excerpt_verified=True）
+cand-020,保留,转入 v2（excerpt_verified=True）
+cand-021,保留,转入 v2（excerpt_verified=True）
+cand-022,保留,转入 v2（excerpt_verified=True）
+cand-023,保留,转入 v2（excerpt_verified=True）
+cand-024,剔除,D001 §二 A 级：同章节同事实被现行题覆盖（q_con/a_con 证据见 D001 表）
+cand-025,保留,转入 v2（excerpt_verified=True）
+cand-026,保留,转入 v2（excerpt_verified=True）
+cand-027,保留,转入 v2（excerpt_verified=True）
+cand-028,保留,转入 v2（excerpt_verified=True）
+cand-029,剔除,与 cand-015 q_con=1.0（仅差标点语气词），保留 cand-015
+cand-030,保留,转入 v2（excerpt_verified=True）
+cand-031,保留,转入 v2（excerpt_verified=True）
+cand-032,保留,转入 v2（excerpt_verified=True）
+cand-033,保留,转入 v2（excerpt_verified=True）
+cand-034,保留,转入 v2（excerpt_verified=True）
+cand-035,保留,转入 v2（excerpt_verified=True）
+cand-036,剔除,D001 §二 A 级：同章节同事实被现行题覆盖（q_con/a_con 证据见 D001 表）
+cand-037,保留,转入 v2（excerpt_verified=True）
+cand-038,保留,转入 v2（excerpt_verified=True）
+cand-039,剔除,D001 §二 A 级：同章节同事实被现行题覆盖（q_con/a_con 证据见 D001 表）
+cand-040,保留,转入 v2（excerpt_verified=True）
+cand-041,保留,转入 v2（excerpt_verified=True）
+cand-042,剔除,与 cand-038 q_con=0.714 且与 Q09 亦重叠，D001 建议弃
+cand-043,保留,转入 v2（excerpt_verified=True）
+cand-044,保留,转入 v2（excerpt_verified=True）
+cand-045,保留,转入 v2（excerpt_verified=True）
+cand-046,保留,转入 v2（excerpt_verified=True）
+cand-047,保留,转入 v2（excerpt_verified=True）
+cand-048,保留,转入 v2（excerpt_verified=True）
+cand-049,剔除,D001 §二 A 级：同章节同事实被现行题覆盖（q_con/a_con 证据见 D001 表）
+cand-050,剔除,D001 §二 A 级：同章节同事实被现行题覆盖（q_con/a_con 证据见 D001 表）
+cand-051,保留,转入 v2（excerpt_verified=True）
+cand-052,保留,转入 v2（excerpt_verified=True）
+cand-053,剔除,D001 §二 A 级：同章节同事实被现行题覆盖（q_con/a_con 证据见 D001 表）
+cand-054,保留,转入 v2（excerpt_verified=True）
+cand-055,保留,转入 v2（excerpt_verified=True）
+cand-056,剔除,D001 §二 A 级：同章节同事实被现行题覆盖（q_con/a_con 证据见 D001 表）
+cand-057,保留,转入 v2（excerpt_verified=True）
+cand-058,剔除,D001 §二 A 级：同章节同事实被现行题覆盖（q_con/a_con 证据见 D001 表）
+cand-059,剔除,D001 §二 A 级：同章节同事实被现行题覆盖（q_con/a_con 证据见 D001 表）
+cand-060,剔除,与 cand-045 同事实仅换措辞（q_con=0.763），按『保留先出现者』弃 cand-060
+cand-061,保留,转入 v2（excerpt_verified=True）
+cand-062,保留,转入 v2（excerpt_verified=True）
+cand-063,保留,转入 v2（excerpt_verified=True）
+cand-064,保留,转入 v2（excerpt_verified=True）
+cand-065,保留,转入 v2（excerpt_verified=True）
+cand-066,保留,转入 v2（excerpt_verified=True）
+cand-067,剔除,D001 §二 A 级：同章节同事实被现行题覆盖（q_con/a_con 证据见 D001 表）
+cand-068,剔除,D001 §二 A 级：同章节同事实被现行题覆盖（q_con/a_con 证据见 D001 表）
+cand-069,保留,转入 v2（excerpt_verified=True）
+cand-070,保留,转入 v2（excerpt_verified=True）
+cand-071,保留,转入 v2（excerpt_verified=True）
+cand-072,保留,转入 v2（excerpt_verified=True）
+cand-073,保留,转入 v2（excerpt_verified=True）
+cand-074,保留,转入 v2（excerpt_verified=True）
+cand-075,保留,转入 v2（excerpt_verified=True）
+cand-076,保留,转入 v2（excerpt_verified=True）
+cand-077,保留,转入 v2（excerpt_verified=True）
+cand-078,剔除,D001 §二 A 级：同章节同事实被现行题覆盖（q_con/a_con 证据见 D001 表）
+cand-079,保留,转入 v2（excerpt_verified=True）
+cand-080,保留,转入 v2（excerpt_verified=True）
+cand-081,剔除,D001 §二 A 级：同章节同事实被现行题覆盖（q_con/a_con 证据见 D001 表）
+cand-082,保留,转入 v2（excerpt_verified=True）
+cand-083,保留,转入 v2（excerpt_verified=True）
+cand-084,保留,转入 v2（excerpt_verified=True）
