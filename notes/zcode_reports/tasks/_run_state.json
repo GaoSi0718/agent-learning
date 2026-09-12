@@ -1,71 +1,49 @@
 {
   "run_id": "zcode-20260913-1",
   "started_at": "2026-09-13T03:31:04+08:00",
+  "last_heartbeat": "2026-09-13T04:45:00+08:00",
+  "current_batch": "5/5 (all processed)",
   "tasks": {
-    "T1": {
-      "status": "DONE"
-    },
-    "T3": {
-      "status": "DONE"
-    },
-    "T4": {
-      "status": "DONE"
-    },
-    "T5": {
-      "status": "DONE"
-    },
-    "T6": {
-      "status": "DONE"
-    },
-    "T7": {
-      "status": "DONE"
-    },
-    "T8": {
-      "status": "DONE"
-    },
-    "T20": {
-      "status": "IN_PROGRESS",
-      "step": "staged"
-    },
-    "T9": {
-      "status": "DONE"
-    },
-    "T10": {
-      "status": "DONE"
-    },
-    "T11": {
-      "status": "DONE"
-    },
-    "T12": {
-      "status": "DONE"
-    },
-    "T13": {
-      "status": "DONE"
-    },
-    "T14": {
-      "status": "DONE"
-    },
-    "T15": {
-      "status": "DONE"
-    },
-    "T16": {
-      "status": "DONE"
-    },
-    "T18": {
-      "status": "DONE"
-    },
-    "T19": {
-      "status": "DONE"
-    },
-    "T22": {
-      "status": "DONE"
-    },
-    "T23": {
-      "status": "DONE"
-    }
+    "T1": {"status": "DONE", "artifacts": ["D:/WorkBuddyData/tools/mem_edit.py", "D:/WorkBuddyData/tools/_test_mem_edit.py"], "verified": true},
+    "T2": {"status": "DONE", "note": "汇聚5/归档5/失败0，幂等0", "verified": true},
+    "T3": {"status": "DONE", "note": "OPEN_ITEMS.md 18条零丢失；L2 43721→32892B"},
+    "T4": {"status": "DONE", "note": "非冲突分叉；待裁决=D根明文token安全项"},
+    "T5": {"status": "DONE", "note": "方案已出(§更正:D根真身)，待孟轩拍板"},
+    "T6": {"status": "DONE", "note": "mem_append.py 锁版 5/5 PASS", "verified": true},
+    "T7": {"status": "DONE", "note": "#2落地；#1③④→补丁包"},
+    "T8": {"status": "DONE", "note": "confidence TTL + 闸门自测5/5", "verified": true},
+    "T9": {"status": "DONE", "note": "ahead2核验吻合+61项三档分类；push建议出未执行"},
+    "T10": {"status": "DONE", "note": "pytest 9.1.1 in venv；离线7/7 PASS", "verified": true},
+    "T11": {"status": "DONE"},
+    "T12": {"status": "DONE", "note": "SSE :8001 curl EXIT=0", "verified": true},
+    "T13": {"status": "DONE"},
+    "T14": {"status": "DONE", "note": "0裸露命中，D12→✅"},
+    "T15": {"status": "DONE", "note": "L1 77738→38941B；归档零丢失；蒸馏待迪莫核对"},
+    "T16": {"status": "DONE", "note": "0可移；写入点地图v1"},
+    "T17": {"status": "DONE", "note": "方案+清单（向导未动，属主迪莫）"},
+    "T18": {"status": "DONE", "note": "121行→hook_run-202609.log"},
+    "T19": {"status": "DONE", "note": "append-only横幅917B"},
+    "T20": {"status": "STAGED", "note": "并入 _apply_hy4_patches.py（含时间窗守卫），08:00后执行"},
+    "T21": {"status": "DONE", "note": "离线7/7 PASS；3项BLOCKED待Key+一条命令"},
+    "T22": {"status": "DONE", "note": "v2=95条；84→64与D001吻合；64/64 excerpt命中", "verified": true},
+    "T23": {"status": "DONE", "note": "score2=0.6737≈0.674复现；sha零漂移；口径日志+1行", "verified": true},
+    "T24": {"status": "DONE", "note": "矩阵出；零假勾；本地checklist未动"},
+    "T7b": {"status": "PENDING", "note": "08:00后跑补丁包+可选commit"}
   },
   "blocked": [],
+  "pending_confirmation": [
+    "T5 身份文件单源(D根真身/C根指针)待拍板",
+    "Q27/Q31 裁决",
+    "push 3 commits(前置:仓库公开性+C档4文件)",
+    "settings双根保持现状+D根明文token安全项",
+    "g1_gate_check.py #9假红一行修复授权",
+    ".env 补 W6_API_KEY",
+    "venv 缺 sklearn/scipy(9/14前)",
+    "T15 蒸馏表述迪莫核对",
+    "T17 向导单源化清单",
+    "v2 类别配平"
+  ],
   "budget_used_usd": 0.0,
-  "resume_hint": "",
-  "last_heartbeat": "2026-09-13T04:15:19+08:00"
+  "resume_hint": "24/24 已处置。唯一待执行=T7b：08:00后以受管Python运行 notes/zcode_reports/tasks/_apply_hy4_patches.py（hy4_daily.md 4项补丁，自带窗口守卫），完成后可commit。总结见 notes/zcode_reports/夜间值守总结_20260913.md",
+  "last_commit": "2f6084b"
 }
