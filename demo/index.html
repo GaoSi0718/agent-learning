@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>企业制度智能问答 · RAG 演示</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;
+       background:#f5f6f8;color:#1a1d21;line-height:1.7;font-size:15px}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+  header{background:linear-gradient(135deg,#1F3A5F,#2E5A88);color:#fff;
+         border-radius:14px;padding:28px 30px;margin-bottom:22px}
+  header h1{font-size:22px;margin-bottom:8px}
+  header p{font-size:13.5px;opacity:.93}
+  .badge{display:inline-block;background:rgba(255,255,255,.18);border-radius:20px;
+         padding:3px 12px;font-size:12.5px;margin:10px 10px 0 0}
+  h2{font-size:17px;margin:30px 0 14px;padding-left:10px;border-left:4px solid #1F3A5F}
+  .card{background:#fff;border:1px solid #e4e7ec;border-radius:12px;padding:16px 18px;margin-bottom:14px}
+  .q{font-weight:700;color:#1F3A5F;font-size:15px;margin-bottom:10px}
+  .step{display:flex;gap:10px;margin:8px 0;font-size:13.5px;align-items:flex-start}
+  .step .tag{flex:0 0 74px;font-size:12px;font-weight:600;color:#5b636e;padding-top:2px}
+  .step .body{flex:1}
+  .chunk{background:#f0f4f9;border-left:3px solid #9db4d0;border-radius:0 6px 6px 0;
+         padding:8px 12px;font-size:13px;color:#39404a;margin:6px 0}
+  .answer{background:#e8f6ee;border-left:3px solid #0f8a4d;border-radius:0 6px 6px 0;
+          padding:9px 12px;font-size:13.5px;margin-top:6px}
+  .src{font-size:12px;color:#5b636e;margin-top:5px}
+  .flow{background:#fff;border:1px solid #e4e7ec;border-radius:12px;padding:18px;font-size:13.5px}
+  .flow .node{background:#eef1f5;border:1px solid #d5dbe3;border-radius:8px;
+              padding:9px 12px;text-align:center;font-weight:600;font-size:13px}
+  .flow .arrow{text-align:center;color:#8a94a0;font-size:16px;padding:4px 0}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .note{background:#fdf4e0;border:1px solid #ecd9a3;border-radius:10px;
+        padding:12px 15px;font-size:13px;margin:16px 0}
+  footer{margin-top:32px;font-size:12.5px;color:#5b636e;text-align:center;
+         border-top:1px solid #e4e7ec;padding-top:16px}
+  a{color:#1F3A5F}
+  .pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+  .pill{background:#eef1f5;border:1px solid #d5dbe3;border-radius:20px;
+        padding:4px 12px;font-size:12.5px;color:#39404a}
+  @media(max-width:640px){.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>企业制度智能问答 · 检索增强（RAG）演示</h1>
+  <p>基于真实企业制度文档构建的本地 RAG 问答链路：分块 → 检索 → 按需注入 → 生成带出处的回答。</p>
+  <div>
+    <span class="badge">自研零依赖 BM25 检索器</span>
+    <span class="badge">47KB 制度语料</span>
+    <span class="badge">323 个检索分块</span>
+    <span class="badge">31 题对齐评估集</span>
+    <span class="badge">FastAPI 服务化</span>
+  </div>
+</header>
+
+<div class="note">
+  <b>关于本页</b>：这是项目的<b>静态演示版</b>（GitHub Pages 托管）——为公开仓库安全起见，语料已替换为
+  <b>合成示例数据</b>（虚构公司「星桥智造」），且本页<b>不实时调用大模型</b>，所有回答均为预置结果。
+  完整可运行版本（含真实语料、API 调用、鉴权限流）见仓库 <code>w6_hr_policy/</code> 目录。
+</div>
+
+<h2>一、核心链路</h2>
+<div class="flow">
+  <div class="grid2">
+    <div class="node">① 文档分块<br><span style="font-weight:400;font-size:12px;color:#5b636e">员工手册 / 行为规范 → 323 chunks，带条款编号</span></div>
+    <div class="node">② 查询召回<br><span style="font-weight:400;font-size:12px;color:#5b636e">BM25 Top-K，本地离线、零模型调用</span></div>
+  </div>
+  <div class="arrow">↓</div>
+  <div class="grid2">
+    <div class="node">③ 按需注入<br><span style="font-weight:400;font-size:12px;color:#5b636e">只送命中片段，不送整份文档 → 从源头控 Token 成本</span></div>
+    <div class="node">④ 生成 + 溯源<br><span style="font-weight:400;font-size:12px;color:#5b636e">回答附条款来源，拒答无依据问题（防幻觉）</span></div>
+  </div>
+  <div class="arrow">↓</div>
+  <div class="node" style="background:#e8f6ee;border-color:#b6e0c7">⑤ 评估闭环：31 题对齐评估集 + 自动化跑批 + 预算护栏 / 指数退避重试</div>
+</div>
+
+<h2>二、预置问答示例</h2>
+
+<div class="card">
+  <div class="q">Q1 · 公司的标准工时是怎么规定的？</div>
+  <div class="step"><div class="tag">检索命中</div><div class="body">
+    <div class="chunk">夏季（5月1日至9月30日）工作时间为 9:00—18:00，其中 12:00—13:30 为午休时间；冬季（10月1日至次年4月30日）工作时间为 9:00—17:30，其中 12:00—13:00 为午休时间。</div>
+  </div></div>
+  <div class="step"><div class="tag">模型回答</div><div class="body">
+    <div class="answer">夏季 9:00—18:00（午休 12:00—13:30），冬季 9:00—17:30（午休 12:00—13:00）。每日工作不超过 8 小时，每周不超过 40 小时。</div>
+    <div class="src">📎 来源：员工手册 6.3.1 工时时间</div>
+  </div></div>
+</div>
+
+<div class="card">
+  <div class="q">Q2 · 迟到会有什么后果？</div>
+  <div class="step"><div class="tag">检索命中</div><div class="body">
+    <div class="chunk">迟到 30 分钟以内的，每次扣款 30 元；迟到超过 30 分钟但不足 2 小时的，每次扣款 100 元；迟到 2 小时以上的，按事假半天处理。</div>
+  </div></div>
+  <div class="step"><div class="tag">模型回答</div><div class="body">
+    <div class="answer">按迟到时长分档处理：30 分钟内每次扣 30 元；30 分钟至 2 小时每次扣 100 元；满 2 小时按事假半天。此外，月累计 3 次或年累计 10 次以上，年度考核不得评为优秀。</div>
+    <div class="src">📎 来源：员工手册 6.3.7 违纪界定</div>
+  </div></div>
+</div>
+
+<div class="card">
+  <div class="q">Q3 · 带薪年休假有几天？</div>
+  <div class="step"><div class="tag">检索命中</div><div class="body">
+    <div class="chunk">员工累计工作满 1 年不满 10 年的，年休假 5 天；满 10 年不满 20 年的，10 天；满 20 年以上的，15 天。年休假须于次年 3 月 31 日前使用完毕，逾期作废。</div>
+  </div></div>
+  <div class="step"><div class="tag">模型回答</div><div class="body">
+    <div class="answer">按累计工龄分档：满 1 年不满 10 年为 5 天；满 10 年不满 20 年为 10 天；满 20 年以上为 15 天。须在次年 3 月 31 日前用完，逾期作废。</div>
+    <div class="src">📎 来源：员工手册 6.4.6 带薪年休假</div>
+  </div></div>
+</div>
+
+<div class="card">
+  <div class="q">Q4 · 病假期间工资怎么发？</div>
+  <div class="step"><div class="tag">检索命中</div><div class="body">
+    <div class="chunk">病假须提供二级及以上医院证明。连续工龄不满 2 年的按 60%，满 2 年不满 4 年的按 70%，满 4 年不满 6 年的按 80%，满 6 年不满 8 年的按 90%，满 8 年以上的按 100%，且不低于当地最低工资标准的 80%。</div>
+  </div></div>
+  <div class="step"><div class="tag">模型回答</div><div class="body">
+    <div class="answer">按连续工龄分档发放：不满 2 年 60%；2–4 年 70%；4–6 年 80%；6–8 年 90%；8 年以上 100%。下限为当地最低工资标准的 80%。</div>
+    <div class="src">📎 来源：员工手册 6.4.11 病假</div>
+  </div></div>
+</div>
+
+<div class="card">
+  <div class="q">Q5 · 公司提供宿舍吗？（文档中无依据 → 应拒答）</div>
+  <div class="step"><div class="tag">检索命中</div><div class="body">
+    <div class="chunk" style="border-color:#d9a0a0;background:#fbecea;color:#8a4a4a">（未命中任何条款，相似度低于阈值）</div>
+  </div></div>
+  <div class="step"><div class="tag">模型回答</div><div class="body">
+    <div class="answer" style="background:#fbecea;border-color:#c0392b">抱歉，根据提供的政策片段，未找到关于员工宿舍的规定，无法回答。建议咨询人力资源部确认。</div>
+    <div class="src">📎 拒答机制：宁可回答"未找到"，也不编造条款 —— 这是评估集中专门测试的一类题。</div>
+  </div></div>
+</div>
+
+<h2>三、工程化要点</h2>
+<div class="card">
+  <div class="pills">
+    <span class="pill">检索器零第三方依赖（纯标准库）</span>
+    <span class="pill">按需检索注入，Token 成本可量化</span>
+    <span class="pill">逐题标注政策条款来源</span>
+    <span class="pill">自动化跑批 + 预算护栏</span>
+    <span class="pill">指数退避重试与失败降级</span>
+    <span class="pill">API Key 鉴权 + 每 IP 滑动窗口限流</span>
+    <span class="pill">SSE 流式输出</span>
+    <span class="pill">离线测试用例（零 API 成本回归）</span>
+  </div>
+</div>
+
+<footer>
+  RAG 知识库问答 · 演示页 ｜ 代码仓库：<a href="https://github.com/GaoSi0718/agent-learning">github.com/GaoSi0718/agent-learning</a><br>
+  本页语料为合成示例数据，公司名称、人员与数据均为虚构，不代表任何真实企业。
+</footer>
+
+</div>
+</body>
+</html>
