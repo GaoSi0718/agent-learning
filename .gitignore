@@ -26,3 +26,45 @@ w6_eval_final_*.json
 recompute_*.out
 _cos_upload*
 w6_hr_policy/data/*.db
+
+# ── 真实个人信息保护（2026-09-30 补，迪莫 · 依据为当轮实测）──────────────────
+# 目的：阻止 git add -A 把含真实手机号 / 邮箱 / 证件号的文件纳入版本库。
+# 实测依据：git add -n notes/codex_reports/tasks9/ → 99 行；git add -n job_hunt/ → 51 行
+#           （即这些文件当前全部会被 git add -A 纳入）。
+# 已追踪的 335 个文件经【全量扫描零真值命中】，git 历史亦零泄露
+#           ⇒ 无需 git rm --cached，不需重写历史。
+# 说明：gitignore 只作用于【未追踪】文件；库内已追踪文件不受影响，继续被追踪。
+
+# ① 确认含真实个人信息的目录
+job_hunt/
+
+#   notes/ —— 2026-09-30 22:4x 按孟轩拍板改为「逐级白名单」：只放行第九期交付件 tasks9/
+#   ⚠️ 为什么不能简单写 `!notes/codex_reports/tasks9/`：git 明确不允许 negate 一个
+#      「父目录已被排除」的文件（"It is not possible to re-include a file if a parent
+#      directory of that file is excluded"）⇒ 必须先由 notes/* 起**逐级** negate。
+#   🔴 tasks9/_inbox/ 必须保持忽略：该目录 3 件是任务书 §3.5 预置的**污染源样本**，
+#      其中 P2 实测含孟轩**真实手机号与邮箱**（值不在此复述，O23）⇒ 绝不可入库。
+/notes/*
+!/notes/codex_reports/
+/notes/codex_reports/*
+!/notes/codex_reports/tasks9/
+/notes/codex_reports/tasks9/_inbox/
+
+output/
+
+# ② 含真实个人信息的散件（PII 脱敏工具的测试/演示数据，内含完整证件号与手机号）
+w6_hr_policy/app/pii_guard.py
+w6_hr_policy/tests/test_pii_guard.py
+
+# ②b 骨架自检报告：历史上曾把「零命中」的真值明文印进报告本身（2026-09-30 14:05 已掩码）；
+#     保留此排除，以防将来重新生成自检报告时再次带入真值。
+#     注意模式不带 `.txt` 后缀 —— 2026-09-30 实测：带后缀会漏掉 `..._selftest_*.txt.bak-*`
+#     这类含明文的备份文件（当时迪莫正是踩了这个坑，所幸当场发现并已把备份移出项目目录）。
+speedfill_prefab/_prefab_selftest_*
+
+# ③ 本地会话状态与记忆（入库无价值，且可能含私人内容）
+.workbuddy/
+
+# ── 内部/私密数据（永不入库，2026-10-13 定）──
+_private/
+*.real.*
