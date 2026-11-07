@@ -1,90 +1,114 @@
 # -*- coding: utf-8 -*-
-# tools/run_all_tests.py
-"""Z8：一键自测脚本——把「全部自测通过」从口头声明变成一键命令。
-用法（cwd 任意）：
-  venv\\Scripts\\python.exe tools\\run_all_tests.py           # 跑全部离线测试（门禁口径）
-  venv\\Scripts\\python.exe tools\\run_all_tests.py --e2e     # 追加联调测试（需本地服务已启动+真实API）
-设计：
-- 离线测试 = w6_hr_policy/tests/ 下全部 test_*.py，剔除 E2E 集合（需起服务+真实 API，成本与稳定性都不适合做门禁）；
-- 每个测试独立子进程（venv 内运行）、cwd=项目根（main.py 的 memory.db 是 cwd 相对路径）、120s 超时；
-- 汇总 PASS/FAIL 表 + 失败输出尾部（便于定位）；退出码：离线全过=0，任一失败=1；
-- 零 API 成本（联调测试默认 SKIP 且打印原因，不静默）。
+"""Run reviewed offline checks by default; --e2e also runs API/service checks.
+
+New test files require explicit classification before execution. Exit 0 means
+all selected checks passed, 1 means failure, and 77 means selected checks skipped.
+Unselected E2E checks are counted as SKIP without making the offline gate fail.
+Offline checks may write local test data; use an isolated project copy.
 """
-import argparse, subprocess, sys, time
+import argparse
+import re
+import subprocess
+import sys
+import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 TESTS_DIR = ROOT / "w6_hr_policy" / "tests"
 PER_TEST_TIMEOUT = 120
+SKIP_EXIT_CODE = 77
 
-# 这些测试按设计需要「真实 LLM API」或「本地服务已启动」，不进默认门禁（--e2e 显式开启才跑）。
-# test_b2_tool_selection 曾被误归类为离线（每次门禁烧 10 次真实调用），Z12 修正——以其自身
-# docstring「走真实 DeepSeek tool_calls 判定」为准。
+# Explicit list prevents newly added API tests from silently entering offline runs.
+OFFLINE_TESTS = {
+    "test_b1_context_compact.py",
+    "test_b2_dispatch.py",
+    "test_b3_resilience.py",
+    "test_c2_loop_breaker.py",
+    "test_pii_guard.py",
+    "test_v17_auth.py",
+    "test_v17_fallback.py",
+    "test_v17_memory_wal.py",
+}
 E2E_TESTS = {
-    "test_b2_e2e.py": "HTTP 段需本地服务已启动；进程内段需真实 API",
-    "test_b1_memory_12rounds.py": "12 轮真实 LLM 调用 + 需本地服务",
-    "test_b2_tool_selection.py": "10 条问句走真实 DeepSeek tool_calls（约 10 次 API 调用）",
+    "test_b2_e2e.py": "requires local service and real API",
+    "test_b1_memory_12rounds.py": "requires local service and 12 real LLM rounds",
+    "test_b2_tool_selection.py": "requires real tool-selection API calls",
+    "test_eval_gate.py": "requires real DeepSeek judge API calls",
 }
 
+
 def discover():
-    offline, e2e = [], []
-    for p in sorted(TESTS_DIR.glob("test_*.py")):
-        (e2e if p.name in E2E_TESTS else offline).append(p)
-    return offline, e2e
+    offline, e2e, unknown = [], [], []
+    for path in sorted(TESTS_DIR.glob("test_*.py")):
+        if path.name in OFFLINE_TESTS:
+            offline.append(path)
+        elif path.name in E2E_TESTS:
+            e2e.append(path)
+        else:
+            unknown.append(path)
+    return offline, e2e, unknown
+
 
 def run_one(py, path):
-    t0 = time.perf_counter()
+    started = time.perf_counter()
     try:
-        r = subprocess.run([py, str(path)], cwd=str(ROOT), timeout=PER_TEST_TIMEOUT,
-                           capture_output=True, text=True, encoding="utf-8", errors="replace")
-        elapsed = time.perf_counter() - t0
-        ok = (r.returncode == 0)
-        tail = "\n".join((r.stdout or "").strip().splitlines()[-3:])
-        return ok, elapsed, tail, None
+        result = subprocess.run(
+            [py, str(path)], cwd=str(ROOT), timeout=PER_TEST_TIMEOUT,
+            capture_output=True, text=True, encoding="utf-8", errors="replace",
+        )
+        output = "\n".join(s for s in (result.stdout, result.stderr) if s)
+        # Compatibility with existing script tests that print SKIP and exit 0.
+        skipped = re.search(r"^\s*(?:SKIP:|\[SKIP\])", output, re.MULTILINE)
+        if result.returncode == SKIP_EXIT_CODE:
+            mark = "SKIP"
+        elif result.returncode != 0:
+            mark = "FAIL"
+        else:
+            mark = "SKIP" if skipped else "PASS"
+        return mark, time.perf_counter() - started, output.strip()
     except subprocess.TimeoutExpired:
-        return False, PER_TEST_TIMEOUT, "", f"超时（>{PER_TEST_TIMEOUT}s）"
-    except Exception as e:
-        return False, time.perf_counter() - t0, "", f"{type(e).__name__}: {e}"
+        return "FAIL", time.perf_counter() - started, f"Timeout (>{PER_TEST_TIMEOUT}s)"
+    except Exception as error:
+        return "FAIL", time.perf_counter() - started, f"{type(error).__name__}: {error}"
+
 
 def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--e2e", action="store_true",
-                    help="追加联调测试（需先起服务：set W6_API_KEY=<key> 后 uvicorn w6_hr_policy.app.main:app）")
-    args = ap.parse_args()
-
-    py = sys.executable   # 用运行本脚本的解释器（约定：venv 内运行，保证依赖一致）
-    offline, e2e = discover()
-    planned = offline + (e2e if args.e2e else [])
-    print(f"[run_all_tests] 解释器：{py}")
-    print(f"[run_all_tests] 离线测试 {len(offline)} 个；E2E {len(e2e)} 个"
-          + ("（--e2e 已启用）" if args.e2e else "（默认跳过，需本地服务+真实API；--e2e 显式开启）"))
-    print("-" * 72)
-
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--e2e", action="store_true", help="include real API/service tests (may incur cost)")
+    args = parser.parse_args()
+    offline, e2e, unknown = discover()
+    print(f"[run_all_tests] Python: {sys.executable}")
+    print(f"[run_all_tests] offline={len(offline)} E2E={len(e2e)} unclassified={len(unknown)}")
+    if unknown:
+        for path in unknown:
+            print(f"[FAIL] {path.name}: unclassified; review API usage before adding to a list")
+        return 1
+    if not offline:
+        print("[FAIL] No offline tests discovered; refusing an empty success")
+        return 1
     results = []
-    for p in planned:
-        skipped = (p.name in E2E_TESTS and not args.e2e)
-        if skipped:
-            print(f"  [SKIP] {p.name:34s} 联调测试默认跳过（需本地服务+真实API）")
-            results.append((p.name, "SKIP", 0.0, ""))
-            continue
-        ok, elapsed, tail, err = run_one(py, p)
-        mark = "PASS" if ok else "FAIL"
-        print(f"  [{mark}] {p.name:34s} {elapsed:5.1f}s" + (f" | {err}" if err else ""))
-        if not ok and tail:
-            for line in tail.splitlines():
-                print(f"         │ {line[:110]}")
-        results.append((p.name, mark, elapsed, err or tail))
-
-    print("-" * 72)
-    passed = sum(1 for _, m, *_ in results if m == "PASS")
-    failed = sum(1 for _, m, *_ in results if m == "FAIL")
-    skipped = sum(1 for _, m, *_ in results if m == "SKIP")
-    print(f"[汇总] PASS {passed} / FAIL {failed} / SKIP {skipped}（共 {len(results)}）")
+    selected_skips = 0
+    for path in offline + e2e:
+        if path.name in E2E_TESTS and not args.e2e:
+            mark, elapsed, output = "SKIP", 0.0, E2E_TESTS[path.name] + "; --e2e not enabled"
+        else:
+            mark, elapsed, output = run_one(sys.executable, path)
+            selected_skips += mark == "SKIP"
+        print(f"[{mark}] {path.name} ({elapsed:.2f}s)")
+        if output:
+            print(output)
+        results.append(mark)
+    passed, failed, skipped = (results.count(mark) for mark in ("PASS", "FAIL", "SKIP"))
+    print(f"[summary] PASS {passed} / FAIL {failed} / SKIP {skipped} (total {len(results)})")
     if failed:
-        print("[结论] 门禁未通过：离线测试存在失败项")
-        sys.exit(1)
-    print("[结论] 离线测试全部通过，门禁通过" + ("（含联调）" if args.e2e else "（联调未含）"))
-    sys.exit(0)
+        print("[result] FAILED: at least one selected test failed")
+        return 1
+    if selected_skips:
+        print("[result] INCOMPLETE: selected tests skipped; not an all-pass result")
+        return SKIP_EXIT_CODE
+    print("[result] Selected tests passed" + (" (including E2E)" if args.e2e else " (E2E not run)"))
+    return 0
+
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
